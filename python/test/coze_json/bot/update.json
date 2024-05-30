@@ -1,0 +1,43 @@
+{
+    "request": {
+        "space_id": "7332000866540601345",
+        "bot_id": "7332422231383048199",
+        "update_agents": [
+            {
+                "id": "7358833886811832327",
+                "agent_type": 1,
+                "name": "Agent_499",
+                "position": {
+                    "x": 1092.7234048091946,
+                    "y": 576.1575475565674
+                },
+                "icon_uri": "",
+                "work_info": {
+                    "tools": "[]",
+                    "workflow": "[]",
+                    "dataset": "{\"dataset\":[],\"top_k\":3,\"min_score\":0.5,\"auto\":true}",
+                    "suggest_reply": "{\"suggest_reply_mode\":0}",
+                    "other_info": "{\"frequency_penalty\":0,\"max_tokens\":1554,\"model\":\"133\",\"presence_penalty\":0.6,\"temperature\":0.7,\"top_p\":1,\"ShortMemPolicy\":{\"ContextContentType\":2,\"HistoryRound\":3},\"prompt_id\":0,\"card_ids\":null,\"model_name\":0}",
+                    "system_info_all": "[{\"prompt_type\":1,\"data\":\"\",\"record_id\":\"\",\"isOptimize\":false},{\"prompt_type\":3,\"data\":\"\",\"record_id\":\"\",\"isOptimize\":false},{\"prompt_type\":2,\"data\":\"\",\"record_id\":\"\",\"isOptimize\":false}]",
+                    "jump_config": {
+                        "backtrack": 1,
+                        "recognition": 1
+                    }
+                },
+                "reference_id": "0",
+                "first_version": "",
+                "current_version": ""
+            }
+        ]
+    },
+    "response": {
+        "code": 0,
+        "msg": "success",
+        "data": {
+            "has_change": true,
+            "check_not_pass": false,
+            "branch": 1,
+            "same_with_online": false
+        }
+    }
+}

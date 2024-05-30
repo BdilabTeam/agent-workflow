@@ -1,0 +1,1360 @@
+{
+  "data": {
+    "edges": [],
+    "nodes": [
+      {
+        "data": {
+          "type": "RetrievalQA",
+          "node": {
+            "output_types": [],
+            "display_name": "Basic RAG",
+            "documentation": "",
+            "base_classes": [
+              "BaseRetrievalQA",
+              "RetrievalQA",
+              "Chain",
+              "Callable"
+            ],
+            "description": "double click to edit description",
+            "template": {
+              "callbacks_RetrievalQA-Hhe38": {
+                "required": false,
+                "placeholder": "",
+                "show": false,
+                "multiline": false,
+                "password": false,
+                "name": "callbacks",
+                "advanced": false,
+                "dynamic": false,
+                "info": "",
+                "type": "langchain_core.callbacks.base.BaseCallbackHandler",
+                "list": true,
+                "proxy": {
+                  "id": "RetrievalQA-Hhe38",
+                  "field": "callbacks"
+                },
+                "display_name": "Callbacks"
+              },
+              "memory_RetrievalQA-Hhe38": {
+                "required": false,
+                "placeholder": "",
+                "show": true,
+                "multiline": false,
+                "password": false,
+                "name": "memory",
+                "advanced": false,
+                "dynamic": false,
+                "info": "",
+                "type": "BaseMemory",
+                "list": false,
+                "proxy": {
+                  "id": "RetrievalQA-Hhe38",
+                  "field": "memory"
+                },
+                "display_name": "Memory"
+              },
+              "input_key_RetrievalQA-Hhe38": {
+                "required": true,
+                "placeholder": "",
+                "show": true,
+                "multiline": false,
+                "value": "query",
+                "password": false,
+                "name": "input_key",
+                "advanced": true,
+                "dynamic": false,
+                "info": "",
+                "type": "str",
+                "list": false,
+                "proxy": {
+                  "id": "RetrievalQA-Hhe38",
+                  "field": "input_key"
+                },
+                "display_name": "Input Key"
+              },
+              "metadata_RetrievalQA-Hhe38": {
+                "required": false,
+                "placeholder": "",
+                "show": false,
+                "multiline": false,
+                "password": false,
+                "name": "metadata",
+                "advanced": true,
+                "dynamic": false,
+                "info": "",
+                "type": "dict",
+                "list": false,
+                "proxy": {
+                  "id": "RetrievalQA-Hhe38",
+                  "field": "metadata"
+                },
+                "display_name": "Metadata"
+              },
+              "output_key_RetrievalQA-Hhe38": {
+                "required": true,
+                "placeholder": "",
+                "show": true,
+                "multiline": false,
+                "value": "result",
+                "password": false,
+                "name": "output_key",
+                "advanced": true,
+                "dynamic": false,
+                "info": "",
+                "type": "str",
+                "list": false,
+                "proxy": {
+                  "id": "RetrievalQA-Hhe38",
+                  "field": "output_key"
+                },
+                "display_name": "Output Key"
+              },
+              "return_source_documents_RetrievalQA-Hhe38": {
+                "required": false,
+                "placeholder": "",
+                "show": true,
+                "multiline": false,
+                "value": true,
+                "password": false,
+                "name": "return_source_documents",
+                "advanced": true,
+                "dynamic": false,
+                "info": "",
+                "type": "bool",
+                "list": false,
+                "proxy": {
+                  "id": "RetrievalQA-Hhe38",
+                  "field": "return_source_documents"
+                },
+                "display_name": "Return Source Documents"
+              },
+              "tags_RetrievalQA-Hhe38": {
+                "required": false,
+                "placeholder": "",
+                "show": false,
+                "multiline": false,
+                "password": false,
+                "name": "tags",
+                "advanced": true,
+                "dynamic": false,
+                "info": "",
+                "type": "str",
+                "list": true,
+                "proxy": {
+                  "id": "RetrievalQA-Hhe38",
+                  "field": "tags"
+                },
+                "display_name": "Tags"
+              },
+              "verbose_RetrievalQA-Hhe38": {
+                "required": false,
+                "placeholder": "",
+                "show": false,
+                "multiline": false,
+                "password": false,
+                "name": "verbose",
+                "advanced": true,
+                "dynamic": false,
+                "info": "",
+                "type": "bool",
+                "list": false,
+                "proxy": {
+                  "id": "RetrievalQA-Hhe38",
+                  "field": "verbose"
+                },
+                "display_name": "Verbose"
+              },
+              "code_Chroma-dUHtN": {
+                "dynamic": true,
+                "required": true,
+                "placeholder": "",
+                "show": false,
+                "multiline": true,
+                "value": "from typing import Optional, Union\nfrom langflow import CustomComponent\n\nfrom langchain.vectorstores import Chroma\nfrom langchain.schema import Document\nfrom langchain.vectorstores.base import VectorStore\nfrom langchain.schema import BaseRetriever\nfrom langchain.embeddings.base import Embeddings\nimport chromadb  # type: ignore\n\n\nclass ChromaComponent(CustomComponent):\n    \"\"\"\n    A custom component for implementing a Vector Store using Chroma.\n    \"\"\"\n\n    display_name: str = \"Chroma\"\n    description: str = \"Implementation of Vector Store using Chroma\"\n    documentation = \"https://python.langchain.com/docs/integrations/vectorstores/chroma\"\n    beta: bool = True\n\n    def build_config(self):\n        \"\"\"\n        Builds the configuration for the component.\n\n        Returns:\n        - dict: A dictionary containing the configuration options for the component.\n        \"\"\"\n        return {\n            \"collection_name\": {\"display_name\": \"Collection Name\", \"value\": \"langflow\"},\n            \"persist\": {\"display_name\": \"Persist\"},\n            \"persist_directory\": {\"display_name\": \"Persist Directory\"},\n            \"code\": {\"show\": False, \"display_name\": \"Code\"},\n            \"documents\": {\"display_name\": \"Documents\", \"is_list\": True},\n            \"embedding\": {\"display_name\": \"Embedding\"},\n            \"chroma_server_cors_allow_origins\": {\n                \"display_name\": \"Server CORS Allow Origins\",\n                \"advanced\": True,\n            },\n            \"chroma_server_host\": {\"display_name\": \"Server Host\", \"advanced\": True},\n            \"chroma_server_port\": {\"display_name\": \"Server Port\", \"advanced\": True},\n            \"chroma_server_grpc_port\": {\n                \"display_name\": \"Server gRPC Port\",\n                \"advanced\": True,\n            },\n            \"chroma_server_ssl_enabled\": {\n                \"display_name\": \"Server SSL Enabled\",\n                \"advanced\": True,\n            },\n        }\n\n    def build(\n        self,\n        collection_name: str,\n        persist: bool,\n        chroma_server_ssl_enabled: bool,\n        persist_directory: Optional[str] = None,\n        embedding: Optional[Embeddings] = None,\n        documents: Optional[Document] = None,\n        chroma_server_cors_allow_origins: Optional[str] = None,\n        chroma_server_host: Optional[str] = None,\n        chroma_server_port: Optional[int] = None,\n        chroma_server_grpc_port: Optional[int] = None,\n    ) -> Union[VectorStore, BaseRetriever]:\n        \"\"\"\n        Builds the Vector Store or BaseRetriever object.\n\n        Args:\n        - collection_name (str): The name of the collection.\n        - persist_directory (Optional[str]): The directory to persist the Vector Store to.\n        - chroma_server_ssl_enabled (bool): Whether to enable SSL for the Chroma server.\n        - persist (bool): Whether to persist the Vector Store or not.\n        - embedding (Optional[Embeddings]): The embeddings to use for the Vector Store.\n        - documents (Optional[Document]): The documents to use for the Vector Store.\n        - chroma_server_cors_allow_origins (Optional[str]): The CORS allow origins for the Chroma server.\n        - chroma_server_host (Optional[str]): The host for the Chroma server.\n        - chroma_server_port (Optional[int]): The port for the Chroma server.\n        - chroma_server_grpc_port (Optional[int]): The gRPC port for the Chroma server.\n\n        Returns:\n        - Union[VectorStore, BaseRetriever]: The Vector Store or BaseRetriever object.\n        \"\"\"\n\n        # Chroma settings\n        chroma_settings = None\n\n        if chroma_server_host is not None:\n            chroma_settings = chromadb.config.Settings(\n                chroma_server_cors_allow_origins=chroma_server_cors_allow_origins or None,\n                chroma_server_host=chroma_server_host,\n                chroma_server_port=chroma_server_port or None,\n                chroma_server_grpc_port=chroma_server_grpc_port or None,\n                chroma_server_ssl_enabled=chroma_server_ssl_enabled,\n            )\n\n        # If documents, then we need to create a Chroma instance using .from_documents\n        if documents is not None and embedding is not None:\n            return Chroma.from_documents(\n                documents=documents,  # type: ignore\n                persist_directory=persist_directory if persist else None,\n                collection_name=collection_name,\n                embedding=embedding,\n                client_settings=chroma_settings,\n            )\n\n        return Chroma(persist_directory=persist_directory, client_settings=chroma_settings)\n",
+                "password": false,
+                "name": "code",
+                "advanced": false,
+                "type": "code",
+                "list": false,
+                "proxy": {
+                  "id": "Chroma-dUHtN",
+                  "field": "code"
+                },
+                "display_name": "Code"
+              },
+              "chroma_server_cors_allow_origins_Chroma-dUHtN": {
+                "required": false,
+                "placeholder": "",
+                "show": true,
+                "multiline": false,
+                "password": false,
+                "name": "chroma_server_cors_allow_origins",
+                "display_name": "Server CORS Allow Origins",
+                "advanced": true,
+                "dynamic": false,
+                "info": "",
+                "type": "str",
+                "list": false,
+                "proxy": {
+                  "id": "Chroma-dUHtN",
+                  "field": "chroma_server_cors_allow_origins"
+                }
+              },
+              "chroma_server_grpc_port_Chroma-dUHtN": {
+                "required": false,
+                "placeholder": "",
+                "show": true,
+                "multiline": false,
+                "password": false,
+                "name": "chroma_server_grpc_port",
+                "display_name": "Server gRPC Port",
+                "advanced": true,
+                "dynamic": false,
+                "info": "",
+                "type": "int",
+                "list": false,
+                "proxy": {
+                  "id": "Chroma-dUHtN",
+                  "field": "chroma_server_grpc_port"
+                }
+              },
+              "chroma_server_host_Chroma-dUHtN": {
+                "required": false,
+                "placeholder": "",
+                "show": true,
+                "multiline": false,
+                "password": false,
+                "name": "chroma_server_host",
+                "display_name": "Server Host",
+                "advanced": true,
+                "dynamic": false,
+                "info": "",
+                "type": "str",
+                "list": false,
+                "proxy": {
+                  "id": "Chroma-dUHtN",
+                  "field": "chroma_server_host"
+                }
+              },
+              "chroma_server_port_Chroma-dUHtN": {
+                "required": false,
+                "placeholder": "",
+                "show": true,
+                "multiline": false,
+                "password": false,
+                "name": "chroma_server_port",
+                "display_name": "Server Port",
+                "advanced": true,
+                "dynamic": false,
+                "info": "",
+                "type": "int",
+                "list": false,
+                "proxy": {
+                  "id": "Chroma-dUHtN",
+                  "field": "chroma_server_port"
+                }
+              },
+              "chroma_server_ssl_enabled_Chroma-dUHtN": {
+                "required": true,
+                "placeholder": "",
+                "show": true,
+                "multiline": false,
+                "value": false,
+                "password": false,
+                "name": "chroma_server_ssl_enabled",
+                "display_name": "Server SSL Enabled",
+                "advanced": true,
+                "dynamic": false,
+                "info": "",
+                "type": "bool",
+                "list": false,
+                "proxy": {
+                  "id": "Chroma-dUHtN",
+                  "field": "chroma_server_ssl_enabled"
+                }
+              },
+              "collection_name_Chroma-dUHtN": {
+                "required": true,
+                "placeholder": "",
+                "show": true,
+                "multiline": false,
+                "value": "langflow",
+                "password": false,
+                "name": "collection_name",
+                "display_name": "Collection Name",
+                "advanced": true,
+                "dynamic": false,
+                "info": "",
+                "type": "str",
+                "list": false,
+                "proxy": {
+                  "id": "Chroma-dUHtN",
+                  "field": "collection_name"
+                }
+              },
+              "embedding_Chroma-dUHtN": {
+                "required": false,
+                "placeholder": "",
+                "show": true,
+                "multiline": false,
+                "password": false,
+                "name": "embedding",
+                "display_name": "Embedding",
+                "advanced": false,
+                "dynamic": false,
+                "info": "",
+                "type": "Embeddings",
+                "list": false,
+                "proxy": {
+                  "id": "Chroma-dUHtN",
+                  "field": "embedding"
+                }
+              },
+              "persist_Chroma-dUHtN": {
+                "required": true,
+                "placeholder": "",
+                "show": true,
+                "multiline": false,
+                "value": false,
+                "password": false,
+                "name": "persist",
+                "display_name": "Persist",
+                "advanced": true,
+                "dynamic": false,
+                "info": "",
+                "type": "bool",
+                "list": false,
+                "proxy": {
+                  "id": "Chroma-dUHtN",
+                  "field": "persist"
+                }
+              },
+              "persist_directory_Chroma-dUHtN": {
+                "required": false,
+                "placeholder": "",
+                "show": true,
+                "multiline": false,
+                "password": false,
+                "name": "persist_directory",
+                "display_name": "Persist Directory",
+                "advanced": true,
+                "dynamic": false,
+                "info": "",
+                "type": "str",
+                "list": false,
+                "proxy": {
+                  "id": "Chroma-dUHtN",
+                  "field": "persist_directory"
+                }
+              },
+              "llm_CombineDocsChain-ZlGNS": {
+                "required": true,
+                "placeholder": "",
+                "show": true,
+                "multiline": false,
+                "password": false,
+                "name": "llm",
+                "display_name": "LLM",
+                "advanced": false,
+                "dynamic": false,
+                "info": "",
+                "type": "BaseLanguageModel",
+                "list": false,
+                "proxy": {
+                  "id": "CombineDocsChain-ZlGNS",
+                  "field": "llm"
+                }
+              },
+              "chain_type_CombineDocsChain-ZlGNS": {
+                "required": true,
+                "placeholder": "",
+                "show": true,
+                "multiline": false,
+                "value": "stuff",
+                "password": false,
+                "options": [
+                  "stuff",
+                  "map_reduce",
+                  "map_rerank",
+                  "refine"
+                ],
+                "name": "chain_type",
+                "advanced": true,
+                "dynamic": false,
+                "info": "",
+                "type": "str",
+                "list": true,
+                "proxy": {
+                  "id": "CombineDocsChain-ZlGNS",
+                  "field": "chain_type"
+                },
+                "display_name": "Chain Type"
+              },
+              "code_CustomComponent-715vY": {
+                "dynamic": true,
+                "required": true,
+                "placeholder": "",
+                "show": false,
+                "multiline": true,
+                "value": "from langflow import CustomComponent\nfrom langchain.schema import Document\nfrom typing import Any, Dict, List\n\nclass FileLoaderComponent(CustomComponent):\n    display_name: str = \"File Loader\"\n    description: str = \"A generic loader that auto-detects file types.\"\n    beta = True\n    loaders_info: List[Dict[str, Any]] = [\n    {\n        \"loader\": \"AirbyteJSONLoader\",\n        \"name\": \"Airbyte JSON (.jsonl)\",\n        \"import\": \"langchain.document_loaders.AirbyteJSONLoader\",\n        \"defaultFor\": [\"jsonl\"],\n        \"allowdTypes\": [\"jsonl\"],\n    },\n    {\n        \"loader\": \"JSONLoader\",\n        \"name\": \"JSON (.json)\",\n        \"import\": \"langchain.document_loaders.JSONLoader\",\n        \"defaultFor\": [\"json\"],\n        \"allowdTypes\": [\"json\"],\n    },\n    {\n        \"loader\": \"BSHTMLLoader\",\n        \"name\": \"BeautifulSoup4 HTML (.html, .htm)\",\n        \"import\": \"langchain.document_loaders.BSHTMLLoader\",\n        \"allowdTypes\": [\"html\", \"htm\"],\n    },\n    {\n        \"loader\": \"CSVLoader\",\n        \"name\": \"CSV (.csv)\",\n        \"import\": \"langchain.document_loaders.CSVLoader\",\n        \"defaultFor\": [\"csv\"],\n        \"allowdTypes\": [\"csv\"],\n    },\n    {\n        \"loader\": \"CoNLLULoader\",\n        \"name\": \"CoNLL-U (.conllu)\",\n        \"import\": \"langchain.document_loaders.CoNLLULoader\",\n        \"defaultFor\": [\"conllu\"],\n        \"allowdTypes\": [\"conllu\"],\n    },\n    {\n        \"loader\": \"EverNoteLoader\",\n        \"name\": \"EverNote (.enex)\",\n        \"import\": \"langchain.document_loaders.EverNoteLoader\",\n        \"defaultFor\": [\"enex\"],\n        \"allowdTypes\": [\"enex\"],\n    },\n    {\n        \"loader\": \"FacebookChatLoader\",\n        \"name\": \"Facebook Chat (.json)\",\n        \"import\": \"langchain.document_loaders.FacebookChatLoader\",\n        \"allowdTypes\": [\"json\"],\n    },\n    {\n        \"loader\": \"OutlookMessageLoader\",\n        \"name\": \"Outlook Message (.msg)\",\n        \"import\": \"langchain.document_loaders.OutlookMessageLoader\",\n        \"defaultFor\": [\"msg\"],\n        \"allowdTypes\": [\"msg\"],\n    },\n    {\n        \"loader\": \"PyPDFLoader\",\n        \"name\": \"PyPDF (.pdf)\",\n        \"import\": \"langchain.document_loaders.PyPDFLoader\",\n        \"defaultFor\": [\"pdf\"],\n        \"allowdTypes\": [\"pdf\"],\n    },\n    {\n        \"loader\": \"STRLoader\",\n        \"name\": \"Subtitle (.str)\",\n        \"import\": \"langchain.document_loaders.STRLoader\",\n        \"defaultFor\": [\"str\"],\n        \"allowdTypes\": [\"str\"],\n    },\n    {\n        \"loader\": \"TextLoader\",\n        \"name\": \"Text (.txt)\",\n        \"import\": \"langchain.document_loaders.TextLoader\",\n        \"defaultFor\": [\"txt\"],\n        \"allowdTypes\": [\"txt\"],\n    },\n    {\n        \"loader\": \"UnstructuredEmailLoader\",\n        \"name\": \"Unstructured Email (.eml)\",\n        \"import\": \"langchain.document_loaders.UnstructuredEmailLoader\",\n        \"defaultFor\": [\"eml\"],\n        \"allowdTypes\": [\"eml\"],\n    },\n    {\n        \"loader\": \"UnstructuredHTMLLoader\",\n        \"name\": \"Unstructured HTML (.html, .htm)\",\n        \"import\": \"langchain.document_loaders.UnstructuredHTMLLoader\",\n        \"defaultFor\": [\"html\", \"htm\"],\n        \"allowdTypes\": [\"html\", \"htm\"],\n    },\n    {\n        \"loader\": \"UnstructuredMarkdownLoader\",\n        \"name\": \"Unstructured Markdown (.md)\",\n        \"import\": \"langchain.document_loaders.UnstructuredMarkdownLoader\",\n        \"defaultFor\": [\"md\"],\n        \"allowdTypes\": [\"md\"],\n    },\n    {\n        \"loader\": \"UnstructuredPowerPointLoader\",\n        \"name\": \"Unstructured PowerPoint (.pptx)\",\n        \"import\": \"langchain.document_loaders.UnstructuredPowerPointLoader\",\n        \"defaultFor\": [\"pptx\"],\n        \"allowdTypes\": [\"pptx\"],\n    },\n    {\n        \"loader\": \"UnstructuredWordLoader\",\n        \"name\": \"Unstructured Word (.docx)\",\n        \"import\": \"langchain.document_loaders.UnstructuredWordLoader\",\n        \"defaultFor\": [\"docx\"],\n        \"allowdTypes\": [\"docx\"],\n    },\n]\n\n    def build_config(self):\n        loader_options = [\"Automatic\"] + [\n            loader_info[\"name\"] for loader_info in self.loaders_info\n        ]\n\n        file_types = []\n        suffixes = []\n\n        for loader_info in self.loaders_info:\n            if \"allowedTypes\" in loader_info:\n                file_types.extend(loader_info[\"allowedTypes\"])\n                suffixes.extend([f\".{ext}\" for ext in loader_info[\"allowedTypes\"]])\n\n        return {\n            \"file_path\": {\n                \"display_name\": \"File Path\",\n                \"required\": True,\n                \"field_type\": \"file\",\n                \"file_types\": [\n                    \"json\",\n                    \"txt\",\n                    \"csv\",\n                    \"jsonl\",\n                    \"html\",\n                    \"htm\",\n                    \"conllu\",\n                    \"enex\",\n                    \"msg\",\n                    \"pdf\",\n                    \"srt\",\n                    \"eml\",\n                    \"md\",\n                    \"pptx\",\n                    \"docx\",\n                ],\n                \"suffixes\": [\n                    \".json\",\n                    \".txt\",\n                    \".csv\",\n                    \".jsonl\",\n                    \".html\",\n                    \".htm\",\n                    \".conllu\",\n                    \".enex\",\n                    \".msg\",\n                    \".pdf\",\n                    \".srt\",\n                    \".eml\",\n                    \".md\",\n                    \".pptx\",\n                    \".docx\",\n                ],\n                # \"file_types\" : file_types,\n                # \"suffixes\": suffixes,\n            },\n            \"loader\": {\n                \"display_name\": \"Loader\",\n                \"is_list\": True,\n                \"required\": True,\n                \"options\": loader_options,\n                \"value\": \"Automatic\",\n            },\n        }\n\n    def build(self, file_path: str, loader: str) -> Document:\n        file_type = file_path.split(\".\")[-1]\n\n        # Mapeie o nome do loader selecionado para suas informações\n        selected_loader_info = None\n        for loader_info in self.loaders_info:\n            if loader_info[\"name\"] == loader:\n                selected_loader_info = loader_info\n                break\n\n        if selected_loader_info is None and loader != \"Automatic\":\n            raise ValueError(f\"Loader {loader} not found in the loader info list\")\n\n        if loader == \"Automatic\":\n            # Determine o loader automaticamente com base na extensão do arquivo\n            default_loader_info = None\n            for info in self.loaders_info:\n                if \"defaultFor\" in info and file_type in info[\"defaultFor\"]:\n                    default_loader_info = info\n                    break\n\n            if default_loader_info is None:\n                raise ValueError(f\"No default loader found for file type: {file_type}\")\n\n            selected_loader_info = default_loader_info\n        if isinstance(selected_loader_info, dict):\n            loader_import: str = selected_loader_info[\"import\"]\n        else:\n            raise ValueError(\n                f\"Loader info for {loader} is not a dict\\nLoader info:\\n{selected_loader_info}\"\n            )\n        module_name, class_name = loader_import.rsplit(\".\", 1)\n\n        try:\n            # Importe o loader dinamicamente\n            loader_module = __import__(module_name, fromlist=[class_name])\n            loader_instance = getattr(loader_module, class_name)\n        except ImportError as e:\n            raise ValueError(\n                f\"Loader {loader} could not be imported\\nLoader info:\\n{selected_loader_info}\"\n            ) from e\n\n        result = loader_instance(file_path=file_path)\n        result = result.load()\n        self.status = result\n        return result",
+                "password": false,
+                "name": "code",
+                "advanced": false,
+                "type": "code",
+                "list": false,
+                "proxy": {
+                  "id": "CustomComponent-715vY",
+                  "field": "code"
+                },
+                "display_name": "Code"
+              },
+              "file_path_CustomComponent-715vY": {
+                "required": true,
+                "placeholder": "",
+                "show": true,
+                "multiline": false,
+                "password": false,
+                "name": "file_path",
+                "display_name": "File Path",
+                "advanced": false,
+                "dynamic": false,
+                "info": "",
+                "type": "file",
+                "list": false,
+                "fileTypes": [
+                  "json",
+                  "txt",
+                  "csv",
+                  "jsonl",
+                  "html",
+                  "htm",
+                  "conllu",
+                  "enex",
+                  "msg",
+                  "pdf",
+                  "srt",
+                  "eml",
+                  "md",
+                  "pptx",
+                  "docx"
+                ],
+                "file_path": "/Users/rodrigonader/Library/Caches/langflow/f2b1ae44-3df4-4b22-9153-99e7d8abb51c/43d1a14988d3f1f86b343a0aa7ea8fe84cb23fbecdbba2a3897135bcc8822d52.pdf",
+                "value": "",
+                "proxy": {
+                  "id": "CustomComponent-715vY",
+                  "field": "file_path"
+                }
+              },
+              "loader_CustomComponent-715vY": {
+                "required": true,
+                "placeholder": "",
+                "show": true,
+                "multiline": false,
+                "value": "Automatic",
+                "password": false,
+                "options": [
+                  "Automatic",
+                  "Airbyte JSON (.jsonl)",
+                  "JSON (.json)",
+                  "BeautifulSoup4 HTML (.html, .htm)",
+                  "CSV (.csv)",
+                  "CoNLL-U (.conllu)",
+                  "EverNote (.enex)",
+                  "Facebook Chat (.json)",
+                  "Outlook Message (.msg)",
+                  "PyPDF (.pdf)",
+                  "Subtitle (.str)",
+                  "Text (.txt)",
+                  "Unstructured Email (.eml)",
+                  "Unstructured HTML (.html, .htm)",
+                  "Unstructured Markdown (.md)",
+                  "Unstructured PowerPoint (.pptx)",
+                  "Unstructured Word (.docx)"
+                ],
+                "name": "loader",
+                "display_name": "Loader",
+                "advanced": true,
+                "dynamic": false,
+                "info": "",
+                "type": "str",
+                "list": true,
+                "proxy": {
+                  "id": "CustomComponent-715vY",
+                  "field": "loader"
+                }
+              },
+              "chunk_overlap_CharacterTextSplitter-PaUem": {
+                "required": true,
+                "placeholder": "",
+                "show": true,
+                "multiline": false,
+                "value": 200,
+                "password": false,
+                "name": "chunk_overlap",
+                "display_name": "Chunk Overlap",
+                "advanced": true,
+                "dynamic": false,
+                "info": "",
+                "type": "int",
+                "list": false,
+                "proxy": {
+                  "id": "CharacterTextSplitter-PaUem",
+                  "field": "chunk_overlap"
+                }
+              },
+              "chunk_size_CharacterTextSplitter-PaUem": {
+                "required": true,
+                "placeholder": "",
+                "show": true,
+                "multiline": false,
+                "value": 1000,
+                "password": false,
+                "name": "chunk_size",
+                "display_name": "Chunk Size",
+                "advanced": true,
+                "dynamic": false,
+                "info": "",
+                "type": "int",
+                "list": false,
+                "proxy": {
+                  "id": "CharacterTextSplitter-PaUem",
+                  "field": "chunk_size"
+                }
+              },
+              "separator_CharacterTextSplitter-PaUem": {
+                "required": true,
+                "placeholder": "",
+                "show": true,
+                "multiline": false,
+                "value": " ",
+                "password": false,
+                "name": "separator",
+                "display_name": "Separator",
+                "advanced": true,
+                "dynamic": false,
+                "info": "",
+                "type": "str",
+                "list": false,
+                "proxy": {
+                  "id": "CharacterTextSplitter-PaUem",
+                  "field": "separator"
+                }
+              }
+            },
+            "flow": {
+              "data": {
+                "nodes": [
+                  {
+                    "width": 384,
+                    "height": 339,
+                    "id": "RetrievalQA-Hhe38",
+                    "type": "genericNode",
+                    "position": {
+                      "x": 786.0148744080102,
+                      "y": 224.0922500095482
+                    },
+                    "data": {
+                      "type": "RetrievalQA",
+                      "node": {
+                        "template": {
+                          "callbacks": {
+                            "required": false,
+                            "placeholder": "",
+                            "show": false,
+                            "multiline": false,
+                            "password": false,
+                            "name": "callbacks",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "langchain_core.callbacks.base.BaseCallbackHandler",
+                            "list": true
+                          },
+                          "combine_documents_chain": {
+                            "required": true,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "password": false,
+                            "name": "combine_documents_chain",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "BaseCombineDocumentsChain",
+                            "list": false
+                          },
+                          "memory": {
+                            "required": false,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "password": false,
+                            "name": "memory",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "BaseMemory",
+                            "list": false
+                          },
+                          "retriever": {
+                            "required": true,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "password": false,
+                            "name": "retriever",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "BaseRetriever",
+                            "list": false
+                          },
+                          "input_key": {
+                            "required": true,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "value": "query",
+                            "password": false,
+                            "name": "input_key",
+                            "advanced": true,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "str",
+                            "list": false
+                          },
+                          "metadata": {
+                            "required": false,
+                            "placeholder": "",
+                            "show": false,
+                            "multiline": false,
+                            "password": false,
+                            "name": "metadata",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "dict",
+                            "list": false
+                          },
+                          "output_key": {
+                            "required": true,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "value": "result",
+                            "password": false,
+                            "name": "output_key",
+                            "advanced": true,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "str",
+                            "list": false
+                          },
+                          "return_source_documents": {
+                            "required": false,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "value": true,
+                            "password": false,
+                            "name": "return_source_documents",
+                            "advanced": true,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "bool",
+                            "list": false
+                          },
+                          "tags": {
+                            "required": false,
+                            "placeholder": "",
+                            "show": false,
+                            "multiline": false,
+                            "password": false,
+                            "name": "tags",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "str",
+                            "list": true
+                          },
+                          "verbose": {
+                            "required": false,
+                            "placeholder": "",
+                            "show": false,
+                            "multiline": false,
+                            "password": false,
+                            "name": "verbose",
+                            "advanced": true,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "bool",
+                            "list": false
+                          },
+                          "_type": "RetrievalQA"
+                        },
+                        "description": "Chain for question-answering against an index.",
+                        "base_classes": [
+                          "BaseRetrievalQA",
+                          "RetrievalQA",
+                          "Chain",
+                          "Callable"
+                        ],
+                        "display_name": "RetrievalQA",
+                        "custom_fields": {},
+                        "output_types": [],
+                        "documentation": "https://python.langchain.com/docs/modules/chains/popular/vector_db_qa",
+                        "beta": false,
+                        "error": null
+                      },
+                      "id": "RetrievalQA-Hhe38"
+                    },
+                    "selected": true,
+                    "positionAbsolute": {
+                      "x": 786.0148744080102,
+                      "y": 224.0922500095482
+                    },
+                    "dragging": false
+                  },
+                  {
+                    "width": 384,
+                    "height": 539,
+                    "id": "Chroma-dUHtN",
+                    "type": "genericNode",
+                    "position": {
+                      "x": 233.28825393386717,
+                      "y": 329.51112502864464
+                    },
+                    "data": {
+                      "type": "Chroma",
+                      "node": {
+                        "template": {
+                          "code": {
+                            "dynamic": true,
+                            "required": true,
+                            "placeholder": "",
+                            "show": false,
+                            "multiline": true,
+                            "value": "from typing import Optional, Union\nfrom langflow import CustomComponent\n\nfrom langchain.vectorstores import Chroma\nfrom langchain.schema import Document\nfrom langchain.vectorstores.base import VectorStore\nfrom langchain.schema import BaseRetriever\nfrom langchain.embeddings.base import Embeddings\nimport chromadb  # type: ignore\n\n\nclass ChromaComponent(CustomComponent):\n    \"\"\"\n    A custom component for implementing a Vector Store using Chroma.\n    \"\"\"\n\n    display_name: str = \"Chroma\"\n    description: str = \"Implementation of Vector Store using Chroma\"\n    documentation = \"https://python.langchain.com/docs/integrations/vectorstores/chroma\"\n    beta: bool = True\n\n    def build_config(self):\n        \"\"\"\n        Builds the configuration for the component.\n\n        Returns:\n        - dict: A dictionary containing the configuration options for the component.\n        \"\"\"\n        return {\n            \"collection_name\": {\"display_name\": \"Collection Name\", \"value\": \"langflow\"},\n            \"persist\": {\"display_name\": \"Persist\"},\n            \"persist_directory\": {\"display_name\": \"Persist Directory\"},\n            \"code\": {\"show\": False, \"display_name\": \"Code\"},\n            \"documents\": {\"display_name\": \"Documents\", \"is_list\": True},\n            \"embedding\": {\"display_name\": \"Embedding\"},\n            \"chroma_server_cors_allow_origins\": {\n                \"display_name\": \"Server CORS Allow Origins\",\n                \"advanced\": True,\n            },\n            \"chroma_server_host\": {\"display_name\": \"Server Host\", \"advanced\": True},\n            \"chroma_server_port\": {\"display_name\": \"Server Port\", \"advanced\": True},\n            \"chroma_server_grpc_port\": {\n                \"display_name\": \"Server gRPC Port\",\n                \"advanced\": True,\n            },\n            \"chroma_server_ssl_enabled\": {\n                \"display_name\": \"Server SSL Enabled\",\n                \"advanced\": True,\n            },\n        }\n\n    def build(\n        self,\n        collection_name: str,\n        persist: bool,\n        chroma_server_ssl_enabled: bool,\n        persist_directory: Optional[str] = None,\n        embedding: Optional[Embeddings] = None,\n        documents: Optional[Document] = None,\n        chroma_server_cors_allow_origins: Optional[str] = None,\n        chroma_server_host: Optional[str] = None,\n        chroma_server_port: Optional[int] = None,\n        chroma_server_grpc_port: Optional[int] = None,\n    ) -> Union[VectorStore, BaseRetriever]:\n        \"\"\"\n        Builds the Vector Store or BaseRetriever object.\n\n        Args:\n        - collection_name (str): The name of the collection.\n        - persist_directory (Optional[str]): The directory to persist the Vector Store to.\n        - chroma_server_ssl_enabled (bool): Whether to enable SSL for the Chroma server.\n        - persist (bool): Whether to persist the Vector Store or not.\n        - embedding (Optional[Embeddings]): The embeddings to use for the Vector Store.\n        - documents (Optional[Document]): The documents to use for the Vector Store.\n        - chroma_server_cors_allow_origins (Optional[str]): The CORS allow origins for the Chroma server.\n        - chroma_server_host (Optional[str]): The host for the Chroma server.\n        - chroma_server_port (Optional[int]): The port for the Chroma server.\n        - chroma_server_grpc_port (Optional[int]): The gRPC port for the Chroma server.\n\n        Returns:\n        - Union[VectorStore, BaseRetriever]: The Vector Store or BaseRetriever object.\n        \"\"\"\n\n        # Chroma settings\n        chroma_settings = None\n\n        if chroma_server_host is not None:\n            chroma_settings = chromadb.config.Settings(\n                chroma_server_cors_allow_origins=chroma_server_cors_allow_origins or None,\n                chroma_server_host=chroma_server_host,\n                chroma_server_port=chroma_server_port or None,\n                chroma_server_grpc_port=chroma_server_grpc_port or None,\n                chroma_server_ssl_enabled=chroma_server_ssl_enabled,\n            )\n\n        # If documents, then we need to create a Chroma instance using .from_documents\n        if documents is not None and embedding is not None:\n            return Chroma.from_documents(\n                documents=documents,  # type: ignore\n                persist_directory=persist_directory if persist else None,\n                collection_name=collection_name,\n                embedding=embedding,\n                client_settings=chroma_settings,\n            )\n\n        return Chroma(persist_directory=persist_directory, client_settings=chroma_settings)\n",
+                            "password": false,
+                            "name": "code",
+                            "advanced": false,
+                            "type": "code",
+                            "list": false
+                          },
+                          "_type": "CustomComponent",
+                          "chroma_server_cors_allow_origins": {
+                            "required": false,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "password": false,
+                            "name": "chroma_server_cors_allow_origins",
+                            "display_name": "Server CORS Allow Origins",
+                            "advanced": true,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "str",
+                            "list": false
+                          },
+                          "chroma_server_grpc_port": {
+                            "required": false,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "password": false,
+                            "name": "chroma_server_grpc_port",
+                            "display_name": "Server gRPC Port",
+                            "advanced": true,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "int",
+                            "list": false
+                          },
+                          "chroma_server_host": {
+                            "required": false,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "password": false,
+                            "name": "chroma_server_host",
+                            "display_name": "Server Host",
+                            "advanced": true,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "str",
+                            "list": false
+                          },
+                          "chroma_server_port": {
+                            "required": false,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "password": false,
+                            "name": "chroma_server_port",
+                            "display_name": "Server Port",
+                            "advanced": true,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "int",
+                            "list": false
+                          },
+                          "chroma_server_ssl_enabled": {
+                            "required": true,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "value": false,
+                            "password": false,
+                            "name": "chroma_server_ssl_enabled",
+                            "display_name": "Server SSL Enabled",
+                            "advanced": true,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "bool",
+                            "list": false
+                          },
+                          "collection_name": {
+                            "required": true,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "value": "langflow",
+                            "password": false,
+                            "name": "collection_name",
+                            "display_name": "Collection Name",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "str",
+                            "list": false
+                          },
+                          "documents": {
+                            "required": false,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "password": false,
+                            "name": "documents",
+                            "display_name": "Documents",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "Document",
+                            "list": true
+                          },
+                          "embedding": {
+                            "required": false,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "password": false,
+                            "name": "embedding",
+                            "display_name": "Embedding",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "Embeddings",
+                            "list": false
+                          },
+                          "persist": {
+                            "required": true,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "value": false,
+                            "password": false,
+                            "name": "persist",
+                            "display_name": "Persist",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "bool",
+                            "list": false
+                          },
+                          "persist_directory": {
+                            "required": false,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "password": false,
+                            "name": "persist_directory",
+                            "display_name": "Persist Directory",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "str",
+                            "list": false
+                          }
+                        },
+                        "description": "Implementation of Vector Store using Chroma",
+                        "base_classes": [
+                          "VectorStore",
+                          "BaseRetriever"
+                        ],
+                        "display_name": "Chroma",
+                        "custom_fields": {
+                          "chroma_server_cors_allow_origins": null,
+                          "chroma_server_grpc_port": null,
+                          "chroma_server_host": null,
+                          "chroma_server_port": null,
+                          "chroma_server_ssl_enabled": null,
+                          "collection_name": null,
+                          "documents": null,
+                          "embedding": null,
+                          "persist": null,
+                          "persist_directory": null
+                        },
+                        "output_types": [
+                          "Chroma"
+                        ],
+                        "documentation": "https://python.langchain.com/docs/integrations/vectorstores/chroma",
+                        "beta": true,
+                        "error": null
+                      },
+                      "id": "Chroma-dUHtN"
+                    },
+                    "selected": true,
+                    "positionAbsolute": {
+                      "x": 233.28825393386717,
+                      "y": 329.51112502864464
+                    },
+                    "dragging": false
+                  },
+                  {
+                    "width": 384,
+                    "height": 333,
+                    "id": "CombineDocsChain-ZlGNS",
+                    "type": "genericNode",
+                    "position": {
+                      "x": 218.59271730686442,
+                      "y": -167.93319837803648
+                    },
+                    "data": {
+                      "type": "CombineDocsChain",
+                      "node": {
+                        "template": {
+                          "llm": {
+                            "required": true,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "password": false,
+                            "name": "llm",
+                            "display_name": "LLM",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "BaseLanguageModel",
+                            "list": false
+                          },
+                          "chain_type": {
+                            "required": true,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "value": "stuff",
+                            "password": false,
+                            "options": [
+                              "stuff",
+                              "map_reduce",
+                              "map_rerank",
+                              "refine"
+                            ],
+                            "name": "chain_type",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "str",
+                            "list": true
+                          },
+                          "_type": "load_qa_chain"
+                        },
+                        "description": "Load question answering chain.",
+                        "base_classes": [
+                          "BaseCombineDocumentsChain",
+                          "Callable"
+                        ],
+                        "display_name": "CombineDocsChain",
+                        "custom_fields": {},
+                        "output_types": [],
+                        "documentation": "",
+                        "beta": false,
+                        "error": null
+                      },
+                      "id": "CombineDocsChain-ZlGNS"
+                    },
+                    "selected": true,
+                    "positionAbsolute": {
+                      "x": 218.59271730686442,
+                      "y": -167.93319837803648
+                    },
+                    "dragging": false
+                  },
+                  {
+                    "width": 384,
+                    "height": 457,
+                    "id": "CustomComponent-715vY",
+                    "type": "genericNode",
+                    "position": {
+                      "x": -947.6155160488396,
+                      "y": 293.1413507229215
+                    },
+                    "data": {
+                      "type": "CustomComponent",
+                      "node": {
+                        "template": {
+                          "code": {
+                            "dynamic": true,
+                            "required": true,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": true,
+                            "value": "from langflow import CustomComponent\nfrom langchain.schema import Document\nfrom typing import Any, Dict, List\n\nclass FileLoaderComponent(CustomComponent):\n    display_name: str = \"File Loader\"\n    description: str = \"A generic loader that auto-detects file types.\"\n    beta = True\n    loaders_info: List[Dict[str, Any]] = [\n    {\n        \"loader\": \"AirbyteJSONLoader\",\n        \"name\": \"Airbyte JSON (.jsonl)\",\n        \"import\": \"langchain.document_loaders.AirbyteJSONLoader\",\n        \"defaultFor\": [\"jsonl\"],\n        \"allowdTypes\": [\"jsonl\"],\n    },\n    {\n        \"loader\": \"JSONLoader\",\n        \"name\": \"JSON (.json)\",\n        \"import\": \"langchain.document_loaders.JSONLoader\",\n        \"defaultFor\": [\"json\"],\n        \"allowdTypes\": [\"json\"],\n    },\n    {\n        \"loader\": \"BSHTMLLoader\",\n        \"name\": \"BeautifulSoup4 HTML (.html, .htm)\",\n        \"import\": \"langchain.document_loaders.BSHTMLLoader\",\n        \"allowdTypes\": [\"html\", \"htm\"],\n    },\n    {\n        \"loader\": \"CSVLoader\",\n        \"name\": \"CSV (.csv)\",\n        \"import\": \"langchain.document_loaders.CSVLoader\",\n        \"defaultFor\": [\"csv\"],\n        \"allowdTypes\": [\"csv\"],\n    },\n    {\n        \"loader\": \"CoNLLULoader\",\n        \"name\": \"CoNLL-U (.conllu)\",\n        \"import\": \"langchain.document_loaders.CoNLLULoader\",\n        \"defaultFor\": [\"conllu\"],\n        \"allowdTypes\": [\"conllu\"],\n    },\n    {\n        \"loader\": \"EverNoteLoader\",\n        \"name\": \"EverNote (.enex)\",\n        \"import\": \"langchain.document_loaders.EverNoteLoader\",\n        \"defaultFor\": [\"enex\"],\n        \"allowdTypes\": [\"enex\"],\n    },\n    {\n        \"loader\": \"FacebookChatLoader\",\n        \"name\": \"Facebook Chat (.json)\",\n        \"import\": \"langchain.document_loaders.FacebookChatLoader\",\n        \"allowdTypes\": [\"json\"],\n    },\n    {\n        \"loader\": \"OutlookMessageLoader\",\n        \"name\": \"Outlook Message (.msg)\",\n        \"import\": \"langchain.document_loaders.OutlookMessageLoader\",\n        \"defaultFor\": [\"msg\"],\n        \"allowdTypes\": [\"msg\"],\n    },\n    {\n        \"loader\": \"PyPDFLoader\",\n        \"name\": \"PyPDF (.pdf)\",\n        \"import\": \"langchain.document_loaders.PyPDFLoader\",\n        \"defaultFor\": [\"pdf\"],\n        \"allowdTypes\": [\"pdf\"],\n    },\n    {\n        \"loader\": \"STRLoader\",\n        \"name\": \"Subtitle (.str)\",\n        \"import\": \"langchain.document_loaders.STRLoader\",\n        \"defaultFor\": [\"str\"],\n        \"allowdTypes\": [\"str\"],\n    },\n    {\n        \"loader\": \"TextLoader\",\n        \"name\": \"Text (.txt)\",\n        \"import\": \"langchain.document_loaders.TextLoader\",\n        \"defaultFor\": [\"txt\"],\n        \"allowdTypes\": [\"txt\"],\n    },\n    {\n        \"loader\": \"UnstructuredEmailLoader\",\n        \"name\": \"Unstructured Email (.eml)\",\n        \"import\": \"langchain.document_loaders.UnstructuredEmailLoader\",\n        \"defaultFor\": [\"eml\"],\n        \"allowdTypes\": [\"eml\"],\n    },\n    {\n        \"loader\": \"UnstructuredHTMLLoader\",\n        \"name\": \"Unstructured HTML (.html, .htm)\",\n        \"import\": \"langchain.document_loaders.UnstructuredHTMLLoader\",\n        \"defaultFor\": [\"html\", \"htm\"],\n        \"allowdTypes\": [\"html\", \"htm\"],\n    },\n    {\n        \"loader\": \"UnstructuredMarkdownLoader\",\n        \"name\": \"Unstructured Markdown (.md)\",\n        \"import\": \"langchain.document_loaders.UnstructuredMarkdownLoader\",\n        \"defaultFor\": [\"md\"],\n        \"allowdTypes\": [\"md\"],\n    },\n    {\n        \"loader\": \"UnstructuredPowerPointLoader\",\n        \"name\": \"Unstructured PowerPoint (.pptx)\",\n        \"import\": \"langchain.document_loaders.UnstructuredPowerPointLoader\",\n        \"defaultFor\": [\"pptx\"],\n        \"allowdTypes\": [\"pptx\"],\n    },\n    {\n        \"loader\": \"UnstructuredWordLoader\",\n        \"name\": \"Unstructured Word (.docx)\",\n        \"import\": \"langchain.document_loaders.UnstructuredWordLoader\",\n        \"defaultFor\": [\"docx\"],\n        \"allowdTypes\": [\"docx\"],\n    },\n]\n\n    def build_config(self):\n        loader_options = [\"Automatic\"] + [\n            loader_info[\"name\"] for loader_info in self.loaders_info\n        ]\n\n        file_types = []\n        suffixes = []\n\n        for loader_info in self.loaders_info:\n            if \"allowedTypes\" in loader_info:\n                file_types.extend(loader_info[\"allowedTypes\"])\n                suffixes.extend([f\".{ext}\" for ext in loader_info[\"allowedTypes\"]])\n\n        return {\n            \"file_path\": {\n                \"display_name\": \"File Path\",\n                \"required\": True,\n                \"field_type\": \"file\",\n                \"file_types\": [\n                    \"json\",\n                    \"txt\",\n                    \"csv\",\n                    \"jsonl\",\n                    \"html\",\n                    \"htm\",\n                    \"conllu\",\n                    \"enex\",\n                    \"msg\",\n                    \"pdf\",\n                    \"srt\",\n                    \"eml\",\n                    \"md\",\n                    \"pptx\",\n                    \"docx\",\n                ],\n                \"suffixes\": [\n                    \".json\",\n                    \".txt\",\n                    \".csv\",\n                    \".jsonl\",\n                    \".html\",\n                    \".htm\",\n                    \".conllu\",\n                    \".enex\",\n                    \".msg\",\n                    \".pdf\",\n                    \".srt\",\n                    \".eml\",\n                    \".md\",\n                    \".pptx\",\n                    \".docx\",\n                ],\n                # \"file_types\" : file_types,\n                # \"suffixes\": suffixes,\n            },\n            \"loader\": {\n                \"display_name\": \"Loader\",\n                \"is_list\": True,\n                \"required\": True,\n                \"options\": loader_options,\n                \"value\": \"Automatic\",\n            },\n        }\n\n    def build(self, file_path: str, loader: str) -> Document:\n        file_type = file_path.split(\".\")[-1]\n\n        # Mapeie o nome do loader selecionado para suas informações\n        selected_loader_info = None\n        for loader_info in self.loaders_info:\n            if loader_info[\"name\"] == loader:\n                selected_loader_info = loader_info\n                break\n\n        if selected_loader_info is None and loader != \"Automatic\":\n            raise ValueError(f\"Loader {loader} not found in the loader info list\")\n\n        if loader == \"Automatic\":\n            # Determine o loader automaticamente com base na extensão do arquivo\n            default_loader_info = None\n            for info in self.loaders_info:\n                if \"defaultFor\" in info and file_type in info[\"defaultFor\"]:\n                    default_loader_info = info\n                    break\n\n            if default_loader_info is None:\n                raise ValueError(f\"No default loader found for file type: {file_type}\")\n\n            selected_loader_info = default_loader_info\n        if isinstance(selected_loader_info, dict):\n            loader_import: str = selected_loader_info[\"import\"]\n        else:\n            raise ValueError(\n                f\"Loader info for {loader} is not a dict\\nLoader info:\\n{selected_loader_info}\"\n            )\n        module_name, class_name = loader_import.rsplit(\".\", 1)\n\n        try:\n            # Importe o loader dinamicamente\n            loader_module = __import__(module_name, fromlist=[class_name])\n            loader_instance = getattr(loader_module, class_name)\n        except ImportError as e:\n            raise ValueError(\n                f\"Loader {loader} could not be imported\\nLoader info:\\n{selected_loader_info}\"\n            ) from e\n\n        result = loader_instance(file_path=file_path)\n        result = result.load()\n        self.status = result\n        return result",
+                            "password": false,
+                            "name": "code",
+                            "advanced": false,
+                            "type": "code",
+                            "list": false
+                          },
+                          "_type": "CustomComponent",
+                          "file_path": {
+                            "required": true,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "password": false,
+                            "name": "file_path",
+                            "display_name": "File Path",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "file",
+                            "list": false,
+                            "fileTypes": [
+                              "json",
+                              "txt",
+                              "csv",
+                              "jsonl",
+                              "html",
+                              "htm",
+                              "conllu",
+                              "enex",
+                              "msg",
+                              "pdf",
+                              "srt",
+                              "eml",
+                              "md",
+                              "pptx",
+                              "docx"
+                            ],
+                            "file_path": "/Users/rodrigonader/Library/Caches/langflow/13ca1b26-ed4a-457b-8e00-eab94d5448dc/43d1a14988d3f1f86b343a0aa7ea8fe84cb23fbecdbba2a3897135bcc8822d52.pdf",
+                            "value": ""
+                          },
+                          "loader": {
+                            "required": true,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "value": "Automatic",
+                            "password": false,
+                            "options": [
+                              "Automatic",
+                              "Airbyte JSON (.jsonl)",
+                              "JSON (.json)",
+                              "BeautifulSoup4 HTML (.html, .htm)",
+                              "CSV (.csv)",
+                              "CoNLL-U (.conllu)",
+                              "EverNote (.enex)",
+                              "Facebook Chat (.json)",
+                              "Outlook Message (.msg)",
+                              "PyPDF (.pdf)",
+                              "Subtitle (.str)",
+                              "Text (.txt)",
+                              "Unstructured Email (.eml)",
+                              "Unstructured HTML (.html, .htm)",
+                              "Unstructured Markdown (.md)",
+                              "Unstructured PowerPoint (.pptx)",
+                              "Unstructured Word (.docx)"
+                            ],
+                            "name": "loader",
+                            "display_name": "Loader",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "str",
+                            "list": true
+                          }
+                        },
+                        "description": "A generic loader that auto-detects file types.",
+                        "base_classes": [
+                          "Document"
+                        ],
+                        "display_name": "File Loader",
+                        "custom_fields": {
+                          "file_path": null,
+                          "loader": null
+                        },
+                        "output_types": [
+                          "Document"
+                        ],
+                        "documentation": "",
+                        "beta": true,
+                        "error": null,
+                        "official": false
+                      },
+                      "id": "CustomComponent-715vY"
+                    },
+                    "selected": true,
+                    "positionAbsolute": {
+                      "x": -947.6155160488396,
+                      "y": 293.1413507229215
+                    },
+                    "dragging": false
+                  },
+                  {
+                    "width": 384,
+                    "height": 501,
+                    "id": "CharacterTextSplitter-PaUem",
+                    "type": "genericNode",
+                    "position": {
+                      "x": -314.0779657410157,
+                      "y": 23.837018963891467
+                    },
+                    "data": {
+                      "type": "CharacterTextSplitter",
+                      "node": {
+                        "template": {
+                          "documents": {
+                            "required": true,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "password": false,
+                            "name": "documents",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "Document",
+                            "list": true
+                          },
+                          "chunk_overlap": {
+                            "required": true,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "value": 200,
+                            "password": false,
+                            "name": "chunk_overlap",
+                            "display_name": "Chunk Overlap",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "int",
+                            "list": false
+                          },
+                          "chunk_size": {
+                            "required": true,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "value": 1000,
+                            "password": false,
+                            "name": "chunk_size",
+                            "display_name": "Chunk Size",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "int",
+                            "list": false
+                          },
+                          "separator": {
+                            "required": true,
+                            "placeholder": "",
+                            "show": true,
+                            "multiline": false,
+                            "value": " ",
+                            "password": false,
+                            "name": "separator",
+                            "display_name": "Separator",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "type": "str",
+                            "list": false
+                          },
+                          "_type": "CharacterTextSplitter"
+                        },
+                        "description": "Splitting text that looks at characters.",
+                        "base_classes": [
+                          "Document"
+                        ],
+                        "display_name": "CharacterTextSplitter",
+                        "custom_fields": {},
+                        "output_types": [
+                          "Document"
+                        ],
+                        "documentation": "https://python.langchain.com/docs/modules/data_connection/document_transformers/text_splitters/character_text_splitter",
+                        "beta": false,
+                        "error": null
+                      },
+                      "id": "CharacterTextSplitter-PaUem"
+                    },
+                    "selected": true,
+                    "positionAbsolute": {
+                      "x": -314.0779657410157,
+                      "y": 23.837018963891467
+                    },
+                    "dragging": false
+                  }
+                ],
+                "edges": [
+                  {
+                    "source": "Chroma-dUHtN",
+                    "sourceHandle": "{œbaseClassesœ:[œVectorStoreœ,œBaseRetrieverœ],œdataTypeœ:œChromaœ,œidœ:œChroma-dUHtNœ}",
+                    "target": "RetrievalQA-Hhe38",
+                    "targetHandle": "{œfieldNameœ:œretrieverœ,œidœ:œRetrievalQA-Hhe38œ,œinputTypesœ:null,œtypeœ:œBaseRetrieverœ}",
+                    "data": {
+                      "targetHandle": {
+                        "fieldName": "retriever",
+                        "id": "RetrievalQA-Hhe38",
+                        "inputTypes": null,
+                        "type": "BaseRetriever"
+                      },
+                      "sourceHandle": {
+                        "baseClasses": [
+                          "VectorStore",
+                          "BaseRetriever"
+                        ],
+                        "dataType": "Chroma",
+                        "id": "Chroma-dUHtN"
+                      }
+                    },
+                    "style": {
+                      "stroke": "#555"
+                    },
+                    "className": "stroke-foreground  stroke-connection",
+                    "animated": false,
+                    "id": "reactflow__edge-Chroma-dUHtN{œbaseClassesœ:[œVectorStoreœ,œBaseRetrieverœ],œdataTypeœ:œChromaœ,œidœ:œChroma-dUHtNœ}-RetrievalQA-Hhe38{œfieldNameœ:œretrieverœ,œidœ:œRetrievalQA-Hhe38œ,œinputTypesœ:null,œtypeœ:œBaseRetrieverœ}",
+                    "selected": true
+                  },
+                  {
+                    "source": "CombineDocsChain-ZlGNS",
+                    "sourceHandle": "{œbaseClassesœ:[œBaseCombineDocumentsChainœ,œCallableœ],œdataTypeœ:œCombineDocsChainœ,œidœ:œCombineDocsChain-ZlGNSœ}",
+                    "target": "RetrievalQA-Hhe38",
+                    "targetHandle": "{œfieldNameœ:œcombine_documents_chainœ,œidœ:œRetrievalQA-Hhe38œ,œinputTypesœ:null,œtypeœ:œBaseCombineDocumentsChainœ}",
+                    "data": {
+                      "targetHandle": {
+                        "fieldName": "combine_documents_chain",
+                        "id": "RetrievalQA-Hhe38",
+                        "inputTypes": null,
+                        "type": "BaseCombineDocumentsChain"
+                      },
+                      "sourceHandle": {
+                        "baseClasses": [
+                          "BaseCombineDocumentsChain",
+                          "Callable"
+                        ],
+                        "dataType": "CombineDocsChain",
+                        "id": "CombineDocsChain-ZlGNS"
+                      }
+                    },
+                    "style": {
+                      "stroke": "#555"
+                    },
+                    "className": "stroke-foreground  stroke-connection",
+                    "animated": false,
+                    "id": "reactflow__edge-CombineDocsChain-ZlGNS{œbaseClassesœ:[œBaseCombineDocumentsChainœ,œCallableœ],œdataTypeœ:œCombineDocsChainœ,œidœ:œCombineDocsChain-ZlGNSœ}-RetrievalQA-Hhe38{œfieldNameœ:œcombine_documents_chainœ,œidœ:œRetrievalQA-Hhe38œ,œinputTypesœ:null,œtypeœ:œBaseCombineDocumentsChainœ}",
+                    "selected": true
+                  },
+                  {
+                    "source": "CustomComponent-715vY",
+                    "sourceHandle": "{œbaseClassesœ:[œDocumentœ],œdataTypeœ:œCustomComponentœ,œidœ:œCustomComponent-715vYœ}",
+                    "target": "CharacterTextSplitter-PaUem",
+                    "targetHandle": "{œfieldNameœ:œdocumentsœ,œidœ:œCharacterTextSplitter-PaUemœ,œinputTypesœ:null,œtypeœ:œDocumentœ}",
+                    "data": {
+                      "targetHandle": {
+                        "fieldName": "documents",
+                        "id": "CharacterTextSplitter-PaUem",
+                        "inputTypes": null,
+                        "type": "Document"
+                      },
+                      "sourceHandle": {
+                        "baseClasses": [
+                          "Document"
+                        ],
+                        "dataType": "CustomComponent",
+                        "id": "CustomComponent-715vY"
+                      }
+                    },
+                    "style": {
+                      "stroke": "#555"
+                    },
+                    "className": "stroke-foreground  stroke-connection",
+                    "animated": false,
+                    "id": "reactflow__edge-CustomComponent-715vY{œbaseClassesœ:[œDocumentœ],œdataTypeœ:œCustomComponentœ,œidœ:œCustomComponent-715vYœ}-CharacterTextSplitter-PaUem{œfieldNameœ:œdocumentsœ,œidœ:œCharacterTextSplitter-PaUemœ,œinputTypesœ:null,œtypeœ:œDocumentœ}",
+                    "selected": true
+                  },
+                  {
+                    "source": "CharacterTextSplitter-PaUem",
+                    "sourceHandle": "{œbaseClassesœ:[œDocumentœ],œdataTypeœ:œCharacterTextSplitterœ,œidœ:œCharacterTextSplitter-PaUemœ}",
+                    "target": "Chroma-dUHtN",
+                    "targetHandle": "{œfieldNameœ:œdocumentsœ,œidœ:œChroma-dUHtNœ,œinputTypesœ:null,œtypeœ:œDocumentœ}",
+                    "data": {
+                      "targetHandle": {
+                        "fieldName": "documents",
+                        "id": "Chroma-dUHtN",
+                        "inputTypes": null,
+                        "type": "Document"
+                      },
+                      "sourceHandle": {
+                        "baseClasses": [
+                          "Document"
+                        ],
+                        "dataType": "CharacterTextSplitter",
+                        "id": "CharacterTextSplitter-PaUem"
+                      }
+                    },
+                    "style": {
+                      "stroke": "#555"
+                    },
+                    "className": "stroke-foreground  stroke-connection",
+                    "animated": false,
+                    "id": "reactflow__edge-CharacterTextSplitter-PaUem{œbaseClassesœ:[œDocumentœ],œdataTypeœ:œCharacterTextSplitterœ,œidœ:œCharacterTextSplitter-PaUemœ}-Chroma-dUHtN{œfieldNameœ:œdocumentsœ,œidœ:œChroma-dUHtNœ,œinputTypesœ:null,œtypeœ:œDocumentœ}",
+                    "selected": true
+                  }
+                ],
+                "viewport": {
+                  "x": 577.3649569565561,
+                  "y": 227.84214213787357,
+                  "zoom": 0.48903173672367245
+                }
+              },
+              "is_component": false,
+              "name": "Silly Poitras",
+              "description": "",
+              "id": "F7KdT"
+            },
+            "official": false
+          },
+          "id": "RetrievalQA-aItRy"
+        },
+        "id": "RetrievalQA-aItRy",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "type": "genericNode"
+      }
+    ],
+    "viewport": {
+      "x": 1,
+      "y": 1,
+      "zoom": 1
+    }
+  },
+  "description": "double click to edit description",
+  "name": "Basic RAG",
+  "id": "RetrievalQA-aItRy",
+  "is_component": true,
+  "last_tested_version": "0.6.18"
+}

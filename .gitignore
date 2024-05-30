@@ -1,0 +1,14 @@
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
+
+__pycache__
+
+### Java ###
+target/
+.idea
+
+.env
+.prod_env

@@ -1,0 +1,619 @@
+{
+    "code": 0,
+    "msg": "success",
+    "data": {
+        "workflow": {
+            "workflow_id": "7370203016282095624",
+            "name": "test_param_type",
+            "desc": "test_param_type",
+            "url": "https://lf16-alice-tos-sign.oceanapi-i18n.com/obj/ocean-cloud-tos-sg/plugin_icon/workflow.png?lk3s=cd508e2b&x-expires=1716134395&x-signature=G2OJSk3NuFZORwRQ5D%2FkmwKt7R8%3D",
+            "icon_uri": "plugin_icon/workflow.png",
+            "status": 1,
+            "type": 0,
+            "plugin_id": "0",
+            "create_time": 1716009113,
+            "update_time": 1716130778,
+            "schema_type": 1,
+            "template_author_id": "0",
+            "space_id": "7332000866540601345",
+            "schema_json": "{\"nodes\":[{\"id\":\"100001\",\"type\":\"1\",\"meta\":{\"position\":{\"x\":0,\"y\":0},\"testRun\":{}},\"data\":{\"outputs\":[{\"type\":\"string\",\"name\":\"p1\",\"required\":false},{\"type\":\"integer\",\"name\":\"p2\",\"required\":false},{\"type\":\"boolean\",\"name\":\"p3\",\"required\":false},{\"type\":\"float\",\"name\":\"p4\",\"required\":false},{\"type\":\"object\",\"name\":\"p5\",\"schema\":[{\"type\":\"string\",\"name\":\"p51\",\"required\":false},{\"type\":\"integer\",\"name\":\"p52\",\"required\":false},{\"type\":\"boolean\",\"name\":\"p53\",\"required\":false},{\"type\":\"float\",\"name\":\"p54\",\"required\":false},{\"type\":\"object\",\"name\":\"p55\",\"schema\":[],\"required\":false},{\"type\":\"list\",\"name\":\"p56\",\"schema\":{\"type\":\"string\"},\"required\":false},{\"type\":\"list\",\"name\":\"p57\",\"schema\":{\"type\":\"integer\"},\"required\":false},{\"type\":\"list\",\"name\":\"p58\",\"schema\":{\"type\":\"boolean\"},\"required\":false},{\"type\":\"list\",\"name\":\"p59\",\"schema\":{\"type\":\"float\"},\"required\":false},{\"type\":\"list\",\"name\":\"p510\",\"schema\":{\"type\":\"object\",\"schema\":[]},\"required\":false}],\"required\":false},{\"type\":\"list\",\"name\":\"p6\",\"schema\":{\"type\":\"string\"},\"required\":false},{\"type\":\"list\",\"name\":\"p7\",\"schema\":{\"type\":\"integer\"},\"required\":false},{\"type\":\"list\",\"name\":\"p8\",\"schema\":{\"type\":\"boolean\"},\"required\":false},{\"type\":\"list\",\"name\":\"p9\",\"schema\":{\"type\":\"float\"},\"required\":false},{\"type\":\"list\",\"name\":\"p10\",\"schema\":{\"type\":\"object\",\"schema\":[{\"type\":\"string\",\"name\":\"p101\",\"required\":false},{\"type\":\"integer\",\"name\":\"p102\",\"required\":false},{\"type\":\"boolean\",\"name\":\"p103\",\"required\":false},{\"type\":\"float\",\"name\":\"p104\",\"required\":false},{\"type\":\"object\",\"name\":\"p105\",\"schema\":[{\"type\":\"string\",\"required\":false},{\"type\":\"string\",\"required\":false},{\"type\":\"string\",\"required\":false}],\"required\":false},{\"type\":\"list\",\"name\":\"p106\",\"schema\":{\"type\":\"string\"},\"required\":false},{\"type\":\"list\",\"name\":\"p107\",\"schema\":{\"type\":\"integer\"},\"required\":false},{\"type\":\"list\",\"name\":\"p108\",\"schema\":{\"type\":\"boolean\"},\"required\":false},{\"type\":\"list\",\"name\":\"p109\",\"schema\":{\"type\":\"float\"},\"required\":false},{\"type\":\"list\",\"name\":\"p110\",\"schema\":{\"type\":\"object\",\"schema\":[]},\"required\":false}]},\"required\":false}],\"nodeMeta\":{\"title\":\"Start\",\"icon\":\"https://sf16-va.tiktokcdn.com/obj/eden-va2/dvsmryvd_avi_dvsm/ljhwZthlaukjlkulzlp/icon/icon-Start.png\",\"description\":\"The starting node of the workflow, used to set the information needed to initiate the workflow.\",\"subTitle\":\"\"}}},{\"id\":\"900001\",\"type\":\"2\",\"meta\":{\"position\":{\"x\":891.1572115384615,\"y\":-6.498076923076923},\"testRun\":{}},\"data\":{\"nodeMeta\":{\"title\":\"End\",\"icon\":\"https://sf16-va.tiktokcdn.com/obj/eden-va2/dvsmryvd_avi_dvsm/ljhwZthlaukjlkulzlp/icon/icon-End.png\",\"description\":\"The final node of the workflow, used to return the result information after the workflow runs.\",\"subTitle\":\"\"},\"inputs\":{\"terminatePlan\":\"returnVariables\",\"inputParameters\":[{\"name\":\"output1\",\"input\":{\"type\":\"string\",\"value\":{\"type\":\"ref\",\"content\":{\"source\":\"block-output\",\"blockID\":\"100001\",\"name\":\"p1\"}}}},{\"name\":\"output2\",\"input\":{\"type\":\"integer\",\"value\":{\"type\":\"ref\",\"content\":{\"source\":\"block-output\",\"blockID\":\"100001\",\"name\":\"p2\"}}}},{\"name\":\"output3\",\"input\":{\"type\":\"boolean\",\"value\":{\"type\":\"ref\",\"content\":{\"source\":\"block-output\",\"blockID\":\"100001\",\"name\":\"p3\"}}}},{\"name\":\"output4\",\"input\":{\"type\":\"float\",\"value\":{\"type\":\"ref\",\"content\":{\"source\":\"block-output\",\"blockID\":\"100001\",\"name\":\"p4\"}}}},{\"name\":\"output5\",\"input\":{\"type\":\"object\",\"schema\":[{\"type\":\"string\",\"name\":\"p51\",\"required\":false},{\"type\":\"integer\",\"name\":\"p52\",\"required\":false},{\"type\":\"boolean\",\"name\":\"p53\",\"required\":false},{\"type\":\"float\",\"name\":\"p54\",\"required\":false},{\"type\":\"object\",\"name\":\"p55\",\"schema\":[],\"required\":false},{\"type\":\"list\",\"name\":\"p56\",\"schema\":{\"type\":\"string\"},\"required\":false},{\"type\":\"list\",\"name\":\"p57\",\"schema\":{\"type\":\"integer\"},\"required\":false},{\"type\":\"list\",\"name\":\"p58\",\"schema\":{\"type\":\"boolean\"},\"required\":false},{\"type\":\"list\",\"name\":\"p59\",\"schema\":{\"type\":\"float\"},\"required\":false},{\"type\":\"list\",\"name\":\"p510\",\"schema\":{\"type\":\"object\",\"schema\":[]},\"required\":false}],\"value\":{\"type\":\"ref\",\"content\":{\"source\":\"block-output\",\"blockID\":\"100001\",\"name\":\"p5\"}}}},{\"name\":\"output6\",\"input\":{\"type\":\"list\",\"schema\":{\"type\":\"string\"},\"value\":{\"type\":\"ref\",\"content\":{\"source\":\"block-output\",\"blockID\":\"100001\",\"name\":\"p6\"}}}},{\"name\":\"output7\",\"input\":{\"type\":\"list\",\"schema\":{\"type\":\"integer\"},\"value\":{\"type\":\"ref\",\"content\":{\"source\":\"block-output\",\"blockID\":\"100001\",\"name\":\"p7\"}}}},{\"name\":\"output8\",\"input\":{\"type\":\"list\",\"schema\":{\"type\":\"boolean\"},\"value\":{\"type\":\"ref\",\"content\":{\"source\":\"block-output\",\"blockID\":\"100001\",\"name\":\"p8\"}}}},{\"name\":\"output9\",\"input\":{\"type\":\"list\",\"schema\":{\"type\":\"float\"},\"value\":{\"type\":\"ref\",\"content\":{\"source\":\"block-output\",\"blockID\":\"100001\",\"name\":\"p9\"}}}},{\"name\":\"output10\",\"input\":{\"type\":\"list\",\"schema\":{\"type\":\"object\",\"schema\":[{\"type\":\"string\",\"name\":\"p101\",\"required\":false},{\"type\":\"integer\",\"name\":\"p102\",\"required\":false},{\"type\":\"boolean\",\"name\":\"p103\",\"required\":false},{\"type\":\"float\",\"name\":\"p104\",\"required\":false},{\"type\":\"object\",\"name\":\"p105\",\"schema\":[{\"type\":\"string\",\"required\":false},{\"type\":\"string\",\"required\":false},{\"type\":\"string\",\"required\":false}],\"required\":false},{\"type\":\"list\",\"name\":\"p106\",\"schema\":{\"type\":\"string\"},\"required\":false},{\"type\":\"list\",\"name\":\"p107\",\"schema\":{\"type\":\"integer\"},\"required\":false},{\"type\":\"list\",\"name\":\"p108\",\"schema\":{\"type\":\"boolean\"},\"required\":false},{\"type\":\"list\",\"name\":\"p109\",\"schema\":{\"type\":\"float\"},\"required\":false},{\"type\":\"list\",\"name\":\"p110\",\"schema\":{\"type\":\"object\",\"schema\":[]},\"required\":false}]},\"value\":{\"type\":\"ref\",\"content\":{\"source\":\"block-output\",\"blockID\":\"100001\",\"name\":\"p10\"}}}},{\"name\":\"output11\",\"input\":{\"type\":\"string\",\"value\":{\"type\":\"literal\",\"content\":\"user_input\"}}}],\"streamingOutput\":false}}}],\"edges\":[{\"sourceNodeID\":\"100001\",\"targetNodeID\":\"900001\"}]}",
+            "creator": {
+                "id": "7332002003197658114",
+                "name": "treasures",
+                "avatar_url": "https://p16-sg.tiktokcdn.com/img/user-avatar-alisg/9dz22qmo1ji0vlk6w8dvlf4hiqh90tns~120x256.image",
+                "self": true,
+                "user_unique_name": "",
+                "user_label": null
+            },
+            "flow_mode": 0
+        }
+    },
+    "schema_json": {
+        "nodes": [
+            {
+                "id": "100001",
+                "type": "1",
+                "meta": {
+                    "position": {
+                        "x": 0,
+                        "y": 0
+                    },
+                    "testRun": {}
+                },
+                "data": {
+                    "outputs": [
+                        {
+                            "type": "string",
+                            "name": "p1",
+                            "required": false
+                        },
+                        {
+                            "type": "integer",
+                            "name": "p2",
+                            "required": false
+                        },
+                        {
+                            "type": "boolean",
+                            "name": "p3",
+                            "required": false
+                        },
+                        {
+                            "type": "float",
+                            "name": "p4",
+                            "required": false
+                        },
+                        {
+                            "type": "object",
+                            "name": "p5",
+                            "schema": [
+                                {
+                                    "type": "string",
+                                    "name": "p51",
+                                    "required": false
+                                },
+                                {
+                                    "type": "integer",
+                                    "name": "p52",
+                                    "required": false
+                                },
+                                {
+                                    "type": "boolean",
+                                    "name": "p53",
+                                    "required": false
+                                },
+                                {
+                                    "type": "float",
+                                    "name": "p54",
+                                    "required": false
+                                },
+                                {
+                                    "type": "object",
+                                    "name": "p55",
+                                    "schema": [],
+                                    "required": false
+                                },
+                                {
+                                    "type": "list",
+                                    "name": "p56",
+                                    "schema": {
+                                        "type": "string"
+                                    },
+                                    "required": false
+                                },
+                                {
+                                    "type": "list",
+                                    "name": "p57",
+                                    "schema": {
+                                        "type": "integer"
+                                    },
+                                    "required": false
+                                },
+                                {
+                                    "type": "list",
+                                    "name": "p58",
+                                    "schema": {
+                                        "type": "boolean"
+                                    },
+                                    "required": false
+                                },
+                                {
+                                    "type": "list",
+                                    "name": "p59",
+                                    "schema": {
+                                        "type": "float"
+                                    },
+                                    "required": false
+                                },
+                                {
+                                    "type": "list",
+                                    "name": "p510",
+                                    "schema": {
+                                        "type": "object",
+                                        "schema": []
+                                    },
+                                    "required": false
+                                }
+                            ],
+                            "required": false
+                        },
+                        {
+                            "type": "list",
+                            "name": "p6",
+                            "schema": {
+                                "type": "string"
+                            },
+                            "required": false
+                        },
+                        {
+                            "type": "list",
+                            "name": "p7",
+                            "schema": {
+                                "type": "integer"
+                            },
+                            "required": false
+                        },
+                        {
+                            "type": "list",
+                            "name": "p8",
+                            "schema": {
+                                "type": "boolean"
+                            },
+                            "required": false
+                        },
+                        {
+                            "type": "list",
+                            "name": "p9",
+                            "schema": {
+                                "type": "float"
+                            },
+                            "required": false
+                        },
+                        {
+                            "type": "list",
+                            "name": "p10",
+                            "schema": {
+                                "type": "object",
+                                "schema": [
+                                    {
+                                        "type": "string",
+                                        "name": "p101",
+                                        "required": false
+                                    },
+                                    {
+                                        "type": "integer",
+                                        "name": "p102",
+                                        "required": false
+                                    },
+                                    {
+                                        "type": "boolean",
+                                        "name": "p103",
+                                        "required": false
+                                    },
+                                    {
+                                        "type": "float",
+                                        "name": "p104",
+                                        "required": false
+                                    },
+                                    {
+                                        "type": "object",
+                                        "name": "p105",
+                                        "schema": [
+                                            {
+                                                "type": "string",
+                                                "required": false
+                                            },
+                                            {
+                                                "type": "string",
+                                                "required": false
+                                            },
+                                            {
+                                                "type": "string",
+                                                "required": false
+                                            }
+                                        ],
+                                        "required": false
+                                    },
+                                    {
+                                        "type": "list",
+                                        "name": "p106",
+                                        "schema": {
+                                            "type": "string"
+                                        },
+                                        "required": false
+                                    },
+                                    {
+                                        "type": "list",
+                                        "name": "p107",
+                                        "schema": {
+                                            "type": "integer"
+                                        },
+                                        "required": false
+                                    },
+                                    {
+                                        "type": "list",
+                                        "name": "p108",
+                                        "schema": {
+                                            "type": "boolean"
+                                        },
+                                        "required": false
+                                    },
+                                    {
+                                        "type": "list",
+                                        "name": "p109",
+                                        "schema": {
+                                            "type": "float"
+                                        },
+                                        "required": false
+                                    },
+                                    {
+                                        "type": "list",
+                                        "name": "p110",
+                                        "schema": {
+                                            "type": "object",
+                                            "schema": []
+                                        },
+                                        "required": false
+                                    }
+                                ]
+                            },
+                            "required": false
+                        }
+                    ],
+                    "nodeMeta": {
+                        "title": "Start",
+                        "icon": "https://sf16-va.tiktokcdn.com/obj/eden-va2/dvsmryvd_avi_dvsm/ljhwZthlaukjlkulzlp/icon/icon-Start.png",
+                        "description": "The starting node of the workflow, used to set the information needed to initiate the workflow.",
+                        "subTitle": ""
+                    }
+                }
+            },
+            {
+                "id": "900001",
+                "type": "2",
+                "meta": {
+                    "position": {
+                        "x": 891.1572115384615,
+                        "y": -6.498076923076923
+                    },
+                    "testRun": {}
+                },
+                "data": {
+                    "nodeMeta": {
+                        "title": "End",
+                        "icon": "https://sf16-va.tiktokcdn.com/obj/eden-va2/dvsmryvd_avi_dvsm/ljhwZthlaukjlkulzlp/icon/icon-End.png",
+                        "description": "The final node of the workflow, used to return the result information after the workflow runs.",
+                        "subTitle": ""
+                    },
+                    "inputs": {
+                        "terminatePlan": "returnVariables",
+                        "inputParameters": [
+                            {
+                                "name": "output1",
+                                "input": {
+                                    "type": "string",
+                                    "value": {
+                                        "type": "ref",
+                                        "content": {
+                                            "source": "block-output",
+                                            "blockID": "100001",
+                                            "name": "p1"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "name": "output2",
+                                "input": {
+                                    "type": "integer",
+                                    "value": {
+                                        "type": "ref",
+                                        "content": {
+                                            "source": "block-output",
+                                            "blockID": "100001",
+                                            "name": "p2"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "name": "output3",
+                                "input": {
+                                    "type": "boolean",
+                                    "value": {
+                                        "type": "ref",
+                                        "content": {
+                                            "source": "block-output",
+                                            "blockID": "100001",
+                                            "name": "p3"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "name": "output4",
+                                "input": {
+                                    "type": "float",
+                                    "value": {
+                                        "type": "ref",
+                                        "content": {
+                                            "source": "block-output",
+                                            "blockID": "100001",
+                                            "name": "p4"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "name": "output5",
+                                "input": {
+                                    "type": "object",
+                                    "schema": [
+                                        {
+                                            "type": "string",
+                                            "name": "p51",
+                                            "required": false
+                                        },
+                                        {
+                                            "type": "integer",
+                                            "name": "p52",
+                                            "required": false
+                                        },
+                                        {
+                                            "type": "boolean",
+                                            "name": "p53",
+                                            "required": false
+                                        },
+                                        {
+                                            "type": "float",
+                                            "name": "p54",
+                                            "required": false
+                                        },
+                                        {
+                                            "type": "object",
+                                            "name": "p55",
+                                            "schema": [],
+                                            "required": false
+                                        },
+                                        {
+                                            "type": "list",
+                                            "name": "p56",
+                                            "schema": {
+                                                "type": "string"
+                                            },
+                                            "required": false
+                                        },
+                                        {
+                                            "type": "list",
+                                            "name": "p57",
+                                            "schema": {
+                                                "type": "integer"
+                                            },
+                                            "required": false
+                                        },
+                                        {
+                                            "type": "list",
+                                            "name": "p58",
+                                            "schema": {
+                                                "type": "boolean"
+                                            },
+                                            "required": false
+                                        },
+                                        {
+                                            "type": "list",
+                                            "name": "p59",
+                                            "schema": {
+                                                "type": "float"
+                                            },
+                                            "required": false
+                                        },
+                                        {
+                                            "type": "list",
+                                            "name": "p510",
+                                            "schema": {
+                                                "type": "object",
+                                                "schema": []
+                                            },
+                                            "required": false
+                                        }
+                                    ],
+                                    "value": {
+                                        "type": "ref",
+                                        "content": {
+                                            "source": "block-output",
+                                            "blockID": "100001",
+                                            "name": "p5"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "name": "output6",
+                                "input": {
+                                    "type": "list",
+                                    "schema": {
+                                        "type": "string"
+                                    },
+                                    "value": {
+                                        "type": "ref",
+                                        "content": {
+                                            "source": "block-output",
+                                            "blockID": "100001",
+                                            "name": "p6"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "name": "output7",
+                                "input": {
+                                    "type": "list",
+                                    "schema": {
+                                        "type": "integer"
+                                    },
+                                    "value": {
+                                        "type": "ref",
+                                        "content": {
+                                            "source": "block-output",
+                                            "blockID": "100001",
+                                            "name": "p7"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "name": "output8",
+                                "input": {
+                                    "type": "list",
+                                    "schema": {
+                                        "type": "boolean"
+                                    },
+                                    "value": {
+                                        "type": "ref",
+                                        "content": {
+                                            "source": "block-output",
+                                            "blockID": "100001",
+                                            "name": "p8"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "name": "output9",
+                                "input": {
+                                    "type": "list",
+                                    "schema": {
+                                        "type": "float"
+                                    },
+                                    "value": {
+                                        "type": "ref",
+                                        "content": {
+                                            "source": "block-output",
+                                            "blockID": "100001",
+                                            "name": "p9"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "name": "output10",
+                                "input": {
+                                    "type": "list",
+                                    "schema": {
+                                        "type": "object",
+                                        "schema": [
+                                            {
+                                                "type": "string",
+                                                "name": "p101",
+                                                "required": false
+                                            },
+                                            {
+                                                "type": "integer",
+                                                "name": "p102",
+                                                "required": false
+                                            },
+                                            {
+                                                "type": "boolean",
+                                                "name": "p103",
+                                                "required": false
+                                            },
+                                            {
+                                                "type": "float",
+                                                "name": "p104",
+                                                "required": false
+                                            },
+                                            {
+                                                "type": "object",
+                                                "name": "p105",
+                                                "schema": [
+                                                    {
+                                                        "type": "string",
+                                                        "required": false
+                                                    },
+                                                    {
+                                                        "type": "string",
+                                                        "required": false
+                                                    },
+                                                    {
+                                                        "type": "string",
+                                                        "required": false
+                                                    }
+                                                ],
+                                                "required": false
+                                            },
+                                            {
+                                                "type": "list",
+                                                "name": "p106",
+                                                "schema": {
+                                                    "type": "string"
+                                                },
+                                                "required": false
+                                            },
+                                            {
+                                                "type": "list",
+                                                "name": "p107",
+                                                "schema": {
+                                                    "type": "integer"
+                                                },
+                                                "required": false
+                                            },
+                                            {
+                                                "type": "list",
+                                                "name": "p108",
+                                                "schema": {
+                                                    "type": "boolean"
+                                                },
+                                                "required": false
+                                            },
+                                            {
+                                                "type": "list",
+                                                "name": "p109",
+                                                "schema": {
+                                                    "type": "float"
+                                                },
+                                                "required": false
+                                            },
+                                            {
+                                                "type": "list",
+                                                "name": "p110",
+                                                "schema": {
+                                                    "type": "object",
+                                                    "schema": []
+                                                },
+                                                "required": false
+                                            }
+                                        ]
+                                    },
+                                    "value": {
+                                        "type": "ref",
+                                        "content": {
+                                            "source": "block-output",
+                                            "blockID": "100001",
+                                            "name": "p10"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "name": "output11",
+                                "input": {
+                                    "type": "string",
+                                    "value": {
+                                        "type": "literal",
+                                        "content": "user_input"
+                                    }
+                                }
+                            }
+                        ],
+                        "streamingOutput": false
+                    }
+                }
+            }
+        ],
+        "edges": [
+            {
+                "sourceNodeID": "100001",
+                "targetNodeID": "900001"
+            }
+        ]
+    }
+}

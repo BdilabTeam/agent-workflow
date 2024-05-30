@@ -1,0 +1,1256 @@
+{
+  "url": "http://127.0.0.1:7860/api/v1/flows/99ffc680-888f-4b2c-aea3-731670ed2b52",
+  "Request Method": "PATCH",
+  "requestParam": {},
+  "requestPayload": {
+    "name": "Untitled document",
+    "data": {
+      "nodes": [
+        {
+          "id": "Data-MwtGd",
+          "type": "genericNode",
+          "position": {
+            "x": -540.0039592337016,
+            "y": 657.9229727540634
+          },
+          "data": {
+            "type": "Data",
+            "node": {
+              "template": {
+                "code": {
+                  "type": "code",
+                  "required": true,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": true,
+                  "value": "from typing import Optional, Union\n\nfrom langchain.llms import BaseLLM\nfrom langchain_community.chat_models.openai import ChatOpenAI\n\nfrom langflow import CustomComponent\nfrom langflow.field_typing import BaseLanguageModel, NestedDict,Text\n\n\nclass ChatOpenAIComponent(CustomComponent):\n    display_name = \"ChatOpenAI\"\n    description = \"`OpenAI` Chat large language models API.\"\n\n    def build_config(self):\n        return {\n            \"max_tokens\": {\n                \"display_name\": \"Max Tokens\",\n                \"field_type\": \"int\",\n                \"advanced\": False,\n                \"required\": False,\n            },\n            \"model_kwargs\": {\n                \"display_name\": \"Model Kwargs\",\n                \"field_type\": \"NestedDict\",\n                \"advanced\": True,\n                \"required\": False,\n            },\n            \"model_name\": {\n                \"display_name\": \"Model Name\",\n                \"field_type\": \"str\",\n                \"advanced\": False,\n                \"required\": False,\n                \"options\": [\n                    \"gpt-4-turbo-preview\",\n                    \"gpt-4-0125-preview\",\n                    \"gpt-4-1106-preview\",\n                    \"gpt-4-vision-preview\",\n                    \"gpt-3.5-turbo-0125\",\n                    \"gpt-3.5-turbo-1106\",\n                ],\n            },\n            \"openai_api_base\": {\n                \"display_name\": \"OpenAI API Base\",\n                \"field_type\": \"str\",\n                \"advanced\": False,\n                \"required\": False,\n                \"info\": (\n                    \"The base URL of the OpenAI API. Defaults to https://api.openai.com/v1.\\n\\n\"\n                    \"You can change this to use other APIs like JinaChat, LocalAI and Prem.\"\n                ),\n            },\n            \"openai_api_key\": {\n                \"display_name\": \"OpenAI API Key\",\n                \"field_type\": \"str\",\n                \"advanced\": False,\n                \"required\": False,\n                \"password\": True,\n            },\n            \"temperature\": {\n                \"display_name\": \"Temperature\",\n                \"field_type\": \"float\",\n                \"advanced\": False,\n                \"required\": False,\n                \"value\": 0.7,\n            }\n        }\n\n    def build(\n        self,\n        max_tokens: Optional[int] = 256,\n        model_kwargs: NestedDict = {},\n        model_name: str = \"gpt-4-1106-preview\",\n        openai_api_base: Optional[str] = None,\n        openai_api_key: Optional[str] = None,\n        temperature: float = 0.7,\n    ) -> Union[BaseLanguageModel, BaseLLM]:\n        if not openai_api_base:\n            openai_api_base = \"https://api.openai.com/v1\"\n        return ChatOpenAI(\n            max_tokens=max_tokens,\n            model_kwargs=model_kwargs,\n            model=model_name,\n            base_url=openai_api_base,\n            api_key=openai_api_key,\n            temperature=temperature,\n        )\n\n",
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "code",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true
+                },
+                "max_tokens": {
+                  "type": "int",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": false,
+                  "value": 256,
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "max_tokens",
+                  "display_name": "Max Tokens",
+                  "advanced": false,
+                  "dynamic": false,
+                  "info": "",
+                  "title_case": true
+                },
+                "model_kwargs": {
+                  "type": "NestedDict",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": false,
+                  "value": {},
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "model_kwargs",
+                  "display_name": "Model Kwargs",
+                  "advanced": true,
+                  "dynamic": false,
+                  "info": "",
+                  "title_case": true
+                },
+                "model_name": {
+                  "type": "str",
+                  "required": false,
+                  "placeholder": "",
+                  "list": true,
+                  "show": true,
+                  "multiline": false,
+                  "value": "gpt-3.5-turbo-0125",
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "options": [
+                    "gpt-4-turbo-preview",
+                    "gpt-4-0125-preview",
+                    "gpt-4-1106-preview",
+                    "gpt-4-vision-preview",
+                    "gpt-3.5-turbo-0125",
+                    "gpt-3.5-turbo-1106"
+                  ],
+                  "name": "model_name",
+                  "display_name": "Model Name",
+                  "advanced": false,
+                  "dynamic": false,
+                  "info": "",
+                  "title_case": true
+                },
+                "openai_api_base": {
+                  "type": "str",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "openai_api_base",
+                  "display_name": "OpenAI API Base",
+                  "advanced": false,
+                  "dynamic": false,
+                  "info": "The base URL of the OpenAI API. Defaults to https://api.openai.com/v1.\n\nYou can change this to use other APIs like JinaChat, LocalAI and Prem.",
+                  "title_case": true,
+                  "value": "https://api.chatanywhere.com.cn"
+                },
+                "openai_api_key": {
+                  "type": "str",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": true,
+                  "name": "openai_api_key",
+                  "display_name": "OpenAI API Key",
+                  "advanced": false,
+                  "dynamic": false,
+                  "info": "",
+                  "title_case": true,
+                  "value": "sk-Ms5F2wAkilaaZYo0HpumWR7qBLkOIsXflNQeAHSrNtmUYjzk"
+                },
+                "temperature": {
+                  "type": "float",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": false,
+                  "value": "0.2",
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "temperature",
+                  "display_name": "Temperature",
+                  "advanced": false,
+                  "dynamic": false,
+                  "info": "",
+                  "rangeSpec": {
+                    "min": -1,
+                    "max": 1,
+                    "step": 0.1
+                  },
+                  "title_case": true
+                },
+                "_type": "CustomComponent"
+              },
+              "description": "`OpenAI` Chat large language models API.",
+              "base_classes": [
+                "BaseLanguageModel",
+                "BaseLanguageModel",
+                "BaseLLM"
+              ],
+              "display_name": "ChatOpenAI",
+              "documentation": "",
+              "custom_fields": {
+                "max_tokens": null,
+                "model_kwargs": null,
+                "model_name": null,
+                "openai_api_base": null,
+                "openai_api_key": null,
+                "temperature": null
+              },
+              "output_types": [
+                "BaseLanguageModel",
+                "BaseLLM"
+              ],
+              "field_formatters": {},
+              "beta": true
+            },
+            "id": "Data-MwtGd",
+            "description": "`OpenAI` Chat large language models API.",
+            "display_name": "ChatOpenAI"
+          },
+          "selected": false,
+          "width": 384,
+          "height": 730,
+          "positionAbsolute": {
+            "x": -540.0039592337016,
+            "y": 657.9229727540634
+          },
+          "dragging": false
+        },
+        {
+          "id": "LLMChain-PqBti",
+          "type": "genericNode",
+          "position": {
+            "x": -57.560755024775176,
+            "y": 787.4070051302095
+          },
+          "data": {
+            "type": "LLMChain",
+            "node": {
+              "template": {
+                "llm": {
+                  "type": "BaseLanguageModel",
+                  "required": true,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "llm",
+                  "display_name": "LLM",
+                  "advanced": false,
+                  "dynamic": false,
+                  "info": "",
+                  "title_case": true
+                },
+                "memory": {
+                  "type": "BaseMemory",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "memory",
+                  "display_name": "Memory",
+                  "advanced": false,
+                  "dynamic": false,
+                  "info": "",
+                  "title_case": true
+                },
+                "prompt": {
+                  "type": "BasePromptTemplate",
+                  "required": true,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "prompt",
+                  "display_name": "Prompt",
+                  "advanced": false,
+                  "dynamic": false,
+                  "info": "",
+                  "title_case": true
+                },
+                "code": {
+                  "type": "code",
+                  "required": true,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": true,
+                  "value": "from typing import Callable, Optional, Union\n\nfrom langchain.chains import LLMChain\n\nfrom langflow import CustomComponent\nfrom langflow.field_typing import (\n    BaseLanguageModel,\n    BaseMemory,\n    BasePromptTemplate,\n    Chain,\n)\n\n\nclass LLMChainComponent(CustomComponent):\n    display_name = \"LLMChain\"\n    description = \"Chain to run queries against LLMs\"\n\n    def build_config(self):\n        return {\n            \"prompt\": {\"display_name\": \"Prompt\"},\n            \"llm\": {\"display_name\": \"LLM\"},\n            \"memory\": {\"display_name\": \"Memory\"},\n            \"code\": {\"show\": False},\n        }\n\n    def build(\n        self,\n        prompt: BasePromptTemplate,\n        llm: BaseLanguageModel,\n        memory: Optional[BaseMemory] = None,\n    ) -> Union[Chain, Callable, LLMChain]:\n        return LLMChain(prompt=prompt, llm=llm, memory=memory)\n",
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "code",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true
+                },
+                "_type": "CustomComponent"
+              },
+              "description": "Chain to run queries against LLMs",
+              "base_classes": [
+                "Chain",
+                "Callable",
+                "LLMChain",
+                "Chain"
+              ],
+              "display_name": "LLMChain",
+              "documentation": "",
+              "custom_fields": {
+                "prompt": null,
+                "llm": null,
+                "memory": null
+              },
+              "output_types": [
+                "Chain",
+                "Callable",
+                "LLMChain"
+              ],
+              "field_formatters": {},
+              "beta": true
+            },
+            "id": "LLMChain-PqBti"
+          },
+          "selected": false,
+          "width": 384,
+          "height": 425,
+          "positionAbsolute": {
+            "x": -57.560755024775176,
+            "y": 787.4070051302095
+          },
+          "dragging": false
+        },
+        {
+          "id": "PromptTemplate-epqSA",
+          "type": "genericNode",
+          "position": {
+            "x": -1136.727965051119,
+            "y": 741.8122126461245
+          },
+          "data": {
+            "type": "PromptTemplate",
+            "node": {
+              "template": {
+                "output_parser": {
+                  "type": "BaseOutputParser",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": false,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "password": false,
+                  "name": "output_parser",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true
+                },
+                "input_types": {
+                  "type": "dict",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": false,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "password": false,
+                  "name": "input_types",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true
+                },
+                "input_variables": {
+                  "type": "str",
+                  "required": true,
+                  "placeholder": "",
+                  "list": true,
+                  "show": false,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "password": false,
+                  "name": "input_variables",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true,
+                  "value": [
+                    "input",
+                    "it"
+                  ]
+                },
+                "metadata": {
+                  "type": "dict",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": false,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "password": false,
+                  "name": "metadata",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true
+                },
+                "name": {
+                  "type": "str",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": false,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "password": false,
+                  "name": "name",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true
+                },
+                "partial_variables": {
+                  "type": "dict",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": false,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "password": false,
+                  "name": "partial_variables",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true
+                },
+                "tags": {
+                  "type": "str",
+                  "required": false,
+                  "placeholder": "",
+                  "list": true,
+                  "show": false,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "password": false,
+                  "name": "tags",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true
+                },
+                "template": {
+                  "type": "prompt",
+                  "required": true,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": true,
+                  "fileTypes": [],
+                  "password": false,
+                  "name": "template",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true,
+                  "value": "What is {input} in {it}"
+                },
+                "template_format": {
+                  "type": "str",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": false,
+                  "multiline": false,
+                  "value": "f-string",
+                  "fileTypes": [],
+                  "password": false,
+                  "name": "template_format",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true
+                },
+                "validate_template": {
+                  "type": "bool",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": false,
+                  "multiline": false,
+                  "value": false,
+                  "fileTypes": [],
+                  "password": false,
+                  "name": "validate_template",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true
+                },
+                "_type": "PromptTemplate",
+                "input": {
+                  "type": "str",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": true,
+                  "value": "",
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "input",
+                  "display_name": "input",
+                  "advanced": false,
+                  "input_types": [
+                    "Document",
+                    "BaseOutputParser"
+                  ],
+                  "dynamic": false,
+                  "info": "",
+                  "title_case": true
+                },
+                "it": {
+                  "type": "str",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": true,
+                  "value": "",
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "it",
+                  "display_name": "it",
+                  "advanced": false,
+                  "input_types": [
+                    "Document",
+                    "BaseOutputParser"
+                  ],
+                  "dynamic": false,
+                  "info": "",
+                  "title_case": true
+                }
+              },
+              "description": "Prompt template for a language model.",
+              "icon": null,
+              "base_classes": [
+                "PromptTemplate",
+                "StringPromptTemplate",
+                "BasePromptTemplate"
+              ],
+              "name": "",
+              "display_name": "PromptTemplate",
+              "documentation": "https://python.langchain.com/docs/modules/model_io/prompts/prompt_templates/",
+              "custom_fields": {
+                "": [
+                  "input",
+                  "it"
+                ]
+              },
+              "output_types": [],
+              "full_path": null,
+              "field_formatters": {},
+              "beta": false,
+              "error": null
+            },
+            "id": "PromptTemplate-epqSA",
+            "description": "Prompt template for a language model.",
+            "display_name": "PromptTemplate"
+          },
+          "selected": false,
+          "width": 384,
+          "height": 468,
+          "positionAbsolute": {
+            "x": -1136.727965051119,
+            "y": 741.8122126461245
+          },
+          "dragging": false
+        }
+      ],
+      "edges": [
+        {
+          "source": "Data-MwtGd",
+          "sourceHandle": "{œbaseClassesœ:[œBaseLanguageModelœ,œBaseLanguageModelœ,œBaseLLMœ],œdataTypeœ:œDataœ,œidœ:œData-MwtGdœ}",
+          "target": "LLMChain-PqBti",
+          "targetHandle": "{œfieldNameœ:œllmœ,œidœ:œLLMChain-PqBtiœ,œinputTypesœ:null,œtypeœ:œBaseLanguageModelœ}",
+          "data": {
+            "targetHandle": {
+              "fieldName": "llm",
+              "id": "LLMChain-PqBti",
+              "inputTypes": null,
+              "type": "BaseLanguageModel"
+            },
+            "sourceHandle": {
+              "baseClasses": [
+                "BaseLanguageModel",
+                "BaseLanguageModel",
+                "BaseLLM"
+              ],
+              "dataType": "Data",
+              "id": "Data-MwtGd"
+            }
+          },
+          "style": {
+            "stroke": "#555"
+          },
+          "className": "stroke-gray-900  stroke-connection",
+          "animated": false,
+          "id": "reactflow__edge-Data-MwtGd{œbaseClassesœ:[œBaseLanguageModelœ,œBaseLanguageModelœ,œBaseLLMœ],œdataTypeœ:œDataœ,œidœ:œData-MwtGdœ}-LLMChain-PqBti{œfieldNameœ:œllmœ,œidœ:œLLMChain-PqBtiœ,œinputTypesœ:null,œtypeœ:œBaseLanguageModelœ}"
+        },
+        {
+          "source": "PromptTemplate-epqSA",
+          "sourceHandle": "{œbaseClassesœ:[œPromptTemplateœ,œStringPromptTemplateœ,œBasePromptTemplateœ],œdataTypeœ:œPromptTemplateœ,œidœ:œPromptTemplate-epqSAœ}",
+          "target": "LLMChain-PqBti",
+          "targetHandle": "{œfieldNameœ:œpromptœ,œidœ:œLLMChain-PqBtiœ,œinputTypesœ:null,œtypeœ:œBasePromptTemplateœ}",
+          "data": {
+            "targetHandle": {
+              "fieldName": "prompt",
+              "id": "LLMChain-PqBti",
+              "inputTypes": null,
+              "type": "BasePromptTemplate"
+            },
+            "sourceHandle": {
+              "baseClasses": [
+                "PromptTemplate",
+                "StringPromptTemplate",
+                "BasePromptTemplate"
+              ],
+              "dataType": "PromptTemplate",
+              "id": "PromptTemplate-epqSA"
+            }
+          },
+          "style": {
+            "stroke": "#555"
+          },
+          "className": "stroke-gray-900  stroke-connection",
+          "animated": false,
+          "id": "reactflow__edge-PromptTemplate-epqSA{œbaseClassesœ:[œPromptTemplateœ,œStringPromptTemplateœ,œBasePromptTemplateœ],œdataTypeœ:œPromptTemplateœ,œidœ:œPromptTemplate-epqSAœ}-LLMChain-PqBti{œfieldNameœ:œpromptœ,œidœ:œLLMChain-PqBtiœ,œinputTypesœ:null,œtypeœ:œBasePromptTemplateœ}"
+        }
+      ],
+      "viewport": {
+        "x": 908.0352929657195,
+        "y": -344.85980916796547,
+        "zoom": 0.500000019516321
+      }
+    },
+    "description": "Crafting Dialogues that Drive Business Success."
+  },
+  "response": {
+    "name": "Untitled document",
+    "description": "Crafting Dialogues that Drive Business Success.",
+    "data": {
+      "nodes": [
+        {
+          "id": "Data-MwtGd",
+          "type": "genericNode",
+          "position": {
+            "x": -540.0039592337016,
+            "y": 657.9229727540634
+          },
+          "data": {
+            "type": "Data",
+            "node": {
+              "template": {
+                "code": {
+                  "type": "code",
+                  "required": true,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": true,
+                  "value": "from typing import Optional, Union\n\nfrom langchain.llms import BaseLLM\nfrom langchain_community.chat_models.openai import ChatOpenAI\n\nfrom langflow import CustomComponent\nfrom langflow.field_typing import BaseLanguageModel, NestedDict,Text\n\n\nclass ChatOpenAIComponent(CustomComponent):\n    display_name = \"ChatOpenAI\"\n    description = \"`OpenAI` Chat large language models API.\"\n\n    def build_config(self):\n        return {\n            \"max_tokens\": {\n                \"display_name\": \"Max Tokens\",\n                \"field_type\": \"int\",\n                \"advanced\": False,\n                \"required\": False,\n            },\n            \"model_kwargs\": {\n                \"display_name\": \"Model Kwargs\",\n                \"field_type\": \"NestedDict\",\n                \"advanced\": True,\n                \"required\": False,\n            },\n            \"model_name\": {\n                \"display_name\": \"Model Name\",\n                \"field_type\": \"str\",\n                \"advanced\": False,\n                \"required\": False,\n                \"options\": [\n                    \"gpt-4-turbo-preview\",\n                    \"gpt-4-0125-preview\",\n                    \"gpt-4-1106-preview\",\n                    \"gpt-4-vision-preview\",\n                    \"gpt-3.5-turbo-0125\",\n                    \"gpt-3.5-turbo-1106\",\n                ],\n            },\n            \"openai_api_base\": {\n                \"display_name\": \"OpenAI API Base\",\n                \"field_type\": \"str\",\n                \"advanced\": False,\n                \"required\": False,\n                \"info\": (\n                    \"The base URL of the OpenAI API. Defaults to https://api.openai.com/v1.\\n\\n\"\n                    \"You can change this to use other APIs like JinaChat, LocalAI and Prem.\"\n                ),\n            },\n            \"openai_api_key\": {\n                \"display_name\": \"OpenAI API Key\",\n                \"field_type\": \"str\",\n                \"advanced\": False,\n                \"required\": False,\n                \"password\": True,\n            },\n            \"temperature\": {\n                \"display_name\": \"Temperature\",\n                \"field_type\": \"float\",\n                \"advanced\": False,\n                \"required\": False,\n                \"value\": 0.7,\n            }\n        }\n\n    def build(\n        self,\n        max_tokens: Optional[int] = 256,\n        model_kwargs: NestedDict = {},\n        model_name: str = \"gpt-4-1106-preview\",\n        openai_api_base: Optional[str] = None,\n        openai_api_key: Optional[str] = None,\n        temperature: float = 0.7,\n    ) -> Union[BaseLanguageModel, BaseLLM]:\n        if not openai_api_base:\n            openai_api_base = \"https://api.openai.com/v1\"\n        return ChatOpenAI(\n            max_tokens=max_tokens,\n            model_kwargs=model_kwargs,\n            model=model_name,\n            base_url=openai_api_base,\n            api_key=openai_api_key,\n            temperature=temperature,\n        )\n\n",
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "code",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true
+                },
+                "max_tokens": {
+                  "type": "int",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": false,
+                  "value": 256,
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "max_tokens",
+                  "display_name": "Max Tokens",
+                  "advanced": false,
+                  "dynamic": false,
+                  "info": "",
+                  "title_case": true
+                },
+                "model_kwargs": {
+                  "type": "NestedDict",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": false,
+                  "value": {},
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "model_kwargs",
+                  "display_name": "Model Kwargs",
+                  "advanced": true,
+                  "dynamic": false,
+                  "info": "",
+                  "title_case": true
+                },
+                "model_name": {
+                  "type": "str",
+                  "required": false,
+                  "placeholder": "",
+                  "list": true,
+                  "show": true,
+                  "multiline": false,
+                  "value": "gpt-3.5-turbo-0125",
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "options": [
+                    "gpt-4-turbo-preview",
+                    "gpt-4-0125-preview",
+                    "gpt-4-1106-preview",
+                    "gpt-4-vision-preview",
+                    "gpt-3.5-turbo-0125",
+                    "gpt-3.5-turbo-1106"
+                  ],
+                  "name": "model_name",
+                  "display_name": "Model Name",
+                  "advanced": false,
+                  "dynamic": false,
+                  "info": "",
+                  "title_case": true
+                },
+                "openai_api_base": {
+                  "type": "str",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "openai_api_base",
+                  "display_name": "OpenAI API Base",
+                  "advanced": false,
+                  "dynamic": false,
+                  "info": "The base URL of the OpenAI API. Defaults to https://api.openai.com/v1.\n\nYou can change this to use other APIs like JinaChat, LocalAI and Prem.",
+                  "title_case": true,
+                  "value": "https://api.chatanywhere.com.cn"
+                },
+                "openai_api_key": {
+                  "type": "str",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": true,
+                  "name": "openai_api_key",
+                  "display_name": "OpenAI API Key",
+                  "advanced": false,
+                  "dynamic": false,
+                  "info": "",
+                  "title_case": true,
+                  "value": "sk-Ms5F2wAkilaaZYo0HpumWR7qBLkOIsXflNQeAHSrNtmUYjzk"
+                },
+                "temperature": {
+                  "type": "float",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": false,
+                  "value": "0.2",
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "temperature",
+                  "display_name": "Temperature",
+                  "advanced": false,
+                  "dynamic": false,
+                  "info": "",
+                  "rangeSpec": {
+                    "min": -1,
+                    "max": 1,
+                    "step": 0.1
+                  },
+                  "title_case": true
+                },
+                "_type": "CustomComponent"
+              },
+              "description": "`OpenAI` Chat large language models API.",
+              "base_classes": [
+                "BaseLanguageModel",
+                "BaseLanguageModel",
+                "BaseLLM"
+              ],
+              "display_name": "ChatOpenAI",
+              "documentation": "",
+              "custom_fields": {
+                "max_tokens": null,
+                "model_kwargs": null,
+                "model_name": null,
+                "openai_api_base": null,
+                "openai_api_key": null,
+                "temperature": null
+              },
+              "output_types": [
+                "BaseLanguageModel",
+                "BaseLLM"
+              ],
+              "field_formatters": {},
+              "beta": true
+            },
+            "id": "Data-MwtGd",
+            "description": "`OpenAI` Chat large language models API.",
+            "display_name": "ChatOpenAI"
+          },
+          "selected": false,
+          "width": 384,
+          "height": 730,
+          "positionAbsolute": {
+            "x": -540.0039592337016,
+            "y": 657.9229727540634
+          },
+          "dragging": false
+        },
+        {
+          "id": "LLMChain-PqBti",
+          "type": "genericNode",
+          "position": {
+            "x": -57.560755024775176,
+            "y": 787.4070051302095
+          },
+          "data": {
+            "type": "LLMChain",
+            "node": {
+              "template": {
+                "llm": {
+                  "type": "BaseLanguageModel",
+                  "required": true,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "llm",
+                  "display_name": "LLM",
+                  "advanced": false,
+                  "dynamic": false,
+                  "info": "",
+                  "title_case": true
+                },
+                "memory": {
+                  "type": "BaseMemory",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "memory",
+                  "display_name": "Memory",
+                  "advanced": false,
+                  "dynamic": false,
+                  "info": "",
+                  "title_case": true
+                },
+                "prompt": {
+                  "type": "BasePromptTemplate",
+                  "required": true,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "prompt",
+                  "display_name": "Prompt",
+                  "advanced": false,
+                  "dynamic": false,
+                  "info": "",
+                  "title_case": true
+                },
+                "code": {
+                  "type": "code",
+                  "required": true,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": true,
+                  "value": "from typing import Callable, Optional, Union\n\nfrom langchain.chains import LLMChain\n\nfrom langflow import CustomComponent\nfrom langflow.field_typing import (\n    BaseLanguageModel,\n    BaseMemory,\n    BasePromptTemplate,\n    Chain,\n)\n\n\nclass LLMChainComponent(CustomComponent):\n    display_name = \"LLMChain\"\n    description = \"Chain to run queries against LLMs\"\n\n    def build_config(self):\n        return {\n            \"prompt\": {\"display_name\": \"Prompt\"},\n            \"llm\": {\"display_name\": \"LLM\"},\n            \"memory\": {\"display_name\": \"Memory\"},\n            \"code\": {\"show\": False},\n        }\n\n    def build(\n        self,\n        prompt: BasePromptTemplate,\n        llm: BaseLanguageModel,\n        memory: Optional[BaseMemory] = None,\n    ) -> Union[Chain, Callable, LLMChain]:\n        return LLMChain(prompt=prompt, llm=llm, memory=memory)\n",
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "code",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true
+                },
+                "_type": "CustomComponent"
+              },
+              "description": "Chain to run queries against LLMs",
+              "base_classes": [
+                "Chain",
+                "Callable",
+                "LLMChain",
+                "Chain"
+              ],
+              "display_name": "LLMChain",
+              "documentation": "",
+              "custom_fields": {
+                "prompt": null,
+                "llm": null,
+                "memory": null
+              },
+              "output_types": [
+                "Chain",
+                "Callable",
+                "LLMChain"
+              ],
+              "field_formatters": {},
+              "beta": true
+            },
+            "id": "LLMChain-PqBti"
+          },
+          "selected": false,
+          "width": 384,
+          "height": 425,
+          "positionAbsolute": {
+            "x": -57.560755024775176,
+            "y": 787.4070051302095
+          },
+          "dragging": false
+        },
+        {
+          "id": "PromptTemplate-epqSA",
+          "type": "genericNode",
+          "position": {
+            "x": -1136.727965051119,
+            "y": 741.8122126461245
+          },
+          "data": {
+            "type": "PromptTemplate",
+            "node": {
+              "template": {
+                "output_parser": {
+                  "type": "BaseOutputParser",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": false,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "password": false,
+                  "name": "output_parser",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true
+                },
+                "input_types": {
+                  "type": "dict",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": false,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "password": false,
+                  "name": "input_types",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true
+                },
+                "input_variables": {
+                  "type": "str",
+                  "required": true,
+                  "placeholder": "",
+                  "list": true,
+                  "show": false,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "password": false,
+                  "name": "input_variables",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true,
+                  "value": [
+                    "input",
+                    "it"
+                  ]
+                },
+                "metadata": {
+                  "type": "dict",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": false,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "password": false,
+                  "name": "metadata",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true
+                },
+                "name": {
+                  "type": "str",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": false,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "password": false,
+                  "name": "name",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true
+                },
+                "partial_variables": {
+                  "type": "dict",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": false,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "password": false,
+                  "name": "partial_variables",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true
+                },
+                "tags": {
+                  "type": "str",
+                  "required": false,
+                  "placeholder": "",
+                  "list": true,
+                  "show": false,
+                  "multiline": false,
+                  "fileTypes": [],
+                  "password": false,
+                  "name": "tags",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true
+                },
+                "template": {
+                  "type": "prompt",
+                  "required": true,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": true,
+                  "fileTypes": [],
+                  "password": false,
+                  "name": "template",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true,
+                  "value": "What is {input} in {it}"
+                },
+                "template_format": {
+                  "type": "str",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": false,
+                  "multiline": false,
+                  "value": "f-string",
+                  "fileTypes": [],
+                  "password": false,
+                  "name": "template_format",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true
+                },
+                "validate_template": {
+                  "type": "bool",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": false,
+                  "multiline": false,
+                  "value": false,
+                  "fileTypes": [],
+                  "password": false,
+                  "name": "validate_template",
+                  "advanced": false,
+                  "dynamic": true,
+                  "info": "",
+                  "title_case": true
+                },
+                "_type": "PromptTemplate",
+                "input": {
+                  "type": "str",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": true,
+                  "value": "",
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "input",
+                  "display_name": "input",
+                  "advanced": false,
+                  "input_types": [
+                    "Document",
+                    "BaseOutputParser"
+                  ],
+                  "dynamic": false,
+                  "info": "",
+                  "title_case": true
+                },
+                "it": {
+                  "type": "str",
+                  "required": false,
+                  "placeholder": "",
+                  "list": false,
+                  "show": true,
+                  "multiline": true,
+                  "value": "",
+                  "fileTypes": [],
+                  "file_path": "",
+                  "password": false,
+                  "name": "it",
+                  "display_name": "it",
+                  "advanced": false,
+                  "input_types": [
+                    "Document",
+                    "BaseOutputParser"
+                  ],
+                  "dynamic": false,
+                  "info": "",
+                  "title_case": true
+                }
+              },
+              "description": "Prompt template for a language model.",
+              "icon": null,
+              "base_classes": [
+                "PromptTemplate",
+                "StringPromptTemplate",
+                "BasePromptTemplate"
+              ],
+              "name": "",
+              "display_name": "PromptTemplate",
+              "documentation": "https://python.langchain.com/docs/modules/model_io/prompts/prompt_templates/",
+              "custom_fields": {
+                "": [
+                  "input",
+                  "it"
+                ]
+              },
+              "output_types": [],
+              "full_path": null,
+              "field_formatters": {},
+              "beta": false,
+              "error": null
+            },
+            "id": "PromptTemplate-epqSA",
+            "description": "Prompt template for a language model.",
+            "display_name": "PromptTemplate"
+          },
+          "selected": false,
+          "width": 384,
+          "height": 468,
+          "positionAbsolute": {
+            "x": -1136.727965051119,
+            "y": 741.8122126461245
+          },
+          "dragging": false
+        }
+      ],
+      "edges": [
+        {
+          "source": "Data-MwtGd",
+          "sourceHandle": "{œbaseClassesœ:[œBaseLanguageModelœ,œBaseLanguageModelœ,œBaseLLMœ],œdataTypeœ:œDataœ,œidœ:œData-MwtGdœ}",
+          "target": "LLMChain-PqBti",
+          "targetHandle": "{œfieldNameœ:œllmœ,œidœ:œLLMChain-PqBtiœ,œinputTypesœ:null,œtypeœ:œBaseLanguageModelœ}",
+          "data": {
+            "targetHandle": {
+              "fieldName": "llm",
+              "id": "LLMChain-PqBti",
+              "inputTypes": null,
+              "type": "BaseLanguageModel"
+            },
+            "sourceHandle": {
+              "baseClasses": [
+                "BaseLanguageModel",
+                "BaseLanguageModel",
+                "BaseLLM"
+              ],
+              "dataType": "Data",
+              "id": "Data-MwtGd"
+            }
+          },
+          "style": {
+            "stroke": "#555"
+          },
+          "className": "stroke-gray-900  stroke-connection",
+          "animated": false,
+          "id": "reactflow__edge-Data-MwtGd{œbaseClassesœ:[œBaseLanguageModelœ,œBaseLanguageModelœ,œBaseLLMœ],œdataTypeœ:œDataœ,œidœ:œData-MwtGdœ}-LLMChain-PqBti{œfieldNameœ:œllmœ,œidœ:œLLMChain-PqBtiœ,œinputTypesœ:null,œtypeœ:œBaseLanguageModelœ}"
+        },
+        {
+          "source": "PromptTemplate-epqSA",
+          "sourceHandle": "{œbaseClassesœ:[œPromptTemplateœ,œStringPromptTemplateœ,œBasePromptTemplateœ],œdataTypeœ:œPromptTemplateœ,œidœ:œPromptTemplate-epqSAœ}",
+          "target": "LLMChain-PqBti",
+          "targetHandle": "{œfieldNameœ:œpromptœ,œidœ:œLLMChain-PqBtiœ,œinputTypesœ:null,œtypeœ:œBasePromptTemplateœ}",
+          "data": {
+            "targetHandle": {
+              "fieldName": "prompt",
+              "id": "LLMChain-PqBti",
+              "inputTypes": null,
+              "type": "BasePromptTemplate"
+            },
+            "sourceHandle": {
+              "baseClasses": [
+                "PromptTemplate",
+                "StringPromptTemplate",
+                "BasePromptTemplate"
+              ],
+              "dataType": "PromptTemplate",
+              "id": "PromptTemplate-epqSA"
+            }
+          },
+          "style": {
+            "stroke": "#555"
+          },
+          "className": "stroke-gray-900  stroke-connection",
+          "animated": false,
+          "id": "reactflow__edge-PromptTemplate-epqSA{œbaseClassesœ:[œPromptTemplateœ,œStringPromptTemplateœ,œBasePromptTemplateœ],œdataTypeœ:œPromptTemplateœ,œidœ:œPromptTemplate-epqSAœ}-LLMChain-PqBti{œfieldNameœ:œpromptœ,œidœ:œLLMChain-PqBtiœ,œinputTypesœ:null,œtypeœ:œBasePromptTemplateœ}"
+        }
+      ],
+      "viewport": {
+        "x": 908.0352929657195,
+        "y": -344.85980916796547,
+        "zoom": 0.500000019516321
+      }
+    },
+    "is_component": false,
+    "updated_at": "2024-05-08T08:46:13.077028",
+    "folder": null,
+    "id": "99ffc680-888f-4b2c-aea3-731670ed2b52",
+    "user_id": "d60b7bb5-4a7f-4666-ba0a-4715af998584"
+  }
+}

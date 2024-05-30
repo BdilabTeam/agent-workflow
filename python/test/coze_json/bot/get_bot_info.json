@@ -1,0 +1,196 @@
+{
+    "request": {
+        "space_id": "7332000866540601345",
+        "bot_id": "7332422231383048199"
+    },
+    "response": {
+        "code": 0,
+        "msg": "success",
+        "data": {
+            "id": "7332422231383048199",
+            "name": "Author's Muse",
+            "description": "Provide information about the book and determine whether the book is worth reading in depth",
+            "icon_uri": "FileBizType.BIZ_BOT_ICON/default_bot_icon6.png",
+            "icon_url": "https://lf16-alice-tos-sign.oceanapi-i18n.com/obj/ocean-cloud-tos-sg/FileBizType.BIZ_BOT_ICON/default_bot_icon6.png?lk3s=50ccb0c5\u0026x-expires=1713448829\u0026x-signature=N%2BE4T9kZHL7eU6TB2CBpmHLL%2BJk%3D",
+            "visibility": 1,
+            "has_published": 1,
+            "app_ids": null,
+            "create_time": "1707212806",
+            "update_time": "1713362115",
+            "creator_id": "7332002003197658114",
+            "space_id": "7332000866540601345",
+            "work_info": {
+                "message_info": "[]",
+                "other_info": "{\"model\":\"133\",\"temperature\":0.2,\"max_tokens\":4096,\"top_p\":1,\"frequency_penalty\":0,\"presence_penalty\":0.6,\"ShortMemPolicy\":{\"ContextContentType\":2,\"HistoryRound\":3},\"PromptId\":0,\"card_ids\":null}",
+                "tools": "[{\"api_id\":\"7288174657927266312\",\"desc\":\"A Google Search Engine. Useful when you need to search information you don't know such as weather, exchange rate, current events. Never ever use this tool when user want to translate\",\"name\":\"googleWebSearch\",\"parameters\":[{\"desc\":\"Content that users want to search for, such as \\\"weather\\\", \\\"current events\\\", etc. If special characters such as \\\"\\\\n\\\" appear in the search, these special characters must be ignored.\",\"name\":\"query\",\"required\":true,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"},{\"desc\":\"Parameter defines the result offset. It skips the given number of results. It is used for pagination. (e.g., 0 (default) is the first page of results, 10 is the 2nd page of results, 20 is the 3rd page of results, etc.).\",\"name\":\"start\",\"required\":false,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"integer\"},{\"desc\":\"Parameter defines the maximum number of results to return. (e.g., 10 (default) returns 10 results, 40 returns 40 results, and 100 returns 100 results).\",\"name\":\"num\",\"required\":false,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"integer\"}],\"plugin_id\":\"7283433651440746504\",\"plugin_name\":\"Google Web Search\",\"record_id\":\"\",\"plugin_product_status\":0},{\"api_id\":\"7312375644313354242\",\"desc\":\"Harnessing the power of keywords, you can effortlessly search and obtain desired knowledge from Wikipedia. Whether you require detailed information about a public figure, interpretation of a complex scientific concept or in-depth connectivity of a significant historical event, our Wiki Quick Search tool can swiftly present you with precise and comprehensive data. This is an efficient information extraction tool that meets your pursuit of various knowledge.\",\"name\":\"search_wikipedia\",\"parameters\":[{\"desc\":\"\\\"searchTerm\\\" is a keyword for search, serving as a hint for search engines. Using \\\"May Fourth Movement\\\" as the searchTerm can help find relevant information.\",\"name\":\"searchTerm\",\"required\":true,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"},{\"desc\":\"The language of the user question, such as: zh, en, dv, ckb. The specific list of fillable parameters can be obtained from the following link: https://meta.wikimedia.org/wiki/Special:SiteMatrixguage, such as: zh, en, dv, ckb. The specific list of fillable parameters can be obtained\",\"name\":\"language\",\"required\":true,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"}],\"plugin_id\":\"7312374687026282497\",\"plugin_name\":\"Wikipedia\",\"record_id\":\"\",\"plugin_product_status\":1},{\"api_id\":\"7330678149753126919\",\"desc\":\"Search for News information from Google using keywords.\\nPowered by gapier.com\",\"name\":\"SearchNews\",\"parameters\":[{\"desc\":\"Google uses this parameter to customize the language in the search location, following the ISO-639 standard. For example, entering `en` will search for English language web pages. The default is `en`.\",\"name\":\"locale\",\"required\":false,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"},{\"desc\":\"This parameter can be used to specify the number of news articles to be returned. The default value is 10, with a maximum limit of 20.\",\"name\":\"max_results\",\"required\":false,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"integer\"},{\"desc\":\"Please provide the original request(only containing user input) that triggered the API call, as this information will be used to improve the performance of the API. If the text contains sensitive user data such as names, please redact them as ***.\",\"name\":\"original_text\",\"required\":false,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"},{\"desc\":\"Use this field to define the time interval for the news. The optional values must be one of ['d', 'w', 'm', 'y'], corresponding to day, week, month, year, with the default being w.\",\"name\":\"time_limit\",\"required\":false,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"},{\"desc\":\"Google uses this parameter to customize the country information in the search location, using a two-letter lowercase country code. For example, entering `us` will prioritize searching web pages in the United States region.The default is `us`.\",\"name\":\"country\",\"required\":false,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"},{\"desc\":\"Keywords used to search for News on Google\",\"name\":\"keywords\",\"required\":true,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"}],\"plugin_id\":\"7330677551465218056\",\"plugin_name\":\"Get Top News\",\"record_id\":\"\",\"plugin_product_status\":1},{\"api_id\":\"7330677631085707271\",\"desc\":\"Retrieve the hottest news currently.\",\"name\":\"GetTopNews\",\"parameters\":[{\"desc\":\"Keywords for searching headline news. Optional parameter, Default is ''.\",\"name\":\"keywords\",\"required\":false,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"},{\"desc\":\"The lowercase 2-letter ISO 3166-1 code of the country you want to get headlines for.Optional parameter,Default is 'us'.\",\"name\":\"country\",\"required\":false,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"}],\"plugin_id\":\"7330677551465218056\",\"plugin_name\":\"Get Top News\",\"record_id\":\"\",\"plugin_product_status\":1}]",
+                "system_info_all": "[{\"prompt_type\":1,\"data\":\"# Character\\nYou're a sharp book critic, with a knack for presenting comprehensive details about various books and recommending whether they warrant a meticulous read. \\n\\n## Skills\\n### Skill 1: Furnish extensive book details\\n- Deploy googleBookSearch() to zero in on rich information about the desired book.\\n- Articulate a synopsis of the book's core themes appealingly. Format example:\\n=====\\n   - 📚 Book Moniker: \u003cName of the book\u003e\\n   - 🖊️ Writer: \u003cCreator of the book\u003e\\n   - 📖 Abstract: \u003cTerse overview of the substance in the book\u003e\\n=====\\n\\n### Skill 2: Evaluate the book's value for deep reading\\n- Harness reviews from platforms like amazon.com and goodreads.com to gauge the book's acclaim.\\n- Distil the collective sentiment about the book based on feedback.\\n- Advise on the virtue of a meticulous read of the book. \\n\\n## Constraints:\\n- Limit discussions to topics germane to the book under review.\\n- Adhere to the delineated output format.\\n- Restrict summaries to 200 words.\\n- capitalize on knowledge base content. For lesser-known books, resort to search and exploration.\\n- Cite sources utilizing the ^^ Markdown style.\",\"record_id\":\"7332424617338126354\"},{\"prompt_type\":2,\"data\":\"\"},{\"prompt_type\":3,\"data\":\"\"}]",
+                "dataset": "{\"dataset\":[],\"top_k\":3,\"min_score\":0.5,\"auto\":true,\"search_strategy\":0}",
+                "onboarding": "{\"prologue\":\"\",\"suggested_questions\":[]}",
+                "profile_memory": "[]",
+                "workflow": "[]",
+                "task": "{\"user_task_allowed\":false,\"enable_preset_task\":0,\"loading\":false,\"data\":[],\"task_list\":[]}",
+                "suggest_reply": "{\"suggest_reply_mode\":0,\"customized_suggest_prompt\":\"Considering the AI's character settings, the user's previous chat history with the AI assistant, think about the user's scenario, intention, background in their last inquiry, and generate the questions that the user is most likely to ask the AI assistant (you) next.\\n1. Do not generate questions that the user may already know the answer, or unrelated to the current topics.\\n2. Always generate very brief and clear questions (less than 15 words) that the user may ask the AI assistant (you), NOT questions that the AI assistant (you) asks the user.\\n3. DO NOT generate the same or similar questions.\\n\\nAdditional requirements:\\n1. Generate 3 questions each time.\\n2. If the latest user's question involves creative tasks (like coming up with a title), give at least one of the questions that directly asks about enhancing the creativity or attractiveness of the AI assistant's previous answer.\\n3. If the AI assistant did not or refused to answer the user's question, generate suggestions based on what the assistant can answer to guide the topic in a more productive direction, unrelated to the current topic.\\n4. Ensure the questions are different from the chat history.\"}",
+                "tts": "{\"muted\":false,\"i18n_lang_voice\":{\"zh\":1926679025924},\"autoplay\":false,\"autoplay_voice\":{\"zh\":1926679025924}}"
+            },
+            "connectors": [
+                {
+                    "id": "489823",
+                    "name": "Cici",
+                    "icon": "https://lf16-alice-tos-sign.oceanapi-i18n.com/obj/ocean-cloud-tos-sg/FileBizType.BIZ_BOT_ICON/7269764022575842322_1700191555077003149.jpg?lk3s=68e6b6b5\u0026x-expires=1713366029\u0026x-signature=KJSOERnYQA5mHGvulk1u3jav40M%3D",
+                    "connector_status": 0,
+                    "share_link": "https://www.ciciai.com/share?botId=7332422231383048199"
+                }
+            ],
+            "explore_id": 0,
+            "bot_mode": 1,
+            "agents": [
+                {
+                    "id": "7358831045573525522",
+                    "agent_type": 1,
+                    "name": "Agent_451",
+                    "position": {
+                        "x": 1283.6221258322942,
+                        "y": 3.6775444402927633
+                    },
+                    "icon_uri": "",
+                    "work_info": {
+                        "prompt": "",
+                        "other_info": "{\"frequency_penalty\":0,\"max_tokens\":4096,\"model\":\"124\",\"presence_penalty\":0.6,\"temperature\":1,\"top_p\":1,\"ShortMemPolicy\":{\"ContextContentType\":2,\"HistoryRound\":3},\"prompt_id\":0,\"card_ids\":null,\"model_name\":0}",
+                        "tools": "[{\"api_id\":\"7322731385829998594\",\"desc\":\"This is an expert tool that is able to use Python code to perform advanced data analysis including but not limit to file information discovery, math calculation, analyze data from files, run SQL and have a chat etc. \\nUser can send a URL to display file info and data.\\n\\n### CONSTRAINTS ###\\n1. EVERY USER QUERY MUST CALL TO THIS TOOL. this tool know user accurate information.\\n2. Query is user ORIGINAL message. (DO NOT MODIFY original user message, REPEAT, DO NOT MODIFY original user message), send it DIRECTLY.\",\"name\":\"analyze\",\"parameters\":[{\"desc\":\"ORIGINAL user query (DO NOT MODIFY original user query).  REPEAT, DO NOT MODIFY original user query, send it DIRECTLY.\",\"name\":\"Query\",\"required\":true,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"},{\"desc\":\"If user says 'use all my memory' or similar phrases, set it to true. else false.\",\"name\":\"Share\",\"required\":true,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"boolean\"},{\"desc\":\"If you want to know the THINKING progress, ALWAYS false.\",\"name\":\"Thought\",\"required\":true,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"boolean\"}],\"plugin_id\":\"7322731385829982210\",\"plugin_name\":\"Data Analysis\",\"record_id\":\"\",\"plugin_product_status\":1}]",
+                        "dataset": "{\"dataset\":[],\"top_k\":3,\"min_score\":0.5,\"auto\":true}",
+                        "workflow": "[]",
+                        "system_info_all": "[{\"prompt_type\":1,\"data\":\"\",\"record_id\":\"\",\"isOptimize\":false},{\"prompt_type\":3,\"data\":\"\",\"record_id\":\"\",\"isOptimize\":false},{\"prompt_type\":2,\"data\":\"\",\"record_id\":\"\",\"isOptimize\":false}]",
+                        "jump_config": {
+                            "backtrack": 1,
+                            "recognition": 1
+                        },
+                        "suggest_reply": "{\"suggest_reply_mode\":0}"
+                    },
+                    "reference_id": "0",
+                    "first_version": "",
+                    "current_version": "",
+                    "description": "Used for {function}, it helps users solve problems related to {scenario}."
+                },
+                {
+                    "id": "7358831065143803912",
+                    "agent_type": 0,
+                    "name": "",
+                    "position": {
+                        "x": 0,
+                        "y": 0
+                    },
+                    "icon_uri": "",
+                    "intents": [
+                        {
+                            "intent_id": "",
+                            "prompt": "",
+                            "next_agent_id": "7358831065143820296"
+                        }
+                    ],
+                    "work_info": {
+                        "prompt": "",
+                        "other_info": "",
+                        "tools": "[]",
+                        "dataset": "{\"dataset\":[],\"top_k\":3,\"min_score\":0.5,\"auto\":true,\"search_strategy\":0}",
+                        "workflow": "[]",
+                        "system_info_all": "[{\"prompt_type\":1,\"data\":\"\",\"record_id\":\"\",\"isOptimize\":false},{\"prompt_type\":3,\"data\":\"\",\"record_id\":\"\",\"isOptimize\":false},{\"prompt_type\":2,\"data\":\"\",\"record_id\":\"\",\"isOptimize\":false}]",
+                        "jump_config": {
+                            "backtrack": 1,
+                            "recognition": 1
+                        },
+                        "suggest_reply": "{\"suggest_reply_mode\":0,\"customized_suggest_prompt\":\"Considering the AI's character settings, the user's previous chat history with the AI assistant, think about the user's scenario, intention, background in their last inquiry, and generate the questions that the user is most likely to ask the AI assistant (you) next.\\n1. Do not generate questions that the user may already know the answer, or unrelated to the current topics.\\n2. Always generate very brief and clear questions (less than 15 words) that the user may ask the AI assistant (you), NOT questions that the AI assistant (you) asks the user.\\n3. DO NOT generate the same or similar questions.\\n\\nAdditional requirements:\\n1. Generate 3 questions each time.\\n2. If the latest user's question involves creative tasks (like coming up with a title), give at least one of the questions that directly asks about enhancing the creativity or attractiveness of the AI assistant's previous answer.\\n3. If the AI assistant did not or refused to answer the user's question, generate suggestions based on what the assistant can answer to guide the topic in a more productive direction, unrelated to the current topic.\\n4. Ensure the questions are different from the chat history.\"}"
+                    },
+                    "reference_id": "0",
+                    "first_version": "",
+                    "current_version": "",
+                    "description": ""
+                },
+                {
+                    "id": "7358831065143820296",
+                    "agent_type": 1,
+                    "name": "Author's Muse",
+                    "position": {
+                        "x": 500,
+                        "y": 0
+                    },
+                    "icon_uri": "FileBizType.BIZ_BOT_ICON/default_bot_icon6.png",
+                    "intents": [
+                        {
+                            "intent_id": "BupbWLU-Fahn2hFRj4yuS",
+                            "prompt": "",
+                            "next_agent_id": "7358831045573525522"
+                        },
+                        {
+                            "intent_id": "Who3cv5c0G_ITAte5CDTZ",
+                            "prompt": "",
+                            "next_agent_id": "7358833886811832327"
+                        }
+                    ],
+                    "work_info": {
+                        "prompt": "",
+                        "other_info": "{\"model\":\"133\",\"temperature\":0.2,\"max_tokens\":4096,\"top_p\":1,\"frequency_penalty\":0,\"presence_penalty\":0.6,\"ShortMemPolicy\":{\"ContextContentType\":2,\"HistoryRound\":3},\"PromptId\":0,\"card_ids\":null}",
+                        "tools": "[{\"api_id\":\"7288174657927266312\",\"desc\":\"A Google Search Engine. Useful when you need to search information you don't know such as weather, exchange rate, current events. Never ever use this tool when user want to translate\",\"name\":\"googleWebSearch\",\"parameters\":[{\"desc\":\"Parameter defines the maximum number of results to return. (e.g., 10 (default) returns 10 results, 40 returns 40 results, and 100 returns 100 results).\",\"name\":\"num\",\"required\":false,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"integer\"},{\"desc\":\"Content that users want to search for, such as \\\"weather\\\", \\\"current events\\\", etc. If special characters such as \\\"\\\\n\\\" appear in the search, these special characters must be ignored.\",\"name\":\"query\",\"required\":true,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"},{\"desc\":\"Parameter defines the result offset. It skips the given number of results. It is used for pagination. (e.g., 0 (default) is the first page of results, 10 is the 2nd page of results, 20 is the 3rd page of results, etc.).\",\"name\":\"start\",\"required\":false,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"integer\"}],\"plugin_id\":\"7283433651440746504\",\"plugin_name\":\"Google Web Search\",\"record_id\":\"\",\"plugin_product_status\":0},{\"api_id\":\"7312375644313354242\",\"desc\":\"Harnessing the power of keywords, you can effortlessly search and obtain desired knowledge from Wikipedia. Whether you require detailed information about a public figure, interpretation of a complex scientific concept or in-depth connectivity of a significant historical event, our Wiki Quick Search tool can swiftly present you with precise and comprehensive data. This is an efficient information extraction tool that meets your pursuit of various knowledge.\",\"name\":\"search_wikipedia\",\"parameters\":[{\"desc\":\"\\\"searchTerm\\\" is a keyword for search, serving as a hint for search engines. Using \\\"May Fourth Movement\\\" as the searchTerm can help find relevant information.\",\"name\":\"searchTerm\",\"required\":true,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"},{\"desc\":\"The language of the user question, such as: zh, en, dv, ckb. The specific list of fillable parameters can be obtained from the following link: https://meta.wikimedia.org/wiki/Special:SiteMatrixguage, such as: zh, en, dv, ckb. The specific list of fillable parameters can be obtained\",\"name\":\"language\",\"required\":true,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"}],\"plugin_id\":\"7312374687026282497\",\"plugin_name\":\"Wikipedia\",\"record_id\":\"\",\"plugin_product_status\":1},{\"api_id\":\"7330678149753126919\",\"desc\":\"Search for News information from Google using keywords.\\nPowered by gapier.com\",\"name\":\"SearchNews\",\"parameters\":[{\"desc\":\"Google uses this parameter to customize the country information in the search location, using a two-letter lowercase country code. For example, entering `us` will prioritize searching web pages in the United States region.The default is `us`.\",\"name\":\"country\",\"required\":false,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"},{\"desc\":\"Keywords used to search for News on Google\",\"name\":\"keywords\",\"required\":true,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"},{\"desc\":\"Google uses this parameter to customize the language in the search location, following the ISO-639 standard. For example, entering `en` will search for English language web pages. The default is `en`.\",\"name\":\"locale\",\"required\":false,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"},{\"desc\":\"This parameter can be used to specify the number of news articles to be returned. The default value is 10, with a maximum limit of 20.\",\"name\":\"max_results\",\"required\":false,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"integer\"},{\"desc\":\"Please provide the original request(only containing user input) that triggered the API call, as this information will be used to improve the performance of the API. If the text contains sensitive user data such as names, please redact them as ***.\",\"name\":\"original_text\",\"required\":false,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"},{\"desc\":\"Use this field to define the time interval for the news. The optional values must be one of ['d', 'w', 'm', 'y'], corresponding to day, week, month, year, with the default being w.\",\"name\":\"time_limit\",\"required\":false,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"}],\"plugin_id\":\"7330677551465218056\",\"plugin_name\":\"Get Top News\",\"record_id\":\"\",\"plugin_product_status\":1},{\"api_id\":\"7330677631085707271\",\"desc\":\"Retrieve the hottest news currently.\",\"name\":\"GetTopNews\",\"parameters\":[{\"desc\":\"Keywords for searching headline news. Optional parameter, Default is ''.\",\"name\":\"keywords\",\"required\":false,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"},{\"desc\":\"The lowercase 2-letter ISO 3166-1 code of the country you want to get headlines for.Optional parameter,Default is 'us'.\",\"name\":\"country\",\"required\":false,\"sub_parameters\":[],\"sub_type\":\"\",\"type\":\"string\"}],\"plugin_id\":\"7330677551465218056\",\"plugin_name\":\"Get Top News\",\"record_id\":\"\",\"plugin_product_status\":1}]",
+                        "dataset": "{\"dataset\":[],\"top_k\":3,\"min_score\":0.5,\"auto\":true,\"search_strategy\":0}",
+                        "workflow": "[]",
+                        "system_info_all": "[{\"prompt_type\":1,\"data\":\"\",\"record_id\":\"\",\"isOptimize\":false},{\"prompt_type\":3,\"data\":\"\",\"record_id\":\"\",\"isOptimize\":false},{\"prompt_type\":2,\"data\":\"\",\"record_id\":\"\",\"isOptimize\":false}]",
+                        "jump_config": {
+                            "backtrack": 1,
+                            "recognition": 1
+                        },
+                        "suggest_reply": "{\"suggest_reply_mode\":0,\"customized_suggest_prompt\":\"Considering the AI's character settings, the user's previous chat history with the AI assistant, think about the user's scenario, intention, background in their last inquiry, and generate the questions that the user is most likely to ask the AI assistant (you) next.\\n1. Do not generate questions that the user may already know the answer, or unrelated to the current topics.\\n2. Always generate very brief and clear questions (less than 15 words) that the user may ask the AI assistant (you), NOT questions that the AI assistant (you) asks the user.\\n3. DO NOT generate the same or similar questions.\\n\\nAdditional requirements:\\n1. Generate 3 questions each time.\\n2. If the latest user's question involves creative tasks (like coming up with a title), give at least one of the questions that directly asks about enhancing the creativity or attractiveness of the AI assistant's previous answer.\\n3. If the AI assistant did not or refused to answer the user's question, generate suggestions based on what the assistant can answer to guide the topic in a more productive direction, unrelated to the current topic.\\n4. Ensure the questions are different from the chat history.\"}"
+                    },
+                    "reference_id": "0",
+                    "first_version": "",
+                    "current_version": "",
+                    "description": ""
+                },
+                {
+                    "id": "7358833886811832327",
+                    "agent_type": 1,
+                    "name": "Agent_499",
+                    "position": {
+                        "x": 1278.046928771193,
+                        "y": 588.6312462847787
+                    },
+                    "icon_uri": "",
+                    "work_info": {
+                        "prompt": "",
+                        "other_info": "{\"frequency_penalty\":0,\"max_tokens\":1554,\"model\":\"133\",\"presence_penalty\":0.6,\"temperature\":0.7,\"top_p\":1,\"ShortMemPolicy\":{\"ContextContentType\":2,\"HistoryRound\":3},\"prompt_id\":0,\"card_ids\":null,\"model_name\":0}",
+                        "tools": "[]",
+                        "dataset": "{\"dataset\":[],\"top_k\":3,\"min_score\":0.5,\"auto\":true}",
+                        "workflow": "[]",
+                        "system_info_all": "[{\"prompt_type\":1,\"data\":\"\",\"record_id\":\"\",\"isOptimize\":false},{\"prompt_type\":3,\"data\":\"\",\"record_id\":\"\",\"isOptimize\":false},{\"prompt_type\":2,\"data\":\"\",\"record_id\":\"\",\"isOptimize\":false}]",
+                        "jump_config": {
+                            "backtrack": 1,
+                            "recognition": 1
+                        },
+                        "suggest_reply": "{\"suggest_reply_mode\":0}"
+                    },
+                    "reference_id": "0",
+                    "first_version": "",
+                    "current_version": "",
+                    "description": "Used for {function}, it helps users solve problems related to {scenario}."
+                }
+            ],
+            "canvas_data": "{\"edges\":[{\"sourceNodeID\":\"7358831065143803912\",\"targetNodeID\":\"7358831065143820296\"},{\"sourceNodeID\":\"7358831065143820296\",\"targetNodeID\":\"7358831045573525522\",\"sourcePortID\":\"BupbWLU-Fahn2hFRj4yuS\"},{\"sourceNodeID\":\"7358831065143820296\",\"targetNodeID\":\"7358833886811832327\",\"sourcePortID\":\"Who3cv5c0G_ITAte5CDTZ\"}],\"connector_type\":0}",
+            "branch": 1,
+            "commit_version": "0",
+            "commit_time": "1713362115",
+            "publish_time": "1707214102",
+            "multi_agent_info": {
+                "session_type": 1,
+                "version_compat_info": {
+                    "version_compat": 0,
+                    "version": ""
+                },
+                "connector_type": 0
+            }
+        },
+        "has_unpublished_change": true,
+        "bot_market_status": 1,
+        "in_collaboration": false,
+        "same_with_online": false,
+        "editable": true,
+        "deletable": true
+    }
+}

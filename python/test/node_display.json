@@ -1,0 +1,105 @@
+{
+    // 非完整版数据结构，列表中的每一个元素代表一个节点运行状态
+    "all_nodes_data": [
+        {
+            "node_id": "StartID",
+            "node_type": "Start",
+            "node_name": "",
+            "node_status": "SUCCESS",
+            "error_info": "",
+            "input": "{\"input_key\": \"input_value\"}",
+            "output": "{\"output_key1\": \"Start node raw output\", \"output_key2\": \"Start node raw output\"}",
+            "node_exe_cost": "0.81s",
+            "raw_output": "Start node raw output",
+            "extra": "",
+            "token_and_cost": {
+                "input_tokens": "128 Tokens",
+                "input_cost": "$0.0",
+                "output_tokens": "73 Tokens",
+                "output_cost": "$0.0",
+                "total_tokens": "201 Tokens",
+                "total_cost": "$0.0"
+            }
+        },
+        {
+            "node_id": "ToolID",
+            "node_type": "Tool",
+            "node_name": "",
+            "node_status": "SUCCESS",
+            "error_info": "",
+            "input": "{\"input_key\": \"input_value\"}",
+            "output": "{\"output_key1\": \"Tool node raw output\", \"output_key2\": \"Tool node raw output\"}",
+            "node_exe_cost": "0.81s",
+            "raw_output": "Tool node raw output",
+            "extra": "",
+            "token_and_cost": {
+                "input_tokens": "128 Tokens",
+                "input_cost": "$0.0",
+                "output_tokens": "73 Tokens",
+                "output_cost": "$0.0",
+                "total_tokens": "201 Tokens",
+                "total_cost": "$0.0"
+            }
+        },
+        {
+            "node_id": "KnowledgeID",
+            "node_type": "Knowledge",
+            "node_name": "",
+            "node_status": "SUCCESS",
+            "error_info": "",
+            "input": "{\"input_key\": \"input_value\"}",
+            "output": "{\"output_key1\": \"Knowledge node raw output\", \"output_key2\": \"Knowledge node raw output\"}",
+            "node_exe_cost": "0.81s",
+            "raw_output": "Knowledge node raw output",
+            "extra": "",
+            "token_and_cost": {
+                "input_tokens": "128 Tokens",
+                "input_cost": "$0.0",
+                "output_tokens": "73 Tokens",
+                "output_cost": "$0.0",
+                "total_tokens": "201 Tokens",
+                "total_cost": "$0.0"
+            }
+        },
+        {
+            "node_id": "LLMID",
+            "node_type": "LLM",
+            "node_name": "",
+            "node_status": "SUCCESS",
+            "error_info": "",
+            "input": "{\"input_key\": \"input_value\"}",
+            "output": "{\"output_key1\": \"LLM node raw output\", \"output_key2\": \"LLM node raw output\"}",
+            "node_exe_cost": "0.81s",
+            "raw_output": "LLM node raw output",
+            "extra": "",
+            "token_and_cost": {
+                "input_tokens": "128 Tokens",
+                "input_cost": "$0.0",
+                "output_tokens": "73 Tokens",
+                "output_cost": "$0.0",
+                "total_tokens": "201 Tokens",
+                "total_cost": "$0.0"
+            }
+        },
+        {
+            "node_id": "EndID",
+            "node_type": "End",
+            "node_name": "",
+            "node_status": "SUCCESS",
+            "error_info": "",
+            "input": "{\"input_key\": \"input_value\"}",
+            "output": "{\"end_key1\": \"End node raw output\", \"end_key2\": \"End node raw output\"}",
+            "node_exe_cost": "0.81s",
+            "raw_output": "End node raw output",
+            "extra": "",
+            "token_and_cost": {
+                "input_tokens": "128 Tokens",
+                "input_cost": "$0.0",
+                "output_tokens": "73 Tokens",
+                "output_cost": "$0.0",
+                "total_tokens": "201 Tokens",
+                "total_cost": "$0.0"
+            }
+        }
+    ]
+}

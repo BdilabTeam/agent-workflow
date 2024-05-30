@@ -1,0 +1,643 @@
+{
+    "nodes": [
+        {
+            "id": "Start",
+            "type": "genericNode",
+            "position": {
+                "x": 1,
+                "y": 1
+            },
+            "data": {
+                "type": "Start",
+                "node": {
+                    "template": {
+                        "code": {
+                            "type": "code",
+                            "required": true,
+                            "placeholder": "",
+                            "list": false,
+                            "show": true,
+                            "multiline": true,
+                            "value": "from langflow import CustomComponent\nfrom langflow.field_typing import Data\nfrom typing import Dict, Union\nfrom langflow.custom_schemas.nodes import StartNode, StartNodeResponse, NodeData\n\nclass Start(CustomComponent):\n    id = \"1\"\n    display_name = \"开始\"\n    description = \"Start Node\"\n\n    def build_config(self):\n        return {\n            \"start_node_schema\": {\n                \"display_name\": \"输入节点schema\",\n                \"required\": False,\n                \"field_type\": \"dict\"\n            }\n        }\n\n    def build(\n        self,\n        start_node_schema: StartNode = {\"node_id\": \"1\"}\n    ) -> Union[dict, Dict]:\n        \n        start_node_data = {\n            \"node_id\": \"StartID\",\n            \"node_type\": \"Start\",\n            \"node_name\": \"\",\n            \"node_status\": \"SUCCESS\",\n            \"error_info\": \"\",\n            \"input\": \"{\\\"input_key\\\": \\\"input_value\\\"}\",\n            \"output\": \"{\\\"output_key1\\\": \\\"Start node raw output\\\", \\\"output_key2\\\": \\\"Start node raw output\\\"}\",\n            \"node_exe_cost\": \"0.81s\",\n            \"raw_output\": \"Start node raw output\",\n            \"extra\": \"\",\n            \"token_and_cost\": {\n                \"input_tokens\": \"128 Tokens\",\n                \"input_cost\": \"$0.0\",\n                \"output_tokens\": \"73 Tokens\",\n                \"output_cost\": \"$0.0\",\n                \"total_tokens\": \"201 Tokens\",\n                \"total_cost\": \"$0.0\"\n            }\n        }\n        \n        start_node_data = NodeData(**start_node_data)\n        start_node_response = StartNodeResponse(node_data=start_node_data)\n        return start_node_response.model_dump()",
+                            "fileTypes": [],
+                            "file_path": "",
+                            "password": false,
+                            "name": "code",
+                            "advanced": false,
+                            "dynamic": true,
+                            "info": "",
+                            "title_case": true
+                        },
+                        "start_node_schema": {
+                            "type": "dict",
+                            "required": false,
+                            "placeholder": "",
+                            "list": false,
+                            "show": true,
+                            "multiline": false,
+                            "value": {
+                                "flow_id": "",
+                                "node_id": "",
+                                "input_schema": {
+                                    "inputParameters": [
+                                        {
+                                            "name": "",
+                                            "input": {
+                                                "type": "",
+                                                "schema": null,
+                                                "value": {
+                                                    "type": "",
+                                                    "content": ""
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "name": "",
+                                            "input": {
+                                                "type": "",
+                                                "schema": null,
+                                                "value": {
+                                                    "type": "",
+                                                    "content": {
+                                                        "source_id": "",
+                                                        "name": ""
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "fileTypes": [],
+                            "file_path": "",
+                            "password": false,
+                            "name": "start_node_schema",
+                            "display_name": "输入节点schema",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "title_case": true
+                        },
+                        "_type": "CustomComponent"
+                    },
+                    "description": "Start Node",
+                    "base_classes": [
+                        "dict",
+                        "Dict"
+                    ],
+                    "display_name": "开始",
+                    "documentation": "",
+                    "custom_fields": {
+                        "start_node_schema": null
+                    },
+                    "output_types": [
+                        "dict",
+                        "Dict"
+                    ],
+                    "field_formatters": {},
+                    "beta": true
+                },
+                "id": "Start"
+            },
+            "selected": false,
+            "width": 1,
+            "height": 1
+        },
+        {
+            "id": "Tool",
+            "type": "genericNode",
+            "position": {
+                "x": 1,
+                "y": 1
+            },
+            "data": {
+                "type": "Tool",
+                "node": {
+                    "template": {
+                        "prenode_inputs": {
+                            "type": "Dict",
+                            "required": true,
+                            "placeholder": "",
+                            "list": true,
+                            "show": true,
+                            "multiline": false,
+                            "fileTypes": [],
+                            "file_path": "",
+                            "password": false,
+                            "name": "prenode_inputs",
+                            "display_name": "前置节点输入",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "title_case": true
+                        },
+                        "code": {
+                            "type": "code",
+                            "required": true,
+                            "placeholder": "",
+                            "list": false,
+                            "show": true,
+                            "multiline": true,
+                            "value": "from langflow import CustomComponent\nfrom typing import Union, List, Dict, Any\nfrom langflow.custom_schemas.nodes import ToolNode, ToolNodeResponse, NodeData\n\nclass Tool(CustomComponent):\n    id = \"5\"\n    display_name = \"工具\"\n    description = \"Tool Node\"\n\n    def build_config(self):\n        return {\n            \"prenode_inputs\": {\n                \"display_name\": \"前置节点输入\",\n            },\n            \n            \"tool_node_schema\": {\n                \"display_name\": \"工具节点schema\",\n                \"required\": False,\n                \"field_type\": \"dict\"\n            }\n        }\n\n    def build(\n        self, \n        prenode_inputs: List[Dict],\n        tool_node_schema: ToolNode = {\"node_id\": \"5\"}\n    ) -> Union[dict, Dict]:\n        \n        tool_node_data = {\n            \"node_id\": \"ToolID\",\n            \"node_type\": \"Tool\",\n            \"node_name\": \"\",\n            \"node_status\": \"SUCCESS\",\n            \"error_info\": \"\",\n            \"input\": \"{\\\"input_key\\\": \\\"input_value\\\"}\",\n            \"output\": \"{\\\"output_key1\\\": \\\"Tool node raw output\\\", \\\"output_key2\\\": \\\"Tool node raw output\\\"}\",\n            \"node_exe_cost\": \"0.81s\",\n            \"raw_output\": \"Tool node raw output\",\n            \"extra\": \"\",\n            \"token_and_cost\": {\n                \"input_tokens\": \"128 Tokens\",\n                \"input_cost\": \"$0.0\",\n                \"output_tokens\": \"73 Tokens\",\n                \"output_cost\": \"$0.0\",\n                \"total_tokens\": \"201 Tokens\",\n                \"total_cost\": \"$0.0\"\n            }\n        }\n        \n        tool_node_data = NodeData(**tool_node_data)\n        tool_node_response = ToolNodeResponse(node_data=tool_node_data)\n        # return prenode_inputs.append(tool_node_response.model_dump())\n        \n        next_response = {\"prenode_inputs\": prenode_inputs}\n        next_response.update(tool_node_response.model_dump())\n        return next_response\n",
+                            "fileTypes": [],
+                            "file_path": "",
+                            "password": false,
+                            "name": "code",
+                            "advanced": false,
+                            "dynamic": true,
+                            "info": "",
+                            "title_case": true
+                        },
+                        "tool_node_schema": {
+                            "type": "dict",
+                            "required": false,
+                            "placeholder": "",
+                            "list": false,
+                            "show": true,
+                            "multiline": false,
+                            "value": {
+                                "flow_id": "",
+                                "node_id": "",
+                                "tool_id": "",
+                                "input_schema": {
+                                    "inputParameters": [
+                                        {
+                                            "name": "",
+                                            "input": {
+                                                "type": "",
+                                                "schema": null,
+                                                "value": {
+                                                    "type": "",
+                                                    "content": ""
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "name": "",
+                                            "input": {
+                                                "type": "",
+                                                "schema": null,
+                                                "value": {
+                                                    "type": "",
+                                                    "content": {
+                                                        "source_id": "",
+                                                        "name": ""
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "fileTypes": [],
+                            "file_path": "",
+                            "password": false,
+                            "name": "tool_node_schema",
+                            "display_name": "工具节点schema",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "title_case": true
+                        },
+                        "_type": "CustomComponent"
+                    },
+                    "description": "Tool Node",
+                    "base_classes": [
+                        "dict",
+                        "Dict"
+                    ],
+                    "display_name": "工具",
+                    "documentation": "",
+                    "custom_fields": {
+                        "prenode_inputs": null,
+                        "tool_node_schema": null
+                    },
+                    "output_types": [
+                        "dict",
+                        "Dict"
+                    ],
+                    "field_formatters": {},
+                    "beta": true
+                },
+                "id": "Tool"
+            },
+            "selected": false,
+            "width": 1,
+            "height": 1,
+            "positionAbsolute": {
+                "x": 1,
+                "y": 1
+            },
+            "dragging": false
+        },
+        {
+            "id": "LLM",
+            "type": "genericNode",
+            "position": {
+                "x": 1,
+                "y": 1
+            },
+            "data": {
+                "type": "LLM",
+                "node": {
+                    "template": {
+                        "prenode_inputs": {
+                            "type": "Dict",
+                            "required": true,
+                            "placeholder": "",
+                            "list": true,
+                            "show": true,
+                            "multiline": false,
+                            "fileTypes": [],
+                            "file_path": "",
+                            "password": false,
+                            "name": "prenode_inputs",
+                            "display_name": "前置节点输入",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "title_case": true
+                        },
+                        "code": {
+                            "type": "code",
+                            "required": true,
+                            "placeholder": "",
+                            "list": false,
+                            "show": true,
+                            "multiline": true,
+                            "value": "from langflow import CustomComponent\nfrom langflow.field_typing import Data, RangeSpec, Object, Prompt\nfrom langchain_core.prompts import ChatPromptTemplate\nfrom langchain_openai import ChatOpenAI\nimport re\nfrom typing import List, Dict, Union\nfrom langflow.custom_schemas.nodes import LLMNode, LLMNodeResponse, NodeData\n\nclass LLM(CustomComponent):\n    id = \"3\"\n    display_name = \"LLM\"\n    description = \"LLM Node\"\n\n    def build_config(self):\n        return {\n            \"prenode_inputs\": {\n                \"display_name\": \"前置节点输入\",\n            },\n            \"llm_node_schema\": {\n                \"display_name\": \"LLM节点shchema\",\n                \"advanced\": False,\n                \"required\": False,\n                \"field_type\": \"dict\"\n            },\n        }\n\n    def build(\n        self,\n        prenode_inputs: List[Dict],\n        llm_node_schema: LLMNode = {\"node_id\": \"3\"}\n    ) -> Union[dict, Dict]:\n        # prompt_template = ChatPromptTemplate.from_messages([(\"user\", prompt)])\n        # model = ChatOpenAI(\n        #     model=model_name,\n        #     temperature=temperature,\n        #     base_url=\"https://api.chatanywhere.com.cn\",\n        #     api_key=\"sk-Ms5F2wAkilaaZYo0HpumWR7qBLkOIsXflNQeAHSrNtmUYjzk\",\n        # )\n        # chain = prompt_template | model\n        # pattern = r'\\{(.*?)\\}'\n        # match = re.search(pattern, prompt)\n        # matched_keys = []\n        # placeholder = {}\n        # if match:\n        #     matched_keys = match.groups()\n        #     for k in matched_keys:\n        #         # 判断list or dict\n        #         placeholder.update({k: input.get(k)})\n        # return {\"output\": chain.invoke(prompt.format(**placeholder)).content}\n        \n         # TODO输出类型\n         \n        llm_node_data = {\n            \"node_id\": \"LLMID\",\n            \"node_type\": \"LLM\",\n            \"node_name\": \"\",\n            \"node_status\": \"SUCCESS\",\n            \"error_info\": \"\",\n            \"input\": \"{\\\"input_key\\\": \\\"input_value\\\"}\",\n            \"output\": \"{\\\"output_key1\\\": \\\"LLM node raw output\\\", \\\"output_key2\\\": \\\"LLM node raw output\\\"}\",\n            \"node_exe_cost\": \"0.81s\",\n            \"raw_output\": \"LLM node raw output\",\n            \"extra\": \"\",\n            \"token_and_cost\": {\n                \"input_tokens\": \"128 Tokens\",\n                \"input_cost\": \"$0.0\",\n                \"output_tokens\": \"73 Tokens\",\n                \"output_cost\": \"$0.0\",\n                \"total_tokens\": \"201 Tokens\",\n                \"total_cost\": \"$0.0\"\n            }\n        }\n        \n        llm_node_data = NodeData(**llm_node_data)\n        llm_node_response = LLMNodeResponse(node_data=llm_node_data)\n        # return prenode_inputs.append(llm_node_response.model_dump())\n        \n        next_response = {\"prenode_inputs\": prenode_inputs}\n        next_response.update(llm_node_response.model_dump())\n        return next_response",
+                            "fileTypes": [],
+                            "file_path": "",
+                            "password": false,
+                            "name": "code",
+                            "advanced": false,
+                            "dynamic": true,
+                            "info": "",
+                            "title_case": true
+                        },
+                        "llm_node_schema": {
+                            "type": "dict",
+                            "required": false,
+                            "placeholder": "",
+                            "list": false,
+                            "show": true,
+                            "multiline": false,
+                            "value": {
+                                "flow_id": "",
+                                "node_id": "",
+                                "prompt": "",
+                                "model_schema": {
+                                    "model_name": "",
+                                    "model_parameters": {
+                                        "temperature": 0,
+                                        "openai_api_key": "",
+                                        "openai_base_url": ""
+                                    },
+                                    "model_quota": {
+                                        "token_limit": 4096,
+                                        "token_resp": 4000,
+                                        "system_prompt_limit": 3700
+                                    }
+                                },
+                                "input_schema": {
+                                    "inputParameters": [
+                                        {
+                                            "name": "",
+                                            "input": {
+                                                "type": "",
+                                                "schema": null,
+                                                "value": {
+                                                    "type": "",
+                                                    "content": ""
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "name": "",
+                                            "input": {
+                                                "type": "",
+                                                "schema": null,
+                                                "value": {
+                                                    "type": "",
+                                                    "content": {
+                                                        "source_id": "",
+                                                        "name": ""
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                "output_schema": {
+                                    "outputs": [
+                                        {
+                                            "name": "",
+                                            "type": "",
+                                            "schema": null
+                                        }
+                                    ]
+                                }
+                            },
+                            "fileTypes": [],
+                            "file_path": "",
+                            "password": false,
+                            "name": "llm_node_schema",
+                            "display_name": "LLM节点shchema",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "title_case": true
+                        },
+                        "_type": "CustomComponent"
+                    },
+                    "description": "LLM Node",
+                    "base_classes": [
+                        "dict",
+                        "Dict"
+                    ],
+                    "display_name": "LLM",
+                    "documentation": "",
+                    "custom_fields": {
+                        "prenode_inputs": null,
+                        "llm_node_schema": null
+                    },
+                    "output_types": [
+                        "dict",
+                        "Dict"
+                    ],
+                    "field_formatters": {},
+                    "beta": true
+                },
+                "id": "LLM"
+            },
+            "selected": false,
+            "width": 1,
+            "height": 1,
+            "positionAbsolute": {
+                "x": 1,
+                "y": 1
+            },
+            "dragging": false
+        },
+        {
+            "id": "Knowledge",
+            "type": "genericNode",
+            "position": {
+                "x": 1,
+                "y": 1
+            },
+            "data": {
+                "type": "Knowledge",
+                "node": {
+                    "template": {
+                        "prenode_inputs": {
+                            "type": "Dict",
+                            "required": true,
+                            "placeholder": "",
+                            "list": true,
+                            "show": true,
+                            "multiline": false,
+                            "fileTypes": [],
+                            "file_path": "",
+                            "password": false,
+                            "name": "prenode_inputs",
+                            "display_name": "前置节点输入",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "title_case": true
+                        },
+                        "code": {
+                            "type": "code",
+                            "required": true,
+                            "placeholder": "",
+                            "list": false,
+                            "show": true,
+                            "multiline": true,
+                            "value": "from langflow import CustomComponent\nfrom langflow.field_typing import Data\nfrom typing import Union, List, Dict\nfrom langflow.custom_schemas.nodes import KnowledgeNode, KnowledgeNodeResponse, NodeData\n\nclass Knowledge(CustomComponent):\n    id = \"4\"\n    display_name = \"知识\"\n    description = \"Knowledge Node\"\n    \n    def build_config(self):\n        return {\n            \"prenode_inputs\": {\n                \"display_name\": \"前置节点输入\",\n            },\n            \n            \"knowledge_node_schema\": {\n                \"display_name\": \"知识节点schema\",\n                \"required\": False,\n                \"field_type\": \"dict\"\n            }\n        }\n\n    def build(\n        self, \n        prenode_inputs: List[Dict],\n        knowledge_node_schema: KnowledgeNode = {\"node_id\": \"4\"}\n    ) -> Union[dict, Dict]:\n        knowledge_node_data = {\n            \"node_id\": \"KnowledgeID\",\n            \"node_type\": \"Knowledge\",\n            \"node_name\": \"\",\n            \"node_status\": \"SUCCESS\",\n            \"error_info\": \"\",\n            \"input\": \"{\\\"input_key\\\": \\\"input_value\\\"}\",\n            \"output\": \"{\\\"output_key1\\\": \\\"Knowledge node raw output\\\", \\\"output_key2\\\": \\\"Knowledge node raw output\\\"}\",\n            \"node_exe_cost\": \"0.81s\",\n            \"raw_output\": \"Knowledge node raw output\",\n            \"extra\": \"\",\n            \"token_and_cost\": {\n                \"input_tokens\": \"128 Tokens\",\n                \"input_cost\": \"$0.0\",\n                \"output_tokens\": \"73 Tokens\",\n                \"output_cost\": \"$0.0\",\n                \"total_tokens\": \"201 Tokens\",\n                \"total_cost\": \"$0.0\"\n            }\n        }\n        \n        knowledge_node_data = NodeData(**knowledge_node_data)\n        knowledge_node_response = KnowledgeNodeResponse(node_data=knowledge_node_data)\n        # return prenode_inputs.append(knowledge_node_response.model_dump())\n        \n        next_response = {\"prenode_inputs\": prenode_inputs}\n        next_response.update(knowledge_node_response.model_dump())\n        return next_response",
+                            "fileTypes": [],
+                            "file_path": "",
+                            "password": false,
+                            "name": "code",
+                            "advanced": false,
+                            "dynamic": true,
+                            "info": "",
+                            "title_case": true
+                        },
+                        "knowledge_node_schema": {
+                            "type": "dict",
+                            "required": false,
+                            "placeholder": "",
+                            "list": false,
+                            "show": true,
+                            "multiline": false,
+                            "value": {
+                                "flow_id": "",
+                                "node_id": "",
+                                "knowledge_id": "",
+                                "knowledge_schema": {
+                                    "knowledge_name": "",
+                                    "knowledge_config": {
+                                        "search_strategy": "",
+                                        "maximum_number_of_recalls": "",
+                                        "minimum_matching_degree": ""
+                                    }
+                                },
+                                "input_schema": {
+                                    "inputParameters": [
+                                        {
+                                            "name": "",
+                                            "input": {
+                                                "type": "",
+                                                "schema": null,
+                                                "value": {
+                                                    "type": "",
+                                                    "content": ""
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "name": "",
+                                            "input": {
+                                                "type": "",
+                                                "schema": null,
+                                                "value": {
+                                                    "type": "",
+                                                    "content": {
+                                                        "source_id": "",
+                                                        "name": ""
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "fileTypes": [],
+                            "file_path": "",
+                            "password": false,
+                            "name": "knowledge_node_schema",
+                            "display_name": "知识节点schema",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "title_case": true
+                        },
+                        "_type": "CustomComponent"
+                    },
+                    "description": "Knowledge Node",
+                    "base_classes": [
+                        "dict",
+                        "Dict"
+                    ],
+                    "display_name": "知识",
+                    "documentation": "",
+                    "custom_fields": {
+                        "prenode_inputs": null,
+                        "knowledge_node_schema": null
+                    },
+                    "output_types": [
+                        "dict",
+                        "Dict"
+                    ],
+                    "field_formatters": {},
+                    "beta": true
+                },
+                "id": "Knowledge"
+            },
+            "selected": false,
+            "width": 1,
+            "height": 1,
+            "positionAbsolute": {
+                "x": 1,
+                "y": 1
+            },
+            "dragging": false
+        },
+        {
+            "id": "End",
+            "type": "genericNode",
+            "position": {
+                "x": 1,
+                "y": 1
+            },
+            "data": {
+                "type": "End",
+                "node": {
+                    "template": {
+                        "prenode_inputs": {
+                            "type": "Dict",
+                            "required": true,
+                            "placeholder": "",
+                            "list": true,
+                            "show": true,
+                            "multiline": false,
+                            "fileTypes": [],
+                            "file_path": "",
+                            "password": false,
+                            "name": "prenode_inputs",
+                            "display_name": "前置节点原始输入",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "title_case": true
+                        },
+                        "code": {
+                            "type": "code",
+                            "required": true,
+                            "placeholder": "",
+                            "list": false,
+                            "show": true,
+                            "multiline": true,
+                            "value": "import time\nimport json\n\nfrom typing import List, Dict\n\nfrom langflow import CustomComponent\nfrom langflow.field_typing import Data\nfrom langflow.custom_schemas.nodes import EndNode, EndNodeResponse, NodeData, TokenAndCost\n\n\nclass End(CustomComponent):\n    id = \"2\"\n    display_name = \"结束\"\n    description = \"End Node\"\n\n    def build_config(self):\n        return {\n            \"prenode_inputs\": {\n                \"display_name\": \"前置节点原始输入\",\n            },\n            \"end_node_schema\": {\n                \"display_name\": \"结束节点schema\",\n                \"required\": False,\n                \"field_type\": \"dict\"\n            }\n        }\n\n    def build(\n        self, \n        prenode_inputs: List[Dict],\n        end_node_schema: EndNode = {\"node_id\": \"2\"}\n    ) -> Data:\n        error_info = \"\"\n        extra = \"\"\n        node_name = \"\"\n        node_id = end_node_schema.get(\"node_id\")\n        parsed_input_json = \"\"\n        parsed_output_json = \"\"\n        raw_output = \"\"\n        all_nodes_data = []\n        \n        start_time = time.time()\n        time.sleep(0.8)\n        try:\n            # TODO 处理节点输入\n            parsed_input = {\"input_key\": \"input_value\"}\n            parsed_input_json = json.dumps(parsed_input)\n            # TODO 实际业务逻辑\n            raw_output = \"End node raw output\"\n            # TODO 处理节点输出\n            parsed_output = {\n                \"end_key1\": raw_output,\n                \"end_key2\": raw_output\n            }\n            parsed_output_json = json.dumps(parsed_output)\n            \n            # 获取所有节点输出，key为节点ID，value为节点原始输出\n            node_ids = []\n            def get_nodes_result(prenode_inputs):\n                for prenode_input in prenode_inputs:\n                    for k, v in prenode_input.items():\n                        if k == \"prenode_inputs\":\n                            get_nodes_result(v)\n                        if k != \"prenode_inputs\":\n                            if v.get(\"node_id\") not in node_ids:\n                                node_ids.append(v.get(\"node_id\"))\n                                all_nodes_data.append(NodeData(**v))\n\n            get_nodes_result(prenode_inputs=prenode_inputs)\n            \n            # 模拟异常\n            # raise ValueError(\"End节点发生异常\")\n            \n            node_status = \"SUCCESS\"\n        except Exception as e:\n            node_status = \"FAILED\"\n            error_info = e\n\n        end_time = time.time()\n        node_exe_cost = f\"{round((end_time - start_time), 2)}s\"\n        \n        # TODO \n        token_and_cost = TokenAndCost(\n            input_tokens=\"128 Tokens\",\n            output_tokens=\"73 Tokens\",\n            total_tokens=\"201 Tokens\"\n        )\n        \n        node_data =  NodeData(\n            node_id=node_id,\n            node_type=\"End\",\n            node_name=node_name,\n            node_status=node_status,\n            error_info=error_info,\n            input=parsed_input_json,\n            output=parsed_output_json,\n            node_exe_cost=node_exe_cost,\n            raw_output=raw_output,\n            extra=extra,\n            token_and_cost=token_and_cost\n        )\n        \n        all_nodes_data.append(node_data)\n        return EndNodeResponse(\n            node_data=node_data,\n            all_nodes_data=all_nodes_data\n        ).model_dump()\n        \n        # return {\"prenode_inputs\": prenode_inputs}",
+                            "fileTypes": [],
+                            "file_path": "",
+                            "password": false,
+                            "name": "code",
+                            "advanced": false,
+                            "dynamic": true,
+                            "info": "",
+                            "title_case": true
+                        },
+                        "end_node_schema": {
+                            "type": "dict",
+                            "required": false,
+                            "placeholder": "",
+                            "list": false,
+                            "show": true,
+                            "multiline": false,
+                            "value": {
+                                "flow_id": "",
+                                "node_id": "",
+                                "prompt": "",
+                                "input_schema": {
+                                    "inputParameters": [
+                                        {
+                                            "name": "",
+                                            "input": {
+                                                "type": "",
+                                                "schema": null,
+                                                "value": {
+                                                    "type": "",
+                                                    "content": ""
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "name": "",
+                                            "input": {
+                                                "type": "",
+                                                "schema": null,
+                                                "value": {
+                                                    "type": "",
+                                                    "content": {
+                                                        "source_id": "",
+                                                        "name": ""
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "fileTypes": [],
+                            "file_path": "",
+                            "password": false,
+                            "name": "end_node_schema",
+                            "display_name": "结束节点schema",
+                            "advanced": false,
+                            "dynamic": false,
+                            "info": "",
+                            "title_case": true
+                        },
+                        "_type": "CustomComponent"
+                    },
+                    "description": "End Node",
+                    "base_classes": [
+                        "Data"
+                    ],
+                    "display_name": "结束",
+                    "documentation": "",
+                    "custom_fields": {
+                        "prenode_inputs": null,
+                        "end_node_schema": null
+                    },
+                    "output_types": [
+                        "Data"
+                    ],
+                    "field_formatters": {},
+                    "beta": true
+                },
+                "id": "End"
+            },
+            "selected": true,
+            "width": 1,
+            "height": 1,
+            "positionAbsolute": {
+                "x": 1,
+                "y": 1
+            },
+            "dragging": false
+        }
+    ]
+}

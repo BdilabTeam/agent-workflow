@@ -1,0 +1,34 @@
+{
+    "url": "http://127.0.0.1:7860/api/v1/store/components/?fields=name%2Cid%2Cis_component&sort=-count(liked_by)&filter_by_user=true&page=1&limit=9999999",\,
+    "Request Method":  "GET",
+    "requestParam": {
+
+    },
+    "requestPayload": {
+        fields: name,id,is_component,
+        sort: -count(liked_by),
+        filter_by_user: true,
+        page: 1,
+        limit: 9999999
+    },
+    "response": {
+    "count": 1,
+    "authorized": true,
+    "results": [
+        {
+            "id": "1f2cdb65-2b84-489f-9f11-b6999d7cda63",
+            "name": "Document Processor",
+            "description": null,
+            "liked_by_count": null,
+            "liked_by_user": false,
+            "is_component": true,
+            "metadata": {},
+            "user_created": {},
+            "tags": null,
+            "downloads_count": null,
+            "last_tested_version": null,
+            "private": null
+        }
+    ]
+}
+}

@@ -1,0 +1,11 @@
+{
+    "url": "http://127.0.0.1:7860/api/v1/flows/53790d82-8aec-4089-83e1-8dcaa4b1d28d",
+    "Request Method": "DELETE",
+    "requestParam": {
+
+    },
+    "requestPayload": {
+
+    },
+    "response": {"message":"Flow deleted successfully"}
+}

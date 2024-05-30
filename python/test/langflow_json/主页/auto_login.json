@@ -1,0 +1,11 @@
+{
+    "url": "http://127.0.0.1:7860/api/v1/auto_login",
+    "Request Method": "GET",
+    "requestParam": {},
+    "requestPayload": {},
+    "response": {
+        "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkNjBiN2JiNS00YTdmLTQ2NjYtYmEwYS00NzE1YWY5OTg1ODQiLCJleHAiOjE3NDY2OTIxODZ9.a7yEI6Rq2XkLXYuujo0zxXuj6qa4HaZhwXfOB5JglSE",
+        "refresh_token": null,
+        "token_type": "bearer"
+    }
+}

@@ -1,0 +1,39 @@
+{
+  "url": "http://127.0.0.1:7860/api/v1/flows/",
+  "Request Method": "POST",
+  "requestParam": {},
+
+  "requestPayload": {
+    "name": "Untitled document (2)",
+    "data": {
+      "nodes": [],
+      "edges": [],
+      "viewport": {
+        "zoom": 1,
+        "x": 0,
+        "y": 0
+      }
+    },
+    "description": "Language Architect at Work!",
+    "is_component": false
+  },
+
+  "response": {
+    "name": "Untitled document (2)",
+    "description": "Language Architect at Work!",
+    "data": {
+      "nodes": [],
+      "edges": [],
+      "viewport": {
+        "zoom": 1,
+        "x": 0,
+        "y": 0
+      }
+    },
+    "is_component": false,
+    "updated_at": "2024-05-08T09:24:05.990025",
+    "folder": null,
+    "id": "4d54bf27-7853-490a-afeb-297c3591d113",
+    "user_id": "d60b7bb5-4a7f-4666-ba0a-4715af998584"
+  }
+}

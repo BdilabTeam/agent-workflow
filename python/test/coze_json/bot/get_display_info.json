@@ -1,0 +1,23 @@
+{
+    "request": {
+        "bot_id": "7332422231383048199"
+    },
+    "response": {
+        "code": 0,
+        "msg": "",
+        "data": {
+            "tab_display_info": {
+                "plugin_tab_status": 1,
+                "workflow_tab_status": 1,
+                "knowledge_tab_status": 2,
+                "database_tab_status": 1,
+                "variable_tab_status": 2,
+                "opening_dialog_tab_status": 2,
+                "scheduled_task_tab_status": 2,
+                "suggestion_tab_status": 1,
+                "tts_tab_status": 1,
+                "filebox_tab_status": 0
+            }
+        }
+    }
+}

@@ -1,0 +1,7 @@
+langflow==0.6.19
+langgraph==0.0.39
+grandalf==0.8
+transformers
+pymysql
+chevron
+jinja2

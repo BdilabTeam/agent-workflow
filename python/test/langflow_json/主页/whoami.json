@@ -1,0 +1,16 @@
+{
+    "url": "http://127.0.0.1:7860/api/v1/users/whoami?x-api-key=1",
+    "Request Method": "GET",
+    "requestParam": {},
+    "requestPayload": {},
+    "response": {
+        "id": "d60b7bb5-4a7f-4666-ba0a-4715af998584",
+        "username": "langflow",
+        "profile_image": null,
+        "is_active": true,
+        "is_superuser": true,
+        "create_at": "2024-04-24T03:09:57.412000",
+        "updated_at": "2024-05-08T08:16:26.727720",
+        "last_login_at": "2024-05-08T08:16:26.726715"
+    }
+}

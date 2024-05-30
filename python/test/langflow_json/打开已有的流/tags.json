@@ -1,0 +1,34 @@
+{
+    "url": "http://127.0.0.1:7860/api/v1/store/tags",
+    "Request Method":  "GET",
+    "requestParam": {
+
+    },
+    "requestPayload": {
+
+    },
+    "response":
+        [
+            {
+                "id": "ccabb590-c9e8-4e56-9d6c-309955936c6c",
+                "name": "Agent"
+            },
+            {
+                "id": "e660a9ea-35fb-4587-bfbd-13dba4c556d1",
+                "name": "Memory"
+            },
+            {
+                "id": "d442c88b-f8d0-4010-8752-16a644c7ac8e",
+                "name": "Chain"
+            },
+            {
+                "id": "cd614b49-dd57-4c8b-a5eb-f8bb5f957b9a",
+                "name": "Vector Store"
+            },
+            {
+                "id": "57f5c681-a1f5-4053-be33-e9525e7eb00a",
+                "name": "Prompt"
+            }
+        ]
+
+}

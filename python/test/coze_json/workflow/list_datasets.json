@@ -1,0 +1,43 @@
+{
+    "url": "https://www.coze.com/api/memory/knowledge/list_dataset?msToken=aav-ttr-WCUeG7T1PiVQeg_8x8y0sJq-cvrQsng_CuCmsrdG-nWbxlgn21lSrt0ETl2KkpT8LjYFxflbk4Ba_dQGqnWDumZMjVn8TSDWUQSAXQut_4fL7EiVbe9UpUqLeg==&X-Bogus=DFSzswVL-9-cHRhCtReU7fLNKBOU&_signature=_02B4Z6wo00001bPpHRAAAIDC4RY9Ck40GJmz6RmAAArC7c",
+    "requestParam": {
+        "msToken": "aav-ttr-WCUeG7T1PiVQeg_8x8y0sJq-cvrQsng_CuCmsrdG-nWbxlgn21lSrt0ETl2KkpT8LjYFxflbk4Ba_dQGqnWDumZMjVn8TSDWUQSAXQut_4fL7EiVbe9UpUqLeg==",
+        "X-Bogus": "DFSzswVL-9R/lVhCtReU7ELNKBPK",
+        "_signature": "_02B4Z6wo00001ADkcbQAAIDDUhtRrkNm0xwA5HUAAGYIa5"
+    },
+    "requestPayload": {
+        "query": "",
+        "page": 1,
+        "size": 20,
+        "space_id": "7332000866540601345"
+    },
+    "response": {
+        "code": 0,
+        "data_set_infos": [
+            {
+                "all_file_size": 431472,
+                "avatar_url": "https://p16-sg.tiktokcdn.com/img/user-avatar-alisg/9dz22qmo1ji0vlk6w8dvlf4hiqh90tns~120x256.image",
+                "bot_used_count": 0,
+                "can_edit": true,
+                "create_time": 1713450568,
+                "creator_id": "7332002003197658114",
+                "creator_name": "treasures",
+                "data_set_id": "7359213770381459463",
+                "description": "requirements specification",
+                "failed_file_list": [],
+                "file_list": [
+                    "研判全流程(1) 1"
+                ],
+                "icon_uri": "plugin_icon/dataset.png",
+                "icon_url": "https://lf16-alice-tos-sign.oceanapi-i18n.com/obj/ocean-cloud-tos-sg/plugin_icon/dataset.png?lk3s=35e64dcb\u0026x-expires=1715152886\u0026x-signature=yh6bJ%2FHKrBWZJQk1H2sWgZ2vKtU%3D",
+                "name": "研判全流程",
+                "processing_file_list": [],
+                "space_id": 7332000866540601000,
+                "status": 1,
+                "update_time": 1713451851
+            }
+        ],
+        "msg": "",
+        "total": 1
+    }
+}
