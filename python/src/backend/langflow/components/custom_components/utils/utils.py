@@ -391,3 +391,20 @@ def get_top_n_retrieval_results(retrieval_results: List[RetrievalResult], n: int
     top_n_results = sorted_results[:n]
     return top_n_results
 
+def create_input_schema(fields, j: int):
+    """
+    动态创建一个带字段描述的 Pydantic 模型类
+    :param fields: 一个包含字段名称、类型和描述的列表，例如：[("name", "str", "名字"), ("age", "int", "年龄")]
+    :return: 动态创建的 Pydantic 模型类
+    """
+    attributes = {}
+    for field_name, field_type, field_desc in fields:
+        try:
+            field_type_eval = eval(field_type)
+        except NameError:
+            field_type_eval = Any
+        attributes[field_name] = (field_type_eval, Field(description=field_desc))
+
+    InputSchema = type(f"InputSchema_{j}", (BaseModel,), attributes)
+
+    return InputSchema
