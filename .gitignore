@@ -12,3 +12,6 @@ target/
 
 .env
 .prod_env
+
+ipynb/
+workflow/
