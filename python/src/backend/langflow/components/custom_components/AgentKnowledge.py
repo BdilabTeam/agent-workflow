@@ -7,7 +7,7 @@ from langflow import CustomComponent
 from langflow.field_typing import Data, Tool
 from langflow.custom_schemas.agents import KnowledgeNode, KnowledgeSchema
 from langchain.pydantic_v1 import BaseModel, Field
-
+from utils.constants import KNOWLEDGE_CALL_URL_AGENT
 
 class AgentKnowledge(CustomComponent):
     display_name = "智能体知识库节点"
@@ -51,7 +51,7 @@ class AgentKnowledge(CustomComponent):
                     function_string = f"""
 def knowledge_search_{i}(query: str):
     headers = None
-    url = "172.22.102.61:48080/admin-api/agent/text/langFlowAskTab"
+    url = {KNOWLEDGE_CALL_URL_AGENT}
     payload = {{'query': query, 'knowledge_base_ids': '{id}' }}
     response = requests.post(url, json=payload, headers=headers)
     response_json = response.json()

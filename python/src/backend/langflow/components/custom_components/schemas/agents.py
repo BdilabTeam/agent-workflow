@@ -46,6 +46,7 @@ class ToolSchema(BaseModel):
     tool_desc: str = Field(description="工具描述")
     tool_name: str
     input_schema: Optional[List[InputSchema]] = Field(default=None, description="工具节点输入数据结构")
+    tenant_id: int = Field(description="租户ID")
 
 class ToolNode(BaseModel):
     """工具节点schema"""
@@ -69,7 +70,7 @@ class WorkflowSchema(BaseModel):
     workflow_name: str = Field(description="工作流名称")
     workflow_desc: str = Field(description="工作流描述")
     input_schema: Optional[List[InputSchema]] = Field(default=None, description="工作流输入")
-
+    tenant_id: int = Field(description="租户ID")
 
 class WorkflowNode(BaseModel):
     workflow_schemas: List[WorkflowSchema] = Field(description="工作流节点的工作流列表")

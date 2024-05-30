@@ -38,10 +38,11 @@ class LLM(CustomComponent):
         system_prompt_limit = llm.model_quota.system_prompt_limit
         
         return ChatOpenAI(
-            model="gpt-3.5-turbo-0125",
-            base_url="https://api.chatanywhere.com.cn",
-            api_key="sk-Ms5F2wAkilaaZYo0HpumWR7qBLkOIsXflNQeAHSrNtmUYjzk",
-            temperature=0.5,
+            model=model_name,
+            base_url=base_url,
+            api_key=api_key,
+            temperature=temperature,
+            max_tokens=token_limit
         )
 
         # return ChatOpenAI(
