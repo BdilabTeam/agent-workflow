@@ -39,5 +39,5 @@ COPY requirements.txt requirements.txt
 RUN pip install --user -r requirements.txt
 
 # 启动命令
-CMD ["langflow", "run", "--host", "0.0.0.0"]
+# CMD ["langflow", "run", "--host", "0.0.0.0"]
 

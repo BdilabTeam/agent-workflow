@@ -55,7 +55,25 @@ A sample `.env` file named `.env.example` is included with the project. Copy thi
 # 👍 部署
 
 ## 通过docker部署agent-workflow
-执行以下命令：
+
+构建镜像
+```shell
+docker build -t agent-workflow:latest .
+```
+
+## 通过docker部署agent-workflow
+
+通过docker-compose启动：
 ```shell
 docker-compose up
+```
+
+通过docker命令启动
+```shell
+docker run --name -d agent-workflow \
+  -v $(pwd)/python/src/backend/langflow/:/home/user/app/langflow/ \
+  -v $(pwd)/.prod_env:/home/user/app/.prod_env \
+  -p 7860:7860 \
+  {{image_id}} \
+  /bin/bash -c "cd /home/user/app/ && python -m langflow run --host 0.0.0.0 --env-file /home/user/app/.prod_env"
 ```
