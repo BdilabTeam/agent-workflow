@@ -560,6 +560,9 @@ def process_end_node(
         end_node_data.node_id = node_id
         
         workflow_id = end_node_schema.flow_id
+        
+        # 格式化前置节点输入数据
+        all_nodes_data = format_prenodes_data(prenode_inputs=prenode_inputs)
         # 数据库同步节点状态
         on_start(
             workflow_id=workflow_id,
@@ -567,8 +570,6 @@ def process_end_node(
         )
         
         # 核心算法
-        # 格式化前置节点输入数据
-        all_nodes_data = format_prenodes_data(prenode_inputs=prenode_inputs)
         # 解析输入schema
         parsed_input_dict = format_input_schemas_to_dict(
             input_schema=end_node_schema.input_schema,
