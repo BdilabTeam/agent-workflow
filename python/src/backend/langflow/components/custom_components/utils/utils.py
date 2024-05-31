@@ -148,6 +148,7 @@ def format_input_schemas_to_dict(input_schema: Union[Inputs], prenode_results: L
     input_param_dict = {}
     for input_param_schema in input_param_schemas:
         key = input_param_schema.name
+            
         dtype = input_param_schema.input.type
         content = input_param_schema.input.value.content
         value_source_type = input_param_schema.input.value.type
@@ -203,10 +204,6 @@ def format_output_schemas_to_dict(output_schema: Union[Outputs], raw_output) -> 
     for output_param_schema in output_param_schemas:
         if not (key := output_param_schema.name):
             raise ValueError("输出参数schema的参数名称字段（name）不能为空")
-        
-        # 驼峰命名转换为下划线命名, 适配JAVA规范
-        if is_camel_case(key):
-            key = camel_to_snake(key)
         
         # TODO 根据参数类型适配不用输出解析器
         dtype = output_param_schema.type
@@ -322,25 +319,25 @@ def on_start(workflow_id, node_data: NodeData):
     if not (workflow_db := get_workflow_by_id(db=session, id=workflow_id)):
         raise ValueError("Workflow not found")
     
+    # 前置节点运行失败，后续全部失败
+    if node_data.node_type != NodeType.START.value and \
+        workflow_db.execute_status == NodeStatus.FAILED.value:
+        raise KeyError("前置节点运行失败, 终止运行")
+    
     try:
-        node_results = json.loads(workflow_db.node_results)
-        # 开始节点，清空当前流执行结果
-        if node_data.node_type == NodeType.START.value:
-            node_results = []
+        workflow_update = WorkflowUpdate()
         
-        # 工作流执行失败，后续全部失败
-        if node_data.node_type != NodeType.START.value and \
-            workflow_db.execute_status == NodeStatus.FAILED.value:
-            raise KeyError("前置节点运行失败, 终止运行")
-            
-        # updated_node_results = list(filter(lambda node_data_dict: node_data_dict.get("node_id") != node_data.node_id, node_results))
+        if node_data.node_type == NodeType.START.value: # 开始节点，工作流状态置为RUNNING、清空当前流执行结果
+            workflow_update.execute_status = "RUNNING"
+            node_results = []
+        else:
+            node_results = json.loads(workflow_db.node_results)
+        
         node_results.append(node_data.model_dump())
         node_results_json = json.dumps(node_results, ensure_ascii=False)
-        workflow_update = WorkflowUpdate(node_results=node_results_json)
+        workflow_update.node_results =node_results_json
         
-        # 开始节点，更新流状态为RUNNING 
-        if node_data.node_type == NodeType.START.value:
-            workflow_update.execute_status = "RUNNING"
+        # 更新工作流状态
         update_workflow(workflow_db, workflow_update, session)
     except Exception as e:
         raise RuntimeError(f"{e.args[0]}")

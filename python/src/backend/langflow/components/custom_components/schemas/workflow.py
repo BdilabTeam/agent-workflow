@@ -182,8 +182,8 @@ class EndNodeResponse(NodeResponse):
     all_nodes_data: List[NodeData] = Field(description="所有节点输出")
 
 class RetrievalResult(BaseModel):
-    tenant_id: Union[int, str] = Field(description="租户ID")
-    knowledge_id: Union[int, str] = Field(description="知识库ID")
+    tenant_id: Optional[Union[int, str]] = Field(description="租户ID")
+    knowledge_id: Optional[Union[int, str]] = Field(description="知识库ID")
     source: Literal["data", "doc"] = Field(description="内容来源")
     content: str = Field(description="检索内容")
     similarity_score: float = Field(description="相似度分数", ge=0.01, le=1)
@@ -197,4 +197,4 @@ class KnowledgeNodeDefaultOutput(BaseModel):
     
 class KnowledgeNodeDefaultOutputs(BaseModel):
     """知识节点默认输出schema"""
-    output_list: List[KnowledgeNodeDefaultOutput] = Field("输出列表")
+    output_list: List[KnowledgeNodeDefaultOutput] = Field(description="输出列表", serialization_alias="outputList")
