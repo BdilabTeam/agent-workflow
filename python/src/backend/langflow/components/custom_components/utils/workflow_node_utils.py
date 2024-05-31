@@ -499,7 +499,7 @@ def process_knowledge_node(
         knowledge_node_default_outputs = KnowledgeNodeDefaultOutputs(output_list=output_list)
         
         # 解析响应数据
-        parsed_output_dict = knowledge_node_default_outputs.model_dump()
+        parsed_output_dict = knowledge_node_default_outputs.model_dump(by_alias=True)
         parsed_output_json = json.dumps(parsed_output_dict, ensure_ascii=False)
         knowledge_node_data.output = parsed_output_json
         
