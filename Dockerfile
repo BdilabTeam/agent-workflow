@@ -18,8 +18,8 @@ RUN apt-get update && \
 RUN useradd -m -u 1000 user
 
 # 设置目录权限
-RUN mkdir -p /home/user/.local/lib/python3.10/site-packages/langflow/custom_schemas && \
-    chown -R user:user /home/user/.local
+# RUN mkdir -p /home/user/.local/lib/python3.10/site-packages/langflow/custom_schemas && \
+#     chown -R user:user /home/user/.local
 
 # 切换到新创建的用户
 USER user

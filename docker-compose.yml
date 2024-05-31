@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./src/backend/langflow/:/home/user/app/langflow/
+      - ./python/src/backend/langflow/:/home/user/app/langflow/
       - ./.prod_env:/home/user/app/.prod_env
     network_mode: "host"
     ports:
