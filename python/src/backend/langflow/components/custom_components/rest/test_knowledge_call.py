@@ -757,7 +757,7 @@ if __name__ == "__main__":
     body = {
         "query": "tcp的优点",
         "knowledge_base_ids": ["54db9bf6fbef4489831b032a353e0592"],
-        "maximum_number_of_recalls": 2,
+        "maximum_number_of_recalls": 3,
         "minimum_matching_degree": 0.5,
         "search_strategy": "fulltext",
         "tenant_id": 1
