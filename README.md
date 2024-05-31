@@ -5,8 +5,6 @@
 ### <b>Locally</b>
 安装agent-workflow环境：
 ```shell
-cd python
-
 pip install -r requirements.txt
 ```
 
