@@ -1,7 +1,7 @@
 from langflow import CustomComponent
 from langflow.field_typing import Tool
 from langchain_core.tools import Tool
-from langflow.custom_schemas.agents import ToolNode
+from langflow.components.custom_components.schemas.agents import ToolNode
 from langflow.components.custom_components.utils.agent_node_utils import process_tool_node
 
 class AgentTool(CustomComponent):

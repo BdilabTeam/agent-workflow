@@ -1,6 +1,6 @@
 from langflow import CustomComponent
 from langflow.field_typing import Tool
-from langflow.custom_schemas.agents import WorkflowNode
+from langflow.components.custom_components.schemas.agents import WorkflowNode
 from langflow.components.custom_components.utils.agent_node_utils import process_workflow_node
 
 class AgentWorkflow(CustomComponent):

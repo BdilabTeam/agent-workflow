@@ -1,6 +1,6 @@
 from langflow import CustomComponent
 from langflow.field_typing import Tool
-from langflow.custom_schemas.agents import KnowledgeNode
+from langflow.components.custom_components.schemas.agents import KnowledgeNode
 from langflow.components.custom_components.utils.agent_node_utils import process_knowledge_node
 
 class AgentKnowledge(CustomComponent):
