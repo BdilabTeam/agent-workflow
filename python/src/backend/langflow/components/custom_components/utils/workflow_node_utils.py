@@ -204,7 +204,7 @@ def process_tool_node(
             tool_call_url = TOOL_CALL_URL
             body.update({"toolId": tool_id})
             with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-                future = executor.submit(rest_client.POST, url=tool_call_url, body=body, headers=headers, _request_timeout=5)
+                future = executor.submit(rest_client.POST, url=tool_call_url, body=body, headers=headers, _request_timeout=50)
                 tool_call_response: RESTResponse = future.result()
                 if tool_call_response.status >= 200 and tool_call_response.status < 300:
                     tool_call_results.append({tool_id: tool_call_response.data.decode('utf-8')})
@@ -435,7 +435,7 @@ def process_knowledge_node(
         
         knowledge_call_url = KNOWLEDGE_CALL_URL
         with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-                future = executor.submit(rest_client.POST, url=knowledge_call_url, body=body, _request_timeout=5)
+                future = executor.submit(rest_client.POST, url=knowledge_call_url, body=body, _request_timeout=50)
                 knowledge_call_response: RESTResponse = future.result()
         if knowledge_call_response.status >= 200 and knowledge_call_response.status < 300:
             # 解析响应数据
