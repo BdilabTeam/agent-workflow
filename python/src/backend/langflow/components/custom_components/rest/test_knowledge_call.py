@@ -762,6 +762,6 @@ if __name__ == "__main__":
         "search_strategy": "fulltext",
         "tenant_id": 1
     }
-    res = client.POST(url=url, body=body, _request_timeout=5)
+    res = client.POST(url=url, body=body, _request_timeout=30)
     print(res.status)
     print(json.loads(res.data.decode()))
