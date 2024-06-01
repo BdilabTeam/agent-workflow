@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 from langchain.memory import ConversationTokenBufferMemory
 from langchain_community.chat_models.openai import ChatOpenAI
@@ -7,23 +7,19 @@ from langchain_core.memory import BaseMemory
 from langchain_core.prompts import SystemMessagePromptTemplate, MessagesPlaceholder, PromptTemplate
 from pydantic import BaseModel, Field, parse_obj_as
 from langchain_core.tools import ToolException, StructuredTool
-from langflow import CustomComponent
-from langflow.field_typing import Data, Tool
-from langchain.agents import tool, OpenAIMultiFunctionsAgent, AgentExecutor
+from langflow.field_typing import Tool
+from langchain.agents import  OpenAIMultiFunctionsAgent, AgentExecutor
 from langchain_core.tools import Tool
-from langflow.custom_schemas.agents import ToolNode, InputSchema, Schema, ToolSchema, Model
-from langflow.custom_schemas.agents import WorkflowNode, InputSchema, Schema, WorkflowSchema
-from langflow.custom_schemas.agents import KnowledgeNode, KnowledgeSchema
-from typing import List
+from langflow.custom_schemas.agents import ToolNode, Model
+from langflow.custom_schemas.agents import WorkflowNode
+from langflow.custom_schemas.agents import KnowledgeNode
 from pydantic import BaseModel, Field, parse_obj_as
 
 from langchain_core.tools import ToolException
 from langchain.tools import StructuredTool
-from langflow import CustomComponent
-from langflow.field_typing import Data, Tool
-from langflow.custom_schemas.agents import KnowledgeNode, KnowledgeSchema
+from langflow.field_typing import Tool
+from langflow.custom_schemas.agents import KnowledgeNode
 from langchain.pydantic_v1 import BaseModel, Field
-import requests
 
 def process_tool_node(tool_node: ToolNode) -> Tool:
     # 处理tool_node并返回Tool对象
