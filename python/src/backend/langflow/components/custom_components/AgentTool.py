@@ -16,7 +16,7 @@ class AgentTool(CustomComponent):
             }
         }
 
-    def build(self, tool_node: ToolNode) -> Tool:\
+    def build(self, tool_node: ToolNode = None) -> Tool:\
     
         # tool_node =  {
         #     "tool_schemas": [

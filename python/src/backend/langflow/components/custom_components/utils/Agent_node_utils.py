@@ -1,5 +1,10 @@
 from typing import Optional
 
+from pypinyin import lazy_pinyin
+
+from langflow.field_typing import Tool
+
+
 from langchain.memory import ConversationTokenBufferMemory
 from langchain_community.chat_models.openai import ChatOpenAI
 from langchain_core.language_models import BaseLanguageModel
@@ -7,19 +12,17 @@ from langchain_core.memory import BaseMemory
 from langchain_core.prompts import SystemMessagePromptTemplate, MessagesPlaceholder, PromptTemplate
 from pydantic import BaseModel, Field, parse_obj_as
 from langchain_core.tools import ToolException, StructuredTool
-from langflow.field_typing import Tool
 from langchain.agents import  OpenAIMultiFunctionsAgent, AgentExecutor
-from langchain_core.tools import Tool
-from langflow.custom_schemas.agents import ToolNode, Model
-from langflow.custom_schemas.agents import WorkflowNode
-from langflow.custom_schemas.agents import KnowledgeNode
+from langchain_core.tools import Tool, ToolException
 from pydantic import BaseModel, Field, parse_obj_as
-
-from langchain_core.tools import ToolException
 from langchain.tools import StructuredTool
-from langflow.field_typing import Tool
-from langflow.custom_schemas.agents import KnowledgeNode
 from langchain.pydantic_v1 import BaseModel, Field
+
+
+from langflow.components.custom_components.schemas.agents import (
+    ToolNode, Model,
+    WorkflowNode, KnowledgeNode
+)
 
 def process_tool_node(tool_node: ToolNode) -> Tool:
     # 处理tool_node并返回Tool对象
@@ -86,7 +89,7 @@ def tool_{i}({args}):
 
                 structuredTool = StructuredTool.from_function(
                     func=local_namespace[f"tool_{i}"],
-                    name=f"tool_{i}",
+                    name='_'.join(lazy_pinyin(name)),
                     description=desc,
                     # args_schema=DynamicInputSchema,
                     handle_tool_error=_handle_error,
@@ -170,7 +173,7 @@ def workflow_{i}({args}):
 
                 structuredTool = StructuredTool.from_function(
                     func=local_namespace[f"workflow_{i}"],
-                    name=f"workflow_{i}",
+                    name='_'.join(lazy_pinyin(name)),
                     description=desc,
                     # args_schema=DynamicInputSchema,
                     handle_tool_error=_handle_error,
@@ -231,7 +234,7 @@ def knowledge_search_{i}(query: str):
 
                 structuredTool = StructuredTool.from_function(
                     func=local_namespace[f"knowledge_search_{i}"],
-                    name=f"knowledge_search_{i}",
+                    name='_'.join(lazy_pinyin(name)),
                     args_schema=KnowledgeInfoInput,
                     description=desc,
                     handle_tool_error=_handle_error,
@@ -270,7 +273,8 @@ def process_llm_node(model: dict = {}):
     # )
 
     return ChatOpenAI(
-        model="gpt-3.5-turbo-0125",
+        model="gpt-4-turbo-preview",
+        #  model="gpt-4-1106-preview",
         base_url="https://api.chatanywhere.com.cn",
         api_key="sk-Ms5F2wAkilaaZYo0HpumWR7qBLkOIsXflNQeAHSrNtmUYjzk",
         temperature=0.5,

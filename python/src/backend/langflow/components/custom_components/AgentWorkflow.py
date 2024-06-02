@@ -15,7 +15,7 @@ class AgentWorkflow(CustomComponent):
             }
         }
 
-    def build(self, workflow_node: WorkflowNode) -> Tool:
+    def build(self, workflow_node: WorkflowNode = None) -> Tool:
         # workflow_node = {
         #   "workflow_schemas": [
         #     {

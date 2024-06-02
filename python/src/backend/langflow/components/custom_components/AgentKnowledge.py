@@ -15,7 +15,7 @@ class AgentKnowledge(CustomComponent):
             }
         }
 
-    def build(self, knowledge_node: KnowledgeNode) -> Tool:
+    def build(self, knowledge_node: KnowledgeNode = None) -> Tool:
         # knowledge_node =  {
         #   "knowledge_schemas": [
         #     {
