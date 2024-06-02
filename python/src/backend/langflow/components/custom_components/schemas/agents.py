@@ -13,7 +13,7 @@ class ModelParameters(BaseModel):
 
 class Model(BaseModel):
     """模型schema"""
-    model_name: Literal["gpt-3.5-turbo", "qwen1.5-14b-chat"] = Field(description="模型名称")
+    model_name: Literal["qwen1.5-14b-chat", "gpt-3.5-turbo-0125", "gpt-3.5-turbo-1106", "gpt-4-turbo-preview", "gpt-4-0125-preview", "gpt-4-1106-preview", "gpt-4-vision-preview"] = Field(description="模型名称")
     model_parameters: ModelParameters = Field(description="模型配置参数")
     model_quota: ModelQuota = Field(description="模型配额指标")
 
@@ -46,8 +46,7 @@ class ToolSchema(BaseModel):
     tool_desc: str = Field(description="工具描述")
     tool_name: str
     input_schema: Optional[List[InputSchema]] = Field(default=None, description="工具节点输入数据结构")
-    tenant_id: int = Field(description="租户ID")
-
+    tenant_id: Union[str, int] = Field(description="租户ID")
 class ToolNode(BaseModel):
     """工具节点schema"""
     tool_schemas: List[ToolSchema] = Field(description="工具节点的工具列表")
@@ -58,7 +57,7 @@ class KnowledgeSchema(BaseModel):
     knowledge_id: str = Field(description="知识id")
     knowledge_name: str = Field(description="知识名称")
     knowledge_desc: str = Field(description="知识库工具描述")
-
+    tenant_id: Union[str, int] = Field(description="租户ID")
 
 class KnowledgeNode(BaseModel):
     knowledge_schemas: List[KnowledgeSchema] = Field(description="知识库节点的知识库列表")
@@ -70,7 +69,8 @@ class WorkflowSchema(BaseModel):
     workflow_name: str = Field(description="工作流名称")
     workflow_desc: str = Field(description="工作流描述")
     input_schema: Optional[List[InputSchema]] = Field(default=None, description="工作流输入")
-    tenant_id: int = Field(description="租户ID")
+    tenant_id: Union[str, int] = Field(description="租户ID")
+
 
 class WorkflowNode(BaseModel):
     workflow_schemas: List[WorkflowSchema] = Field(description="工作流节点的工作流列表")

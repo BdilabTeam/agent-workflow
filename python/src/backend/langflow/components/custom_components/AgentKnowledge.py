@@ -1,13 +1,7 @@
-from typing import List
-from pydantic import BaseModel, Field, parse_obj_as
-
-from langchain_core.tools import ToolException
-from langchain.tools import StructuredTool
 from langflow import CustomComponent
-from langflow.field_typing import Data, Tool
-from langflow.custom_schemas.agents import KnowledgeNode, KnowledgeSchema
-from langchain.pydantic_v1 import BaseModel, Field
-from utils.constants import KNOWLEDGE_CALL_URL_AGENT
+from langflow.field_typing import Tool
+from langflow.components.custom_components.schemas.agents import KnowledgeNode
+from langflow.components.custom_components.utils.agent_node_utils import process_knowledge_node
 
 class AgentKnowledge(CustomComponent):
     display_name = "智能体知识库节点"
@@ -21,57 +15,15 @@ class AgentKnowledge(CustomComponent):
             }
         }
 
-    def build(self, knowledge_node: KnowledgeNode) -> Tool:
-        tools = []
-
-        if knowledge_node != None:
-            # 定义入参schema
-            class KnowledgeInfoInput(BaseModel):
-                query: str = Field(description="知识库查询语句")
-
-            # 定义处理错误函数
-            def _handle_error(error: ToolException) -> str:
-                return (
-                        "The following errors occurred during tool execution:"
-                        + error.args[0]
-                        + "Please try another tool."
-                )
-
-            try:
-                knowledge_node = KnowledgeNode(**knowledge_node)
-                knowledge_schemas = knowledge_node.knowledge_schemas
-                i = 0
-
-                for knowledge_schema in knowledge_schemas:
-                    i = i + 1
-                    id = knowledge_schema.knowledge_id
-                    name = knowledge_schema.knowledge_name
-                    desc = knowledge_schema.knowledge_desc
-
-                    function_string = f"""
-def knowledge_search_{i}(query: str):
-    headers = None
-    url = {KNOWLEDGE_CALL_URL_AGENT}
-    payload = {{'query': query, 'knowledge_base_ids': '{id}' }}
-    response = requests.post(url, json=payload, headers=headers)
-    response_json = response.json()
-    data = json.dumps(response_json.get('data').get('reference'), ensure_ascii=False)
-    return data
-    """
-
-                    local_namespace = {}
-                    exec(function_string, globals(), local_namespace)
-
-                    structuredTool = StructuredTool.from_function(
-                        func=local_namespace[f"knowledge_search_{i}"],
-                        name=name,
-                        args_schema=KnowledgeInfoInput,
-                        description=desc,
-                        handle_tool_error=_handle_error,
-                    )
-
-                    tools.append(structuredTool)
-            except Exception as e:
-                pass
-
-        return tools
+    def build(self, knowledge_node: KnowledgeNode = None) -> Tool:
+        # knowledge_node =  {
+        #   "knowledge_schemas": [
+        #     {
+        #       "tenant_id": "1",
+        #       "knowledge_id": "62fdb2254f4b4de0a52d5fa0422bedd7",
+        #       "knowledge_desc": "用于获取网络安全相关信息",
+        #       "knowledge_name": "network_security"
+        #     }
+        #   ]
+        # }
+        return process_knowledge_node(knowledge_node)
