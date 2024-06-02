@@ -70,7 +70,7 @@ docker-compose up
 
 通过docker命令启动
 ```shell
-docker run --name -d agent-workflow \
+docker run -d --user root --name agent-workflow \
   -v $(pwd)/python/src/backend/langflow/:/home/user/app/langflow/ \
   -v $(pwd)/.prod_env:/home/user/app/.prod_env \
   -p 7860:7860 \
