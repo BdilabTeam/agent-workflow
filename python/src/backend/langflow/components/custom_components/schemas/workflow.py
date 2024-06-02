@@ -186,7 +186,7 @@ class RetrievalResult(BaseModel):
     knowledge_id: Optional[Union[int, str]] = Field(description="知识库ID")
     source: Literal["data", "doc"] = Field(description="内容来源")
     content: str = Field(description="检索内容")
-    similarity_score: float = Field(description="相似度分数", ge=0.01, le=1)
+    similarity_score: float = Field(description="相似度分数", ge=0.01)
 
 class KnowledgeCallResponse(BaseModel):
     query: str = Field(default="", description="查询问题")
