@@ -87,6 +87,10 @@ async def get_result_and_steps(langchain_object, inputs: Union[dict, str], **kwa
         intermediate_steps = output.get("intermediate_steps", []) if isinstance(output, dict) else []
 
         result = output.get(langchain_object.output_keys[0]) if isinstance(output, dict) else output
+        #为了不报错修改的
+        if(type(result) == list):
+            result = str(result)
+        #
         try:
             thought = format_actions(intermediate_steps) if intermediate_steps else ""
         except Exception as exc:

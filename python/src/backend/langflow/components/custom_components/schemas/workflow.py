@@ -64,7 +64,7 @@ class ModelParameters(BaseModel):
 
 class Model(BaseModel):
     """模型schema"""
-    model_name: Literal["gpt-3.5-turbo", "qwen1.5-14b-chat"] = Field(description="模型名称")
+    model_name: Literal["qwen1.5-14b-chat", "gpt-3.5-turbo-0125", "gpt-3.5-turbo-1106", "gpt-4-turbo-preview", "gpt-4-0125-preview", "gpt-4-1106-preview", "gpt-4-vision-preview"] = Field(description="模型名称")
     model_parameters: Optional[ModelParameters] = Field(description="模型配置参数")
     model_quota: Optional[ModelQuota] = Field(description="模型配额指标")
     
@@ -186,7 +186,7 @@ class RetrievalResult(BaseModel):
     knowledge_id: Optional[Union[int, str]] = Field(description="知识库ID")
     source: Literal["data", "doc"] = Field(description="内容来源")
     content: str = Field(description="检索内容")
-    similarity_score: float = Field(description="相似度分数", ge=0.01, le=1)
+    similarity_score: float = Field(description="相似度分数", ge=0.01)
 
 class KnowledgeCallResponse(BaseModel):
     query: str = Field(default="", description="查询问题")
