@@ -9,10 +9,11 @@ from langchain.memory import ConversationTokenBufferMemory
 from langchain_community.chat_models.openai import ChatOpenAI
 from langchain_core.language_models import BaseLanguageModel
 from langchain_core.memory import BaseMemory
-from langchain_core.prompts import SystemMessagePromptTemplate, MessagesPlaceholder, PromptTemplate
+from langchain_core.prompts import SystemMessagePromptTemplate, MessagesPlaceholder, PromptTemplate, \
+    HumanMessagePromptTemplate, ChatPromptTemplate
 from pydantic import BaseModel, Field, parse_obj_as
 from langchain_core.tools import ToolException, StructuredTool
-from langchain.agents import  OpenAIMultiFunctionsAgent, AgentExecutor
+from langchain.agents import OpenAIMultiFunctionsAgent, AgentExecutor, create_openai_functions_agent
 from langchain_core.tools import Tool, ToolException
 from pydantic import BaseModel, Field, parse_obj_as
 from langchain.tools import StructuredTool
@@ -308,17 +309,28 @@ def process_agent_node(
     else:
         memory_key = memory.memory_key  # type: ignore
 
-    prompt = OpenAIMultiFunctionsAgent.create_prompt(
-        system_message=SystemMessagePromptTemplate(
-            prompt=PromptTemplate(input_variables=[], template=system_prompt)),  # type: ignore
-        extra_prompt_messages=[MessagesPlaceholder(variable_name=memory_key)],
+    # prompt = OpenAIMultiFunctionsAgent.create_prompt(
+    #     system_message=SystemMessagePromptTemplate(
+    #         prompt=PromptTemplate(input_variables=[], template=system_prompt)),  # type: ignore
+    #     extra_prompt_messages=[MessagesPlaceholder(variable_name=memory_key)],
+    # )
+
+    # agent = OpenAIMultiFunctionsAgent(
+    #     llm=llm,
+    #     tools=tools,
+    #     prompt=prompt,  # type: ignore
+    # )
+
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            SystemMessagePromptTemplate(prompt=PromptTemplate(input_variables=[], template=system_prompt)),
+            MessagesPlaceholder(variable_name='chat_history', optional=True),
+            HumanMessagePromptTemplate(prompt=PromptTemplate(input_variables=['input'], template='{input}')),
+            MessagesPlaceholder(variable_name='agent_scratchpad')
+        ]
     )
 
-    agent = OpenAIMultiFunctionsAgent(
-        llm=llm,
-        tools=tools,
-        prompt=prompt,  # type: ignore
-    )
+    agent = create_openai_functions_agent(llm=llm, tools=tools, prompt=prompt)
 
     return AgentExecutor(
         agent=agent,
