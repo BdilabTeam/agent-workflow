@@ -276,7 +276,7 @@ def process_llm_node(model: dict = {}):
         model="gpt-4-turbo-preview",
         #  model="gpt-4-1106-preview",
         base_url="https://api.chatanywhere.com.cn",
-        api_key="sk-Ms5F2wAkilaaZYo0HpumWR7qBLkOIsXflNQeAHSrNtmUYjzk",
+        api_key="sk-Mj4ShXvqWIAEexqoQfBqdwjAKvFeOcVGiiXn2heC3b9bukw4",
         temperature=0.5,
     )
 
