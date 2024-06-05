@@ -90,7 +90,8 @@ def tool_{i}({args}):
 
                 structuredTool = StructuredTool.from_function(
                     func=local_namespace[f"tool_{i}"],
-                    name='_'.join(lazy_pinyin(name)),
+                    # name='_'.join(lazy_pinyin(name)),
+                    name=f"tool_{id}",
                     description=desc,
                     # args_schema=DynamicInputSchema,
                     handle_tool_error=_handle_error,
@@ -174,7 +175,8 @@ def workflow_{i}({args}):
 
                 structuredTool = StructuredTool.from_function(
                     func=local_namespace[f"workflow_{i}"],
-                    name='_'.join(lazy_pinyin(name)),
+                    # name='_'.join(lazy_pinyin(name)),
+                    name=f"workflow_{id}",
                     description=desc,
                     # args_schema=DynamicInputSchema,
                     handle_tool_error=_handle_error,
@@ -235,7 +237,8 @@ def knowledge_search_{i}(query: str):
 
                 structuredTool = StructuredTool.from_function(
                     func=local_namespace[f"knowledge_search_{i}"],
-                    name='_'.join(lazy_pinyin(name)),
+                    # name='_'.join(lazy_pinyin(name)),
+                    name=f"knowledge_{id}",
                     args_schema=KnowledgeInfoInput,
                     description=desc,
                     handle_tool_error=_handle_error,
