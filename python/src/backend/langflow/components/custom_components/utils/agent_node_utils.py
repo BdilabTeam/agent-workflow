@@ -13,7 +13,7 @@ from langchain_core.prompts import SystemMessagePromptTemplate, MessagesPlacehol
     HumanMessagePromptTemplate, ChatPromptTemplate
 from pydantic import BaseModel, Field, parse_obj_as
 from langchain_core.tools import ToolException, StructuredTool
-from langchain.agents import OpenAIMultiFunctionsAgent, AgentExecutor, create_openai_functions_agent
+from langchain.agents import OpenAIMultiFunctionsAgent, AgentExecutor, create_openai_functions_agent, create_openai_tools_agent
 from langchain_core.tools import Tool, ToolException
 from pydantic import BaseModel, Field, parse_obj_as
 from langchain.tools import StructuredTool
@@ -269,20 +269,20 @@ def process_llm_node(model: dict = {}):
     #     max_tokens=token_limit
     # )
 
-    # return ChatOpenAI(
-    #     model="qwen1.5-14b-chat",
-    #     base_url="http://172.18.22.19:7002/v1",
-    #     api_key="EMPTY",
-    #     temperature=0.5
-    # )
-
     return ChatOpenAI(
-        model="gpt-4-turbo-preview",
-        #  model="gpt-4-1106-preview",
-        base_url="https://api.chatanywhere.com.cn",
-        api_key="sk-Mj4ShXvqWIAEexqoQfBqdwjAKvFeOcVGiiXn2heC3b9bukw4",
-        temperature=0.5,
+        model="qwen1.5-14b-chat",
+        base_url="http://124.70.213.108:7009/v1",
+        api_key="EMPTY",
+        temperature=0.3
     )
+
+    # return ChatOpenAI(
+    #     model="gpt-4-turbo-preview",
+    #     #  model="gpt-4-1106-preview",
+    #     base_url="https://api.chatanywhere.com.cn",
+    #     api_key="sk-Mj4ShXvqWIAEexqoQfBqdwjAKvFeOcVGiiXn2heC3b9bukw4",
+    #     temperature=0.5,
+    # )
 
 def process_agent_node(
         llm: BaseLanguageModel,
@@ -312,18 +312,6 @@ def process_agent_node(
     else:
         memory_key = memory.memory_key  # type: ignore
 
-    # prompt = OpenAIMultiFunctionsAgent.create_prompt(
-    #     system_message=SystemMessagePromptTemplate(
-    #         prompt=PromptTemplate(input_variables=[], template=system_prompt)),  # type: ignore
-    #     extra_prompt_messages=[MessagesPlaceholder(variable_name=memory_key)],
-    # )
-
-    # agent = OpenAIMultiFunctionsAgent(
-    #     llm=llm,
-    #     tools=tools,
-    #     prompt=prompt,  # type: ignore
-    # )
-
     prompt = ChatPromptTemplate.from_messages(
         [
             SystemMessagePromptTemplate(prompt=PromptTemplate(input_variables=[], template=system_prompt)),
@@ -333,7 +321,7 @@ def process_agent_node(
         ]
     )
 
-    agent = create_openai_functions_agent(llm=llm, tools=tools, prompt=prompt)
+    agent = create_openai_tools_agent(llm=llm, tools=tools, prompt=prompt)
 
     return AgentExecutor(
         agent=agent,

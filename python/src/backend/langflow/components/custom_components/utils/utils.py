@@ -13,6 +13,7 @@ from transformers import PreTrainedTokenizerFast
 
 from langflow.components.custom_components.schemas.workflow import Inputs, NodeData, Outputs, RetrievalResult, TokenAndCost
 
+from langchain.pydantic_v1 import BaseModel, Field
 from langflow.services.deps import get_session
 from langflow.services.database.models.workflow.crud import get_workflow_by_id, update_workflow
 from langflow.services.database.models.workflow.model import WorkflowUpdate
@@ -62,14 +63,13 @@ def is_dict_string(s):
     except (ValueError, SyntaxError):
         return False
 
+
 def is_bool_string(s):
-    if isinstance(s, str):
-        value_lower = s.strip().lower()
-        if value_lower in ("true", "1", "yes", "on"):
-            return True
-        elif value_lower in ("false", "0", "no", "off"):
-            return False
-    raise ValueError(f"Invalid boolean string: {s}")
+    value_lower = s.strip().lower()
+    if value_lower in ("true", "1", "yes", "on") or value_lower in ("false", "0", "no", "off"):
+        return True
+    
+    return False
 
 def is_list_string(s):
     try:
@@ -116,6 +116,9 @@ def is_list_of_dicts_string(s):
         return False
 
 def validate_dtype(dtype, content):
+    if not isinstance(content, str):
+        raise ValueError(f"Invalid string: {content}")
+    
     type_validate_func_map = {
         "string": is_string,
         "integer": is_int_string,
@@ -129,6 +132,20 @@ def validate_dtype(dtype, content):
         raise ValueError(f"Unsupported data type '{dtype}'. Only the following data types are supported: {list(type_validate_func_map.keys())}")
 
     return type_validate_func(content)
+
+def parse_content_to_real_type_value(dtype, content):
+    if dtype == "string":
+        value = content
+    elif dtype == "boolean":
+        content_lower = content.strip().lower()
+        if content_lower in ("true", "1", "yes", "on"):
+            value =  True
+        elif content_lower in ("false", "0", "no", "off"):
+            value =  False
+    else:
+        value = ast.literal_eval(content)   # 检验通过即可将字符串表示值解析为实际类型
+    
+    return value
 
 def get_value_by_key_path(output_dict, key_path):
     """根据给定的键路径获取字典中的值"""
@@ -153,14 +170,11 @@ def format_input_schemas_to_dict(input_schema: Union[Inputs], prenode_results: L
         content = input_param_schema.input.value.content
         value_source_type = input_param_schema.input.value.type
         
-        value = ""
+        value = None
         # TODO 什么场景需要校验类型与字符串表示的值是否匹配？
         if value_source_type == "literal":
             if validate_dtype(dtype=dtype, content=content):    # 校验实际类型与字符串表示是否匹配
-                if dtype == "string":
-                    value = content
-                else:
-                    value = ast.literal_eval(content)   # 检验通过即可将字符串表示值解析为实际类型
+                value = parse_content_to_real_type_value(dtype=dtype, content=content)  # 解析字符串值为实际类型值
             else:
                 raise TypeError(f"字段: '{key}' 数据类型校验失败")
         elif value_source_type == "ref":
