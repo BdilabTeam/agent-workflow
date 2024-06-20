@@ -329,5 +329,6 @@ def process_agent_node(
         memory=memory,
         verbose=True,
         return_intermediate_steps=True,
+        early_stopping_method="generate",
         handle_parsing_errors=True,
     )
