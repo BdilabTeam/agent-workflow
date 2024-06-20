@@ -17,10 +17,6 @@ RUN apt-get update && \
 # 创建一个新的用户
 RUN useradd -m -u 1000 user
 
-# 设置目录权限
-# RUN mkdir -p /home/user/.local/lib/python3.10/site-packages/langflow/custom_schemas && \
-#     chown -R user:user /home/user/.local
-
 # 切换到新创建的用户
 USER user
 
@@ -36,7 +32,7 @@ COPY --chown=user . $HOME/app
 
 # 复制 requirements.txt 并安装依赖
 COPY requirements.txt requirements.txt
-RUN pip install --user -r requirements.txt
+RUN pip install --user -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 
 # 启动命令
 # CMD ["langflow", "run", "--host", "0.0.0.0"]
