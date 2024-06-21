@@ -6,7 +6,7 @@ import tiktoken
 from chevron import render
 from enum import Enum
 from string import Formatter
-from typing import Union, List, Dict, Any
+from typing import Union, List, Dict, Any, Tuple
 
 from jinja2 import Template
 from transformers import PreTrainedTokenizerFast
@@ -431,20 +431,35 @@ def get_top_n_retrieval_results(retrieval_results: List[RetrievalResult], n: int
     top_n_results = sorted_results[:n]
     return top_n_results
 
-def create_input_schema(fields, j: int):
+
+def create_input_schema(fields: List[Tuple[str, str, str]], j: int):
     """
     动态创建一个带字段描述的 Pydantic 模型类
     :param fields: 一个包含字段名称、类型和描述的列表，例如：[("name", "str", "名字"), ("age", "int", "年龄")]
+    :param j: 用于生成类名的索引
     :return: 动态创建的 Pydantic 模型类
     """
+    # 字段注解
+    annotations = {}
+    # 字段默认值
     attributes = {}
+
     for field_name, field_type, field_desc in fields:
         try:
-            field_type_eval = eval(field_type)
+            if field_type == "list":
+                field_type_eval = List[Any]
+            else:
+                field_type_eval = eval(field_type)
         except NameError:
             field_type_eval = Any
-        attributes[field_name] = (field_type_eval, Field(description=field_desc))
 
-    InputSchema = type(f"InputSchema_{j}", (BaseModel,), attributes)
+        # 设置字段的类型注释和默认值
+        annotations[field_name] = field_type_eval
+        attributes[field_name] = Field(description=field_desc)
 
-    return InputSchema
+    # 动态创建类，确保继承自 BaseModel 并包含类型注解和字段默认值
+    return type(
+        f"InputSchema_{j}",
+        (BaseModel,),
+        {"__annotations__": annotations, **attributes}
+    )

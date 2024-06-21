@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Dict, Type
 
 from pypinyin import lazy_pinyin
 
@@ -19,6 +19,9 @@ from pydantic import BaseModel, Field, parse_obj_as
 from langchain.tools import StructuredTool
 from langchain.pydantic_v1 import BaseModel, Field
 
+from langflow.components.custom_components.utils.utils import (
+    create_input_schema
+)
 
 from langflow.components.custom_components.schemas.agents import (
     ToolNode, Model,
@@ -43,6 +46,8 @@ def process_tool_node(tool_node: ToolNode) -> Tool:
             tool_schemas = tool_node.tool_schemas
             i = 0
 
+            schemas: Dict[str, Type[BaseModel]] = {}
+
             for tool_schema in tool_schemas:
                 i = i + 1
                 id = tool_schema.tool_id
@@ -52,9 +57,11 @@ def process_tool_node(tool_node: ToolNode) -> Tool:
                 tenant_id = tool_schema.tenant_id
 
                 # 动态创建输入schema
-                # fields = [(input_schema.name, input_schema.type, input_schema.desc) for input_schema in
-                #           input_schemas]
-                # DynamicInputSchema = create_input_schema(fields, i)
+                fields = []
+                for input_schema in input_schemas:
+                    fields.append((input_schema.name, input_schema.type, input_schema.desc))
+
+                schemas[f"Schema_{i}"] = create_input_schema(fields, i)
 
                 args = ",".join([f"{input_schema.name}: {input_schema.type}" for input_schema in input_schemas])
                 # func_body = "\n".join(
@@ -93,7 +100,7 @@ def tool_{i}({args}):
                     # name='_'.join(lazy_pinyin(name)),
                     name=f"tool_{id}",
                     description=desc,
-                    # args_schema=DynamicInputSchema,
+                    args_schema=schemas[f"Schema_{i}"],
                     handle_tool_error=_handle_error,
                 )
 
@@ -121,6 +128,8 @@ def process_workflow_node(workflow_node: WorkflowNode) -> Tool:
             workflow_schemas = workflow_node.workflow_schemas
             i = 0
 
+            schemas: Dict[str, Type[BaseModel]] = {}
+
             for workflow_schema in workflow_schemas:
                 i = i + 1
                 id = workflow_schema.workflow_id
@@ -130,9 +139,11 @@ def process_workflow_node(workflow_node: WorkflowNode) -> Tool:
                 tenant_id = workflow_schema.tenant_id
 
                 # 动态创建输入schema
-                # fields = [(input_schema.name, input_schema.type, input_schema.desc) for input_schema in
-                #           input_schemas]
-                # DynamicInputSchema = create_input_schema(fields, i)
+                fields = []
+                for input_schema in input_schemas:
+                    fields.append((input_schema.name, input_schema.type, input_schema.desc))
+
+                schemas[f"Schema_{i}"] = create_input_schema(fields, i)
 
                 args = ",".join([f"{input_schema.name}: {input_schema.type}" for input_schema in input_schemas])
                 # func_body = "\n".join(
@@ -178,7 +189,7 @@ def workflow_{i}({args}):
                     # name='_'.join(lazy_pinyin(name)),
                     name=f"workflow_{id}",
                     description=desc,
-                    # args_schema=DynamicInputSchema,
+                    args_schema=schemas[f"Schema_{i}"],
                     handle_tool_error=_handle_error,
                 )
 

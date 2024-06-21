@@ -34,6 +34,7 @@ class Schema(BaseModel):
 class InputSchema(BaseModel):
     name: str
     type: Optional[str]  # Literal["String", "Integer"]
+    desc: Optional[str] = Field(default="", description="参数描述")
     schema: Optional[Union[Schema, List[Schema]]] = Field(default=None,
                                                           description="当前类型schema。例如当前type为object，object的schema也需要定义，需要嵌套定义schema")
 
