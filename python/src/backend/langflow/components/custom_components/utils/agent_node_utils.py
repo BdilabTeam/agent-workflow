@@ -1,4 +1,4 @@
-from typing import Optional
+﻿from typing import Optional
 
 from pypinyin import lazy_pinyin
 
@@ -277,6 +277,13 @@ def process_llm_node(model: dict = {}):
     )
 
     # return ChatOpenAI(
+    #     model="Qwen2-72B-Instruct-0620",
+    #     base_url="http://localhost:6006/v1",
+    #     api_key="EMPTY",
+    #     temperature=0.3
+    # )
+
+    # return ChatOpenAI(
     #     model="gpt-4-turbo-preview",
     #     #  model="gpt-4-1106-preview",
     #     base_url="https://api.chatanywhere.com.cn",
@@ -322,6 +329,7 @@ def process_agent_node(
     )
 
     agent = create_openai_tools_agent(llm=llm, tools=tools, prompt=prompt)
+    # agent = create_openai_functions_agent(llm=llm, tools=tools, prompt=prompt)
 
     return AgentExecutor(
         agent=agent,
