@@ -13,7 +13,8 @@ class ModelParameters(BaseModel):
 
 class Model(BaseModel):
     """模型schema"""
-    model_name: Literal["qwen1.5-14b-chat", "gpt-3.5-turbo-0125", "gpt-3.5-turbo-1106", "gpt-4-turbo-preview", "gpt-4-0125-preview", "gpt-4-1106-preview", "gpt-4-vision-preview"] = Field(description="模型名称")
+    # model_name: Literal["qwen1.5-14b-chat", "gpt-3.5-turbo-0125", "gpt-3.5-turbo-1106", "gpt-4-turbo-preview", "gpt-4-0125-preview", "gpt-4-1106-preview", "gpt-4-vision-preview"] = Field(description="模型名称")
+    model_name: str = Field(description="模型名称")
     model_parameters: ModelParameters = Field(description="模型配置参数")
     model_quota: ModelQuota = Field(description="模型配额指标")
 
