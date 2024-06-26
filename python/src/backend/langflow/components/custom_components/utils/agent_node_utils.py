@@ -272,20 +272,37 @@ def process_llm_node(model: dict = {}):
     token_resp = llm.model_quota.token_resp
     system_prompt_limit = llm.model_quota.system_prompt_limit
 
+    return ChatOpenAI(
+        model=model_name,
+        base_url=base_url,
+        api_key=api_key,
+        temperature=temperature,
+        max_tokens=token_limit
+    )
+
     # return ChatOpenAI(
-    #     model=model_name,
-    #     base_url=base_url,
-    #     api_key=api_key,
-    #     temperature=temperature,
-    #     max_tokens=token_limit
+    #     model="qwen1.5-14b-chat",
+    #     base_url="http://124.70.213.108:7009/v1",
+    #     api_key="EMPTY",
+    #     temperature=0.3
     # )
 
-    return ChatOpenAI(
-        model="qwen1.5-14b-chat",
-        base_url="http://124.70.213.108:7009/v1",
-        api_key="EMPTY",
-        temperature=0.3
-    )
+    # return ChatOpenAI(
+    #     # model="qwen1.5-14b-chat",
+    #     # model="glm-4-9-chat",
+    #     model="deepseek-coder:33b",
+    #     base_url="http://172.22.102.61:3000/v1",
+    #     api_key="sk-rm3ToYiJDy2MYPIf0c87Eb137f7644Dc9e84F03bD7B2F536",
+    #     temperature=0.3
+    # )
+
+    # return ChatOpenAI(
+    #     model="qwen2-72b",
+    #     # model="qwen1.5-14b-chat-0625",
+    #     base_url="http://localhost:6006/v1",
+    #     api_key="EMPTY",
+    #     temperature=0
+    # )
 
     # return ChatOpenAI(
     #     model="gpt-4-turbo-preview",
@@ -333,6 +350,7 @@ def process_agent_node(
     )
 
     agent = create_openai_tools_agent(llm=llm, tools=tools, prompt=prompt)
+    # agent = create_openai_functions_agent(llm=llm, tools=tools, prompt=prompt)
 
     return AgentExecutor(
         agent=agent,
@@ -340,5 +358,6 @@ def process_agent_node(
         memory=memory,
         verbose=True,
         return_intermediate_steps=True,
+        early_stopping_method="generate",
         handle_parsing_errors=True,
     )
