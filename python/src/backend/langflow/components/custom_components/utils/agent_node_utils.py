@@ -265,8 +265,7 @@ def process_llm_node(model: dict = {}):
         model=model_name,
         base_url=base_url,
         api_key=api_key,
-        temperature=temperature,
-        max_tokens=token_limit
+        temperature=temperature
     )
 
     # return ChatOpenAI(
@@ -277,9 +276,9 @@ def process_llm_node(model: dict = {}):
     # )
 
     # return ChatOpenAI(
-    #     # model="qwen1.5-14b-chat",
+    #     model="qwen1.5-14b-chat",
     #     # model="glm-4-9-chat",
-    #     model="deepseek-coder:33b",
+    #     # model="deepseek-coder:33b",
     #     base_url="http://172.22.102.61:3000/v1",
     #     api_key="sk-rm3ToYiJDy2MYPIf0c87Eb137f7644Dc9e84F03bD7B2F536",
     #     temperature=0.3
@@ -338,7 +337,10 @@ def process_agent_node(
         ]
     )
 
-    agent = create_openai_tools_agent(llm=llm, tools=tools, prompt=prompt)
+    if llm.model_name.startswith("gpt"):
+        agent = create_openai_functions_agent(llm=llm, tools=tools, prompt=prompt)
+    else:
+        agent = create_openai_tools_agent(llm=llm, tools=tools, prompt=prompt)
     # agent = create_openai_functions_agent(llm=llm, tools=tools, prompt=prompt)
 
     return AgentExecutor(
