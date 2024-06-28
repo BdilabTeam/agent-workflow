@@ -25,8 +25,7 @@ from langflow.components.custom_components.schemas.agents import (
     WorkflowNode, KnowledgeNode
 )
 def process_tool_node(tool_node: ToolNode) -> Tool:
-    if not (tool_call_url := os.getenv("TOOL_CALL_URL")):
-        tool_call_url = TOOL_CALL_URL_AGENT
+
 
     # 处理tool_node并返回Tool对象
     tools = []
@@ -40,6 +39,8 @@ def process_tool_node(tool_node: ToolNode) -> Tool:
             )
 
         try:
+            if not (tool_call_url := os.getenv("TOOL_CALL_URL")):
+                tool_call_url = TOOL_CALL_URL_AGENT
             tool_node = ToolNode(**tool_node)
             # 工具集
             tool_schemas = tool_node.tool_schemas
@@ -66,7 +67,7 @@ def process_tool_node(tool_node: ToolNode) -> Tool:
 def tool_{i}({args}):
     import json
     import requests
-    url = {tool_call_url}
+    url = '{tool_call_url}'
     headers = {{
         'tenant-id': '{tenant_id}',
         'Content-Type': 'application/json'
@@ -106,13 +107,12 @@ def tool_{i}({args}):
     return tools
 
 def process_workflow_node(workflow_node: WorkflowNode) -> Tool:
-    if not (workflow_call_url := os.getenv("WORKFLOW_CALL_URL")):
-        workflow_call_url = WORKFLOW_CALL_URL_AGENT
 
     tools = []
 
     if workflow_node != None:
-
+        if not (workflow_call_url := os.getenv("WORKFLOW_CALL_URL")):
+            workflow_call_url = WORKFLOW_CALL_URL_AGENT
         def _handle_error(error: ToolException) -> str:
             return (
                     "The following errors occurred during tool execution:"
@@ -146,7 +146,7 @@ def process_workflow_node(workflow_node: WorkflowNode) -> Tool:
 def workflow_{i}({args}):
     import json
     import requests
-    url = {workflow_call_url}
+    url = '{workflow_call_url}'
     headers = {{
         'tenant-id': '{tenant_id}',
         'Content-Type': 'application/json'
@@ -194,8 +194,7 @@ def workflow_{i}({args}):
         return tools
 
 def process_knowledge_node(knowledge_node: KnowledgeNode) -> Tool:
-    if not (knowledge_call_url := os.getenv("KNOWLEDGE_CALL_URL_AGENT")):
-        knowledge_call_url = KNOWLEDGE_CALL_URL_AGENT
+
 
     tools = []
 
@@ -213,6 +212,8 @@ def process_knowledge_node(knowledge_node: KnowledgeNode) -> Tool:
             )
 
         try:
+            if not (knowledge_call_url := os.getenv("KNOWLEDGE_CALL_URL_AGENT")):
+                knowledge_call_url = KNOWLEDGE_CALL_URL_AGENT
             knowledge_node = KnowledgeNode(**knowledge_node)
             knowledge_schemas = knowledge_node.knowledge_schemas
             i = 0
@@ -228,7 +229,7 @@ def process_knowledge_node(knowledge_node: KnowledgeNode) -> Tool:
 def knowledge_search_{i}(query: str):
     import requests
     import json
-    url = {knowledge_call_url}
+    url = '{knowledge_call_url}'
     headers = {{
         'tenant-id': '{tenant_id}',
         'Content-Type': 'application/json'
