@@ -49,7 +49,7 @@ def configure(log_level: Optional[str] = None, log_file: Optional[Path] = None):
         ]
     )
 
-    if not log_file:
+    if not (log_file := os.getenv("LANGFLOW_LOG_FILE")):
         cache_dir = Path(user_cache_dir("langflow"))
         log_file = cache_dir / "langflow.log"
 
