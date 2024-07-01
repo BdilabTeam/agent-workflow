@@ -1,10 +1,10 @@
-from typing import Optional, Dict, Type
+from typing import Optional
 
 from pypinyin import lazy_pinyin
 
 from langflow.field_typing import Tool
 
-
+import os
 from langchain.memory import ConversationTokenBufferMemory
 from langchain_community.chat_models.openai import ChatOpenAI
 from langchain_core.language_models import BaseLanguageModel
@@ -18,17 +18,15 @@ from langchain_core.tools import Tool, ToolException
 from pydantic import BaseModel, Field, parse_obj_as
 from langchain.tools import StructuredTool
 from langchain.pydantic_v1 import BaseModel, Field
-
-from langflow.components.custom_components.utils.utils import (
-    create_input_schema
-)
+from langflow.components.custom_components.utils.constants import TOOL_CALL_URL_AGENT, KNOWLEDGE_CALL_URL_AGENT, WORKFLOW_CALL_URL_AGENT
 
 from langflow.components.custom_components.schemas.agents import (
     ToolNode, Model,
     WorkflowNode, KnowledgeNode
 )
-
 def process_tool_node(tool_node: ToolNode) -> Tool:
+
+
     # 处理tool_node并返回Tool对象
     tools = []
     if tool_node != None:
@@ -41,12 +39,12 @@ def process_tool_node(tool_node: ToolNode) -> Tool:
             )
 
         try:
+            if not (tool_call_url := os.getenv("TOOL_CALL_URL")):
+                tool_call_url = TOOL_CALL_URL_AGENT
             tool_node = ToolNode(**tool_node)
             # 工具集
             tool_schemas = tool_node.tool_schemas
             i = 0
-
-            schemas: Dict[str, Type[BaseModel]] = {}
 
             for tool_schema in tool_schemas:
                 i = i + 1
@@ -57,11 +55,9 @@ def process_tool_node(tool_node: ToolNode) -> Tool:
                 tenant_id = tool_schema.tenant_id
 
                 # 动态创建输入schema
-                fields = []
-                for input_schema in input_schemas:
-                    fields.append((input_schema.name, input_schema.type, input_schema.desc))
-
-                schemas[f"Schema_{i}"] = create_input_schema(fields, i)
+                # fields = [(input_schema.name, input_schema.type, input_schema.desc) for input_schema in
+                #           input_schemas]
+                # DynamicInputSchema = create_input_schema(fields, i)
 
                 args = ",".join([f"{input_schema.name}: {input_schema.type}" for input_schema in input_schemas])
                 # func_body = "\n".join(
@@ -71,7 +67,7 @@ def process_tool_node(tool_node: ToolNode) -> Tool:
 def tool_{i}({args}):
     import json
     import requests
-    url = "http://172.22.102.61:48080/admin-api/plugins/tool/external/call/test"
+    url = '{tool_call_url}'
     headers = {{
         'tenant-id': '{tenant_id}',
         'Content-Type': 'application/json'
@@ -100,7 +96,7 @@ def tool_{i}({args}):
                     # name='_'.join(lazy_pinyin(name)),
                     name=f"tool_{id}",
                     description=desc,
-                    args_schema=schemas[f"Schema_{i}"],
+                    # args_schema=DynamicInputSchema,
                     handle_tool_error=_handle_error,
                 )
 
@@ -111,10 +107,12 @@ def tool_{i}({args}):
     return tools
 
 def process_workflow_node(workflow_node: WorkflowNode) -> Tool:
+
     tools = []
 
     if workflow_node != None:
-
+        if not (workflow_call_url := os.getenv("WORKFLOW_CALL_URL")):
+            workflow_call_url = WORKFLOW_CALL_URL_AGENT
         def _handle_error(error: ToolException) -> str:
             return (
                     "The following errors occurred during tool execution:"
@@ -128,8 +126,6 @@ def process_workflow_node(workflow_node: WorkflowNode) -> Tool:
             workflow_schemas = workflow_node.workflow_schemas
             i = 0
 
-            schemas: Dict[str, Type[BaseModel]] = {}
-
             for workflow_schema in workflow_schemas:
                 i = i + 1
                 id = workflow_schema.workflow_id
@@ -139,11 +135,9 @@ def process_workflow_node(workflow_node: WorkflowNode) -> Tool:
                 tenant_id = workflow_schema.tenant_id
 
                 # 动态创建输入schema
-                fields = []
-                for input_schema in input_schemas:
-                    fields.append((input_schema.name, input_schema.type, input_schema.desc))
-
-                schemas[f"Schema_{i}"] = create_input_schema(fields, i)
+                # fields = [(input_schema.name, input_schema.type, input_schema.desc) for input_schema in
+                #           input_schemas]
+                # DynamicInputSchema = create_input_schema(fields, i)
 
                 args = ",".join([f"{input_schema.name}: {input_schema.type}" for input_schema in input_schemas])
                 # func_body = "\n".join(
@@ -152,7 +146,7 @@ def process_workflow_node(workflow_node: WorkflowNode) -> Tool:
 def workflow_{i}({args}):
     import json
     import requests
-    url = "http://172.22.102.61:8060/admin-api/workflow/run/external"
+    url = '{workflow_call_url}'
     headers = {{
         'tenant-id': '{tenant_id}',
         'Content-Type': 'application/json'
@@ -189,7 +183,7 @@ def workflow_{i}({args}):
                     # name='_'.join(lazy_pinyin(name)),
                     name=f"workflow_{id}",
                     description=desc,
-                    args_schema=schemas[f"Schema_{i}"],
+                    # args_schema=DynamicInputSchema,
                     handle_tool_error=_handle_error,
                 )
 
@@ -200,6 +194,8 @@ def workflow_{i}({args}):
         return tools
 
 def process_knowledge_node(knowledge_node: KnowledgeNode) -> Tool:
+
+
     tools = []
 
     if knowledge_node != None:
@@ -216,6 +212,8 @@ def process_knowledge_node(knowledge_node: KnowledgeNode) -> Tool:
             )
 
         try:
+            if not (knowledge_call_url := os.getenv("KNOWLEDGE_CALL_URL_AGENT")):
+                knowledge_call_url = KNOWLEDGE_CALL_URL_AGENT
             knowledge_node = KnowledgeNode(**knowledge_node)
             knowledge_schemas = knowledge_node.knowledge_schemas
             i = 0
@@ -231,7 +229,7 @@ def process_knowledge_node(knowledge_node: KnowledgeNode) -> Tool:
 def knowledge_search_{i}(query: str):
     import requests
     import json
-    url = "http://172.22.102.61:48080/admin-api/agent/text/langFlowAskTab"
+    url = '{knowledge_call_url}'
     headers = {{
         'tenant-id': '{tenant_id}',
         'Content-Type': 'application/json'
@@ -276,8 +274,7 @@ def process_llm_node(model: dict = {}):
         model=model_name,
         base_url=base_url,
         api_key=api_key,
-        temperature=temperature,
-        max_tokens=token_limit
+        temperature=temperature
     )
 
     # return ChatOpenAI(
@@ -288,9 +285,9 @@ def process_llm_node(model: dict = {}):
     # )
 
     # return ChatOpenAI(
-    #     # model="qwen1.5-14b-chat",
+    #     model="qwen1.5-14b-chat",
     #     # model="glm-4-9-chat",
-    #     model="deepseek-coder:33b",
+    #     # model="deepseek-coder:33b",
     #     base_url="http://172.22.102.61:3000/v1",
     #     api_key="sk-rm3ToYiJDy2MYPIf0c87Eb137f7644Dc9e84F03bD7B2F536",
     #     temperature=0.3
@@ -349,7 +346,10 @@ def process_agent_node(
         ]
     )
 
-    agent = create_openai_tools_agent(llm=llm, tools=tools, prompt=prompt)
+    if llm.model_name.startswith("gpt"):
+        agent = create_openai_functions_agent(llm=llm, tools=tools, prompt=prompt)
+    else:
+        agent = create_openai_tools_agent(llm=llm, tools=tools, prompt=prompt)
     # agent = create_openai_functions_agent(llm=llm, tools=tools, prompt=prompt)
 
     return AgentExecutor(

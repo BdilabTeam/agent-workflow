@@ -1,3 +1,4 @@
+import os
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Optional
@@ -30,6 +31,14 @@ def create_app():
     configure()
 
     app = FastAPI(lifespan=lifespan)
+    if (ENABLE_SWAGGER := os.getenv("ENABLE_SWAGGER", "false")) in ("true", "false"):
+        if ENABLE_SWAGGER == "false":
+            app.docs_url = None
+            app.redoc_url = None
+            app.openapi = None
+    else:
+        raise ValueError(f"The value of the ENABLE_SWAGGER environment variable should be true or false.")
+
     origins = ["*"]
 
     app.add_middleware(

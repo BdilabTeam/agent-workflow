@@ -9,6 +9,7 @@ services:
     volumes:
       - ./python/src/backend/langflow/:/home/user/app/langflow/
       - ./.prod_env:/home/user/app/.prod_env
+      - ./python/src/backend/logs/:/home/user/app/logs/
     network_mode: "host"
     ports:
       - "7860:7860"
