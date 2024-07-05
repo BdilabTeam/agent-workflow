@@ -5,7 +5,9 @@ from pypinyin import lazy_pinyin
 from langflow.field_typing import Tool
 
 import os
-from langchain.memory import ConversationTokenBufferMemory
+from langchain.memory import ConversationTokenBufferMemory, ConversationBufferMemory, ConversationBufferWindowMemory
+from langchain.memory.chat_memory import BaseChatMessageHistory
+from langchain.memory.chat_message_histories import RedisChatMessageHistory
 from langchain_community.chat_models.openai import ChatOpenAI
 from langchain_core.language_models import BaseLanguageModel
 from langchain_core.memory import BaseMemory
@@ -101,11 +103,11 @@ def tool_{i}({args}):
 
                 structuredTool = StructuredTool.from_function(
                     func=local_namespace[f"tool_{i}"],
-                    # name='_'.join(lazy_pinyin(name)),
-                    name=f"tool_{id}",
+                    name='_'.join(lazy_pinyin(name)),
+                    # name=f"tool_{id}",
                     description=desc,
                     args_schema=schemas[f"Schema_{i}"],
-                    handle_tool_error=_handle_error,
+                    handle_tool_error=_handle_error
                 )
 
                 tools.append(structuredTool)
@@ -192,8 +194,8 @@ def workflow_{i}({args}):
 
                 structuredTool = StructuredTool.from_function(
                     func=local_namespace[f"workflow_{i}"],
-                    # name='_'.join(lazy_pinyin(name)),
-                    name=f"workflow_{id}",
+                    name='_'.join(lazy_pinyin(name)),
+                    # name=f"workflow_{id}",
                     description=desc,
                     args_schema=schemas[f"Schema_{i}"],
                     handle_tool_error=_handle_error,
@@ -258,8 +260,8 @@ def knowledge_search_{i}(query: str):
 
                 structuredTool = StructuredTool.from_function(
                     func=local_namespace[f"knowledge_search_{i}"],
-                    # name='_'.join(lazy_pinyin(name)),
-                    name=f"knowledge_{id}",
+                    name='_'.join(lazy_pinyin(name)),
+                    # name=f"knowledge_{id}",
                     args_schema=KnowledgeInfoInput,
                     description=desc,
                     handle_tool_error=_handle_error,
@@ -307,9 +309,15 @@ def process_llm_node(model: dict = {}):
 
     # return ChatOpenAI(
     #     model="qwen2-72b",
-    #     # model="qwen1.5-14b-chat-0625",
     #     base_url="http://localhost:6006/v1",
     #     api_key="EMPTY",
+    #     temperature=0
+    # )
+
+    # return ChatOpenAI(
+    #     model="qwen2-72b-instruct",
+    #     base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+    #     api_key="sk-da5ca4307d9d46dd9fefb801326c182b",
     #     temperature=0
     # )
 
@@ -347,12 +355,25 @@ def process_agent_node(
             max_token_limit=2000,
         )
     else:
-        memory_key = memory.memory_key  # type: ignore
+        # memory_key = memory.memory_key
+        memory_key = "chat_history"
+        memory = ConversationBufferWindowMemory(
+            memory_key=memory_key,
+            return_messages=True,
+            k=2
+        )
+    # message_history = RedisChatMessageHistory(
+    #     url="redis://:bdilab@1308@124.70.188.119:6379/0", ttl=600, session_id="dcj"
+    # )
+    #
+    # memory = ConversationBufferMemory(
+    #     memory_key="chat_history", chat_memory=message_history
+    # )
 
     prompt = ChatPromptTemplate.from_messages(
         [
             SystemMessagePromptTemplate(prompt=PromptTemplate(input_variables=[], template=system_prompt)),
-            MessagesPlaceholder(variable_name='chat_history', optional=True),
+            MessagesPlaceholder(variable_name='chat_history'),
             HumanMessagePromptTemplate(prompt=PromptTemplate(input_variables=['input'], template='{input}')),
             MessagesPlaceholder(variable_name='agent_scratchpad')
         ]
@@ -362,7 +383,6 @@ def process_agent_node(
         agent = create_openai_functions_agent(llm=llm, tools=tools, prompt=prompt)
     else:
         agent = create_openai_tools_agent(llm=llm, tools=tools, prompt=prompt)
-    # agent = create_openai_functions_agent(llm=llm, tools=tools, prompt=prompt)
 
     return AgentExecutor(
         agent=agent,
