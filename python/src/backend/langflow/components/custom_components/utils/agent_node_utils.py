@@ -4,7 +4,7 @@ from pypinyin import lazy_pinyin
 
 from langflow.field_typing import Tool
 
-
+import os
 from langchain.memory import ConversationTokenBufferMemory
 from langchain_community.chat_models.openai import ChatOpenAI
 from langchain_core.language_models import BaseLanguageModel
@@ -18,14 +18,15 @@ from langchain_core.tools import Tool, ToolException
 from pydantic import BaseModel, Field, parse_obj_as
 from langchain.tools import StructuredTool
 from langchain.pydantic_v1 import BaseModel, Field
-
+from langflow.components.custom_components.utils.constants import TOOL_CALL_URL_AGENT, KNOWLEDGE_CALL_URL_AGENT, WORKFLOW_CALL_URL_AGENT
 
 from langflow.components.custom_components.schemas.agents import (
     ToolNode, Model,
     WorkflowNode, KnowledgeNode
 )
-
 def process_tool_node(tool_node: ToolNode) -> Tool:
+
+
     # 处理tool_node并返回Tool对象
     tools = []
     if tool_node != None:
@@ -38,6 +39,8 @@ def process_tool_node(tool_node: ToolNode) -> Tool:
             )
 
         try:
+            if not (tool_call_url := os.getenv("TOOL_CALL_URL")):
+                tool_call_url = TOOL_CALL_URL_AGENT
             tool_node = ToolNode(**tool_node)
             # 工具集
             tool_schemas = tool_node.tool_schemas
@@ -64,7 +67,7 @@ def process_tool_node(tool_node: ToolNode) -> Tool:
 def tool_{i}({args}):
     import json
     import requests
-    url = "http://172.22.102.61:48080/admin-api/plugins/tool/external/call/test"
+    url = '{tool_call_url}'
     headers = {{
         'tenant-id': '{tenant_id}',
         'Content-Type': 'application/json'
@@ -104,10 +107,12 @@ def tool_{i}({args}):
     return tools
 
 def process_workflow_node(workflow_node: WorkflowNode) -> Tool:
+
     tools = []
 
     if workflow_node != None:
-
+        if not (workflow_call_url := os.getenv("WORKFLOW_CALL_URL")):
+            workflow_call_url = WORKFLOW_CALL_URL_AGENT
         def _handle_error(error: ToolException) -> str:
             return (
                     "The following errors occurred during tool execution:"
@@ -141,7 +146,7 @@ def process_workflow_node(workflow_node: WorkflowNode) -> Tool:
 def workflow_{i}({args}):
     import json
     import requests
-    url = "http://172.22.102.61:8060/admin-api/workflow/run/external"
+    url = '{workflow_call_url}'
     headers = {{
         'tenant-id': '{tenant_id}',
         'Content-Type': 'application/json'
@@ -189,6 +194,8 @@ def workflow_{i}({args}):
         return tools
 
 def process_knowledge_node(knowledge_node: KnowledgeNode) -> Tool:
+
+
     tools = []
 
     if knowledge_node != None:
@@ -205,6 +212,8 @@ def process_knowledge_node(knowledge_node: KnowledgeNode) -> Tool:
             )
 
         try:
+            if not (knowledge_call_url := os.getenv("KNOWLEDGE_CALL_URL_AGENT")):
+                knowledge_call_url = KNOWLEDGE_CALL_URL_AGENT
             knowledge_node = KnowledgeNode(**knowledge_node)
             knowledge_schemas = knowledge_node.knowledge_schemas
             i = 0
@@ -220,7 +229,7 @@ def process_knowledge_node(knowledge_node: KnowledgeNode) -> Tool:
 def knowledge_search_{i}(query: str):
     import requests
     import json
-    url = "http://172.22.102.61:48080/admin-api/agent/text/langFlowAskTab"
+    url = '{knowledge_call_url}'
     headers = {{
         'tenant-id': '{tenant_id}',
         'Content-Type': 'application/json'
