@@ -29,7 +29,7 @@ class Knowledge(CustomComponent):
             }
         }
 
-    def build(
+    async def build(
         self, 
         prenode_inputs: List[Dict] = [],
         knowledge_node_schema: KnowledgeNode = None
@@ -65,4 +65,4 @@ class Knowledge(CustomComponent):
         #         ]
         #     }
         # }
-        return process_knowledge_node(prenode_inputs=prenode_inputs, knowledge_node_schema=knowledge_node_schema)
+        return await process_knowledge_node(prenode_inputs=prenode_inputs, knowledge_node_schema=knowledge_node_schema)
