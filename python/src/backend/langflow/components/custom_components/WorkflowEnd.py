@@ -73,16 +73,6 @@ class End(CustomComponent):
         #                 }
         #             }
         #         ]
-        #     },
-        #     "output_schema": {
-        #         "outputs": [
-        #             {
-        #                 "name": "output_name",
-        #                 "type": "string",
-        #                 "schema": None
-        #             }
-        #         ]
         #     }
-        # }
         return process_end_node(prenode_inputs=prenode_inputs, end_node_schema=end_node_schema)
         
