@@ -32,15 +32,15 @@ class Tool(CustomComponent):
             }
         }
 
-    def build(
+    async def build(
         self, 
         prenode_inputs: List[Dict] = [],
         tool_node_schema: ToolNode = None
     ) -> Union[dict, Dict]:
         # tool_node_schema = {
-        #     "tenant_id": 1,
+        #     "tenant_id": "1",
         #     "flow_id": "1",
-        #     "node_id": "ToolID2",
+        #     "node_id": "ToolID",
         #     "tool_ids": [
         #         "f92955f6-a945-44eb-9c8b-6484a146c0ef"
         #     ],
@@ -53,12 +53,12 @@ class Tool(CustomComponent):
         #                     "schema": None,
         #                     "value": {
         #                         "type": "literal",
-        #                         "content": "[\"15.197.130.221\"]"
+        #                         "content": "['15.197.130.221']"
         #                     }
         #                 }
         #             }
         #         ]
         #     }
         # }
-        return process_tool_node(prenode_inputs=prenode_inputs, tool_node_schema=tool_node_schema)
+        return await process_tool_node(prenode_inputs=prenode_inputs, tool_node_schema=tool_node_schema)
       
