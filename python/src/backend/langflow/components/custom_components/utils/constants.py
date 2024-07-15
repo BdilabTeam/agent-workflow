@@ -6,6 +6,10 @@ WORKFLOW_CALL_URL_AGENT = "http://172.22.102.61:8060/admin-api/workflow/run/exte
 TOOL_CALL_URL_AGENT = "http://172.22.102.61:48080/admin-api/plugins/tool/external/call/test"
 KNOWLEDGE_CALL_URL_AGENT = "http://172.22.102.61:48080/admin-api/agent/text/langFlowAskTab"
 
+DOC_QA_URL="http://172.22.102.61:8060/admin-api/agent/text/langFlow"
+DATA_QA_URL="http://172.22.102.61:8060"
+EXCEL_QA_URL="http://172.22.102.61:8060"
+
 PYTHON_BASIC_TYPES = [str, bool, int, float, tuple, list, dict, set]
 DIRECT_TYPES = [
     "str",
