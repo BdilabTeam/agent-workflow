@@ -234,7 +234,7 @@ def knowledge_search_{i}(query: str):
     import json
     url = '{knowledge_call_url}'
     headers = {{
-        'tenant-id': '{tenant_id}',
+        'tenantId': '{tenant_id}',
         'Content-Type': 'application/json'
     }}
     payload = {{'query': query, 'knowledge_base_id': '{id}' }}
