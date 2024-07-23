@@ -34,6 +34,7 @@ async def chat(
     db: Session = Depends(get_session),
     chat_service: "ChatService" = Depends(get_chat_service),
 ):
+    
     """Websocket endpoint for chat."""
     try:
         user = await get_current_user_for_websocket(websocket, db)

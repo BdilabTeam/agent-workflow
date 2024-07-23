@@ -8,7 +8,7 @@ from langflow import CustomComponent
 # )
 
 from langflow.components.custom_components.schemas.workflow import KnowledgeNode
-from langflow.components.custom_components.utils import process_knowledge_node
+from langflow.components.custom_components.utils import aprocess_knowledge_node
 
 class Knowledge(CustomComponent):
     id = "4"
@@ -38,6 +38,7 @@ class Knowledge(CustomComponent):
         #     "tenant_id": 1,
         #     "flow_id": "1",
         #     "node_id": "KnowledgeID",
+        #     "node_name": "KnowledgeName",
         #     "knowledge_ids": [
         #         "d728b8d382914250a634bf4aa0134d0d"
         #     ],
@@ -65,4 +66,4 @@ class Knowledge(CustomComponent):
         #         ]
         #     }
         # }
-        return await process_knowledge_node(prenode_inputs=prenode_inputs, knowledge_node_schema=knowledge_node_schema)
+        return await aprocess_knowledge_node(prenode_inputs=prenode_inputs, knowledge_node_schema=knowledge_node_schema)
