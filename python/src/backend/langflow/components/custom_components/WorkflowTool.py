@@ -11,7 +11,7 @@ from langflow import CustomComponent
 # from .rest import RESTClientObject, Configuration, RESTResponse
 
 from langflow.components.custom_components.schemas.workflow import ToolNode
-from langflow.components.custom_components.utils import process_tool_node
+from langflow.components.custom_components.utils import aprocess_tool_node
 
 class Tool(CustomComponent):
     id = "5"
@@ -41,6 +41,7 @@ class Tool(CustomComponent):
         #     "tenant_id": "1",
         #     "flow_id": "1",
         #     "node_id": "ToolID",
+        #     "node_name": "ToolName",
         #     "tool_ids": [
         #         "f92955f6-a945-44eb-9c8b-6484a146c0ef"
         #     ],
@@ -60,5 +61,5 @@ class Tool(CustomComponent):
         #         ]
         #     }
         # }
-        return await process_tool_node(prenode_inputs=prenode_inputs, tool_node_schema=tool_node_schema)
+        return await aprocess_tool_node(prenode_inputs=prenode_inputs, tool_node_schema=tool_node_schema)
       

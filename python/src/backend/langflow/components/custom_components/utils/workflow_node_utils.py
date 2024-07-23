@@ -48,41 +48,41 @@ from langflow.components.custom_components.schemas.workflow import EndNode, EndN
 
 def process_start_node(start_node_schema: StartNode):
     start_time = time.time()
+
+    # 校验node schema
+    start_node_schema = StartNode(**start_node_schema)
+    
     # 初始化节点状态
     start_node_data = NodeData(
         node_type=NodeType.START.value,
         node_status="RUNNING",
     )
-
-    # 校验node schema
-    start_node_schema = StartNode(**start_node_schema)
     try:
-        node_id = start_node_schema.node_id
-        start_node_data.node_id = node_id
-        
+        start_node_data.node_id = start_node_schema.node_id
+        start_node_data.node_name = start_node_schema.node_name
         workflow_id = start_node_schema.flow_id
+        
         # 数据库同步节点状态
         on_start(
             workflow_id=workflow_id,
             node_data=start_node_data
         )
         
-        # 核心算法
         # 解析输入schema
         parsed_input_dict = format_input_schemas_to_dict(
             input_schema=start_node_schema.input_schema,
         )
         if not parsed_input_dict:
-            parsed_input_json = ""
+            parsed_input_json_str = ""
         else:
-            parsed_input_json = json.dumps(parsed_input_dict, ensure_ascii=False)
-        start_node_data.input = parsed_input_json
+            parsed_input_json_str = json.dumps(parsed_input_dict, ensure_ascii=False)
+        start_node_data.input = parsed_input_json_str
         
-        parsed_output_json = parsed_input_json
-        start_node_data.output = parsed_output_json
+        parsed_output_json_str = parsed_input_json_str
+        start_node_data.output = parsed_output_json_str
         
         # 计算token消耗
-        input_tokens = compute_tokens_by_transformers(text=parsed_input_json)
+        input_tokens = compute_tokens_by_transformers(text=parsed_input_json_str)
         output_tokens = input_tokens
         total_tokens = input_tokens + output_tokens
         token_and_cost = TokenAndCost(
@@ -116,31 +116,31 @@ def process_start_node(start_node_schema: StartNode):
     start_node_response = StartNodeResponse(node_data=start_node_data)
     return start_node_response.model_dump()
 
-async def process_tool_node(
+async def aprocess_tool_node(
     prenode_inputs: List[Dict],
     tool_node_schema: ToolNode
 ):
     start_time = time.time()
+    
+    # 校验node schema
+    tool_node_schema = ToolNode(**tool_node_schema)
+    
     # 初始化节点状态
     tool_node_data = NodeData(
         node_type=NodeType.TOOL.value,
         node_status="RUNNING",
     )
-    
-    # 校验node schema
-    tool_node_schema = ToolNode(**tool_node_schema)
     try:
-        node_id = tool_node_schema.node_id
-        tool_node_data.node_id = node_id
-        
+        tool_node_data.node_id = tool_node_schema.node_id
+        tool_node_data.node_name = tool_node_schema.node_name
         workflow_id = tool_node_schema.flow_id
+        
         # 数据库同步节点状态
         on_start(
             workflow_id=workflow_id,
             node_data=tool_node_data
         )
         
-        # 节点执行核心区
         # 格式化前置节点输入数据
         all_nodes_data = format_prenodes_data(prenode_inputs=prenode_inputs)
         # 解析输入schema
@@ -149,10 +149,10 @@ async def process_tool_node(
             prenode_results=all_nodes_data
         )
         if not parsed_input_dict:
-            parsed_input_json = ""
+            parsed_input_json_str = ""
         else:
-            parsed_input_json = json.dumps(parsed_input_dict, ensure_ascii=False)
-        tool_node_data.input = parsed_input_json
+            parsed_input_json_str = json.dumps(parsed_input_dict, ensure_ascii=False)
+        tool_node_data.input = parsed_input_json_str
         
         tool_ids = tool_node_schema.tool_ids
         tenant_id = tool_node_schema.tenant_id
@@ -186,44 +186,41 @@ async def process_tool_node(
 
         # tool_call_results.append({tool_id: mock_data})
         
-        # TODO production test
+        # production test
         headers = {"tenant-id": tenant_id}
         body = {
-            "requestBody": parsed_input_json
+            "requestBody": parsed_input_json_str
         }
         
         tool_call_results = []
         for tool_id in tool_ids:
-            logger.info(f"Calling tool {tool_id}")
             body.update({"toolId": tool_id})
             if not (tool_call_url := os.getenv("TOOL_CALL_URL")):
                 tool_call_url = TOOL_CALL_URL   # 向后兼容
                 
             try:
                 async with httpx.AsyncClient() as client:
-                    tool_call_response = await client.post(url=tool_call_url, headers=headers, json=body, timeout=40)
+                    tool_call_response = await client.post(url=tool_call_url, headers=headers, json=body, timeout=15)
+                    
+                    if tool_call_response.is_success:
+                        tool_call_results.append({tool_id: tool_call_response.json()})
+                    else:
+                        raise ValueError(f"工具调用响应状态异常, 状态码: {tool_call_response.status_code}")
             except httpx.TimeoutException:
-                raise httpx.HTTPStatusError(message=f"工具调用超时", request=tool_call_response.request, response=tool_call_response)
-            
-            if tool_call_response.is_success:
-                tool_call_results.append({tool_id: tool_call_response.json()})
-            else:
-                try:
-                    # 尝试解析JSON格式的错误信息
-                    error_info = tool_call_response.json()
-                except httpx.JSONDecodeError:
-                    # 如果响应不是JSON格式，打印原始文本
-                    error_info = tool_call_response.text()
-                tool_call_results.append({tool_id: error_info})
+                raise ValueError("工具调用请求超时")
+            except httpx.HTTPStatusError as e:
+                raise ValueError(f"工具调用请求状态异常, 状态码: {e.response.status_code}") from e
+            except:
+                raise
         
         # TODO 工具节点一次只调用一个工具
         raw_output = tool_call_results[0].get(tool_ids[0], "")
-        parsed_output_json = json.dumps(raw_output, ensure_ascii=False)
-        tool_node_data.output = parsed_output_json
+        parsed_output_json_str = json.dumps(raw_output, ensure_ascii=False)
+        tool_node_data.output = parsed_output_json_str
         
         # 计算token消耗
-        input_tokens = compute_tokens_by_transformers(text=parsed_input_json)
-        output_tokens = compute_tokens_by_transformers(text=parsed_output_json)
+        input_tokens = compute_tokens_by_transformers(text=parsed_input_json_str)
+        output_tokens = compute_tokens_by_transformers(text=parsed_output_json_str)
         total_tokens = input_tokens + output_tokens
         token_and_cost = TokenAndCost(
             input_tokens=format_tokens(input_tokens),
@@ -262,26 +259,26 @@ async def aprocess_llm_node(
     llm_node_schema: LLMNode
 ):
     start_time = time.time()
+    
+    # 校验node schema
+    llm_node_schema = LLMNode(**llm_node_schema)
+    
     # 初始化节点状态
     llm_node_data = NodeData(
         node_type=NodeType.LLM.value,
         node_status="RUNNING",
     )
-    
-    # 校验node schema
-    llm_node_schema = LLMNode(**llm_node_schema)
     try:
-        node_id = llm_node_schema.node_id
-        llm_node_data.node_id = node_id
-        
+        llm_node_data.node_id = llm_node_schema.node_id
+        llm_node_data.node_name = llm_node_schema.node_name
         workflow_id = llm_node_schema.flow_id
+        
         # 数据库同步节点状态
         on_start(
             workflow_id=workflow_id,
             node_data=llm_node_data
         )
         
-        # 节点执行核心区
         # 格式化前置节点输入数据
         all_nodes_data = format_prenodes_data(prenode_inputs=prenode_inputs)
         # 解析输入schema
@@ -290,10 +287,10 @@ async def aprocess_llm_node(
             prenode_results=all_nodes_data
         )
         if not parsed_input_dict:
-            parsed_input_json = ""
+            parsed_input_json_str = ""
         else:
-            parsed_input_json = json.dumps(parsed_input_dict, ensure_ascii=False)
-        llm_node_data.input = parsed_input_json
+            parsed_input_json_str = json.dumps(parsed_input_dict, ensure_ascii=False)
+        llm_node_data.input = parsed_input_json_str
         
         if not (prompt_template := llm_node_schema.prompt):
             raise ValueError("大模型提示词'prompt'不能为空.")
@@ -308,14 +305,14 @@ async def aprocess_llm_node(
             template_format="mustache"
         )
         
-        # TODO 生产环境测试            
+        # 生产环境测试            
         model = ChatOpenAI(
             model=llm_node_schema.model_schema.model_name.lower(),
             temperature=llm_node_schema.model_schema.model_parameters.temperature,
             base_url=llm_node_schema.model_schema.model_parameters.openai_base_url,
             api_key=llm_node_schema.model_schema.model_parameters.openai_api_key,
         )
-        # TODO 外网测试
+        # 外网测试
         # model = ChatOpenAI(
         #     base_url="https://api.chatanywhere.com.cn",
         #     api_key="sk-Ms5F2wAkilaaZYo0HpumWR7qBLkOIsXflNQeAHSrNtmUYjzk",
@@ -329,12 +326,12 @@ async def aprocess_llm_node(
         
         # TODO 是否需要输出解析器来解析大模型输出为用户指定数据类型？
         parsed_output_dict = format_output_schemas_to_dict(output_schema=llm_node_schema.output_schema, raw_output=raw_output)
-        parsed_output_json = json.dumps(parsed_output_dict, ensure_ascii=False)
-        llm_node_data.output = parsed_output_json
+        parsed_output_json_str = json.dumps(parsed_output_dict, ensure_ascii=False)
+        llm_node_data.output = parsed_output_json_str
         
         # 计算token消耗
-        input_tokens = compute_tokens_by_transformers(text=parsed_input_json)
-        output_tokens = compute_tokens_by_transformers(text=parsed_output_json)
+        input_tokens = compute_tokens_by_transformers(text=parsed_input_json_str)
+        output_tokens = compute_tokens_by_transformers(text=parsed_output_json_str)
         total_tokens = input_tokens + output_tokens
         token_and_cost = TokenAndCost(
             input_tokens=format_tokens(input_tokens),
@@ -370,32 +367,31 @@ async def aprocess_llm_node(
     
     return next_response
 
-async def process_knowledge_node(
+async def aprocess_knowledge_node(
     prenode_inputs: List[Dict],
     knowledge_node_schema: KnowledgeNode
 ):
     start_time = time.time()
-        
+    
+    # 校验node schema
+    knowledge_node_schema = KnowledgeNode(**knowledge_node_schema)
+    
     # 初始化节点状态
     knowledge_node_data = NodeData(
         node_type=NodeType.KNOWLEDGE.value,
         node_status="RUNNING",
     )
-    
-    # 校验node schema
-    knowledge_node_schema = KnowledgeNode(**knowledge_node_schema)
     try:
-        node_id = knowledge_node_schema.node_id
-        knowledge_node_data.node_id = node_id
-        
+        knowledge_node_data.node_id = knowledge_node_schema.node_id
+        knowledge_node_data.node_name = knowledge_node_schema.node_name
         workflow_id = knowledge_node_schema.flow_id
+        
         # 数据库同步节点状态
         on_start(
             workflow_id=workflow_id,
             node_data=knowledge_node_data
         )
         
-        # 核心算法
         # 格式化前置节点输入数据
         all_nodes_data = format_prenodes_data(prenode_inputs=prenode_inputs)
         # 解析输入schema
@@ -404,10 +400,10 @@ async def process_knowledge_node(
             prenode_results=all_nodes_data
         )
         if not parsed_input_dict:
-            parsed_input_json = ""
+            parsed_input_json_str = ""
         else:
-            parsed_input_json = json.dumps(parsed_input_dict, ensure_ascii=False)
-        knowledge_node_data.input = parsed_input_json
+            parsed_input_json_str = json.dumps(parsed_input_dict, ensure_ascii=False)
+        knowledge_node_data.input = parsed_input_json_str
         
         query = get_query_value(parsed_input_dict)
         
@@ -428,25 +424,27 @@ async def process_knowledge_node(
         
         if not (knowledge_call_url := os.getenv("KNOWLEDGE_CALL_URL")):
             knowledge_call_url = KNOWLEDGE_CALL_URL
-        
+            
         try:
             async with httpx.AsyncClient() as client:
-                knowledge_call_response = await client.post(url=knowledge_call_url, json=body, timeout=40)
+                knowledge_call_response = await client.post(url=knowledge_call_url, json=body, timeout=20)
+                if knowledge_call_response.is_success:
+                    # 解析响应数据
+                    knowledge_call_response_dict = knowledge_call_response.json()
+                    response_code = knowledge_call_response_dict.get("code")
+                    response_msg = knowledge_call_response_dict.get("msg")
+                    if response_code != 0:
+                        raise ValueError(f"知识库检索失败，具体原因: {response_msg}")
+                    if not (response_data := knowledge_call_response_dict.get("data")):
+                        raise ValueError(f"知识库检索结果为空")
+                else:
+                    raise ValueError(f"知识库调用响应状态异常, 状态码: {knowledge_call_response.status_code}")
         except httpx.TimeoutException:
-            response_data = "请求超时"
-            
-        if knowledge_call_response.is_success:
-            # 解析响应数据
-            knowledge_call_response_dict = knowledge_call_response.json()
-            response_code = knowledge_call_response_dict.get("code")
-            response_msg = knowledge_call_response_dict.get("msg")
-            if response_code != 0:
-                raise ValueError(f"知识库检索失败，具体原因: {response_msg}")
-            
-            if not (response_data := knowledge_call_response_dict.get("data")):
-                raise ValueError(f"知识库检索结果为空")
-        else:
-            raise httpx.HTTPStatusError(message=f"知识库请求状态异常, 状态码: {knowledge_call_response.status_code}", request=knowledge_call_response.request, response=knowledge_call_response)
+            raise ValueError("知识库调用请求超时")
+        except httpx.HTTPStatusError as e:
+            raise ValueError(f"知识库调用请求状态异常, 状态码: {e.response.status_code}") from e
+        except:
+            raise
 
         # 构造响应数据用于测试
         # response_data = {
@@ -484,12 +482,12 @@ async def process_knowledge_node(
         
         # 解析响应数据
         parsed_output_dict = knowledge_node_default_outputs.model_dump(by_alias=True)
-        parsed_output_json = json.dumps(parsed_output_dict, ensure_ascii=False)
-        knowledge_node_data.output = parsed_output_json
+        parsed_output_json_str = json.dumps(parsed_output_dict, ensure_ascii=False)
+        knowledge_node_data.output = parsed_output_json_str
         
         # 计算token消耗
-        input_tokens = compute_tokens_by_transformers(text=parsed_input_json)
-        output_tokens = compute_tokens_by_transformers(text=parsed_output_json)
+        input_tokens = compute_tokens_by_transformers(text=parsed_input_json_str)
+        output_tokens = compute_tokens_by_transformers(text=parsed_output_json_str)
         total_tokens = input_tokens + output_tokens
         token_and_cost = TokenAndCost(
             input_tokens=format_tokens(input_tokens),
@@ -529,49 +527,48 @@ def process_end_node(
     end_node_schema: EndNode
 ):
     start_time = time.time()
+    
+    # 校验node schema
+    end_node_schema = EndNode(**end_node_schema)
+    
     # 初始化节点状态
     end_node_data = NodeData(
         node_type=NodeType.END.value,
         node_status="RUNNING",
     )
     
-    # 校验node schema
-    end_node_schema = EndNode(**end_node_schema)
+    # 格式化前置节点输入数据
+    all_nodes_data = format_prenodes_data(prenode_inputs=prenode_inputs)
     
-    all_nodes_data = []
     try:
-        node_id = end_node_schema.node_id
-        end_node_data.node_id = node_id
-        
+        end_node_data.node_id = end_node_schema.node_id
+        end_node_data.node_name = end_node_schema.node_name
         workflow_id = end_node_schema.flow_id
         
-        # 格式化前置节点输入数据
-        all_nodes_data = format_prenodes_data(prenode_inputs=prenode_inputs)
         # 数据库同步节点状态
         on_start(
             workflow_id=workflow_id,
             node_data=end_node_data
         )
         
-        # 核心算法
         # 解析输入schema
         parsed_input_dict = format_input_schemas_to_dict(
             input_schema=end_node_schema.input_schema,
             prenode_results=all_nodes_data
         )
         if not parsed_input_dict:
-            parsed_input_json = ""
+            parsed_input_json_str = ""
         else:
-            parsed_input_json = json.dumps(parsed_input_dict, ensure_ascii=False)
-        end_node_data.input = parsed_input_json
+            parsed_input_json_str = json.dumps(parsed_input_dict, ensure_ascii=False)
+        end_node_data.input = parsed_input_json_str
         
         # End节点解析完称的输入等价于输出
-        parsed_output_json = parsed_input_json
-        end_node_data.output = parsed_output_json
+        parsed_output_json_str = parsed_input_json_str
+        end_node_data.output = parsed_output_json_str
         
         # 计算token消耗
-        input_tokens = compute_tokens_by_transformers(text=parsed_input_json)
-        output_tokens = compute_tokens_by_transformers(text=parsed_output_json)
+        input_tokens = compute_tokens_by_transformers(text=parsed_input_json_str)
+        output_tokens = compute_tokens_by_transformers(text=parsed_output_json_str)
         total_tokens = input_tokens + output_tokens
         token_and_cost = TokenAndCost(
             input_tokens=format_tokens(input_tokens),

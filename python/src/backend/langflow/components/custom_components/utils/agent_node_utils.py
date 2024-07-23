@@ -120,9 +120,10 @@ def process_workflow_node(workflow_node: WorkflowNode) -> Tool:
                     + "Please try another tool."
             )
 
+        workflow_node = WorkflowNode(**workflow_node)
         try:
             # 工具集
-            workflow_node = WorkflowNode(**workflow_node)
+            agent_exec_id = workflow_node.agent_exec_id
             workflow_schemas = workflow_node.workflow_schemas
             i = 0
 
@@ -133,7 +134,6 @@ def process_workflow_node(workflow_node: WorkflowNode) -> Tool:
                 desc = workflow_schema.workflow_desc
                 input_schemas = workflow_schema.input_schema
                 tenant_id = workflow_schema.tenant_id
-
                 # 动态创建输入schema
                 # fields = [(input_schema.name, input_schema.type, input_schema.desc) for input_schema in
                 #           input_schemas]
@@ -154,7 +154,8 @@ def workflow_{i}({args}):
     request_body = {{ {', '.join(f"'{input_schema.name}': {input_schema.name}" for input_schema in input_schemas)} }}
     payload = {{
         'workflowId': '{id}',
-        'input': request_body
+        'input': request_body,
+        'agentExecId': '{agent_exec_id}'
     }}
     try:
         response = requests.post(url, headers=headers, json=payload)
@@ -191,6 +192,7 @@ def workflow_{i}({args}):
 
         except Exception as e:
             pass
+        print(f"*********{tools}")
         return tools
 
 def process_knowledge_node(knowledge_node: KnowledgeNode) -> Tool:
@@ -231,7 +233,7 @@ def knowledge_search_{i}(query: str):
     import json
     url = '{knowledge_call_url}'
     headers = {{
-        'tenant-id': '{tenant_id}',
+        'tenantId': '{tenant_id}',
         'Content-Type': 'application/json'
     }}
     payload = {{'query': query, 'knowledge_base_id': '{id}' }}

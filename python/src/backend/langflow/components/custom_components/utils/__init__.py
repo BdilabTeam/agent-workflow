@@ -15,8 +15,8 @@ from .utils import (
 
 from .workflow_node_utils import (
     process_start_node,
-    process_tool_node,
+    aprocess_tool_node,
     aprocess_llm_node,
-    process_knowledge_node,
+    aprocess_knowledge_node,
     process_end_node
 )

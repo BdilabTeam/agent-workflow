@@ -323,3 +323,12 @@ custom_components:
     documentation: ""
   AgentWorkflow:
     documentation: ""
+
+  MixAgentQa:
+    documentation: ""
+  MixDataQa:
+    documentation: ""
+  MixDocQa:
+    documentation: ""
+  MixTableQa:
+    documentation: ""

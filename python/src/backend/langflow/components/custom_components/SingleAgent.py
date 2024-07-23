@@ -9,8 +9,7 @@ from langflow.components.custom_components.utils.agent_node_utils import process
 
 
 class ConversationalAgent(CustomComponent):
-    display_name: str = "OpenAI Conversational Agent"
-    description: str = "Conversational Agent that can use OpenAI's function calling API"
+    display_name: str = "单智能体节点"
 
     def build_config(self):
         return {

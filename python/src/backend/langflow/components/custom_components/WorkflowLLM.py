@@ -41,6 +41,7 @@ class LLM(CustomComponent):
         # llm_node_schema = {
         #     "flow_id": "1",
         #     "node_id": "LLMID",
+        #     "node_name": "LLMName",
         #     "prompt": "分析ip详情: {{ip_info}}",
         #     "model_schema": {
         #         "model_name": "qwen1.5-14b-chat",
