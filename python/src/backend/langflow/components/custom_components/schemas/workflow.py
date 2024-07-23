@@ -36,7 +36,7 @@ class InputParameter(BaseModel):
 
 class Inputs(BaseModel):
     """输入schema"""
-    inputParameters: List[InputParameter]
+    inputParameters: List[InputParameter] = Field(default=[])
 
 class Output(BaseModel):
     type: str = Field(description="字段类型", examples=["string", "integer", "number", "boolean"])
@@ -50,7 +50,7 @@ class Output(BaseModel):
 
 class Outputs(BaseModel):
     """输出schema"""
-    outputs: List[Output]
+    outputs: List[Output] = Field(default=[])
 
 class ModelQuota(BaseModel):
     token_limit: Optional[int] = Field(default=4096, description="token数上限")
@@ -95,23 +95,26 @@ class StartNode(NodeBase):
     """开始节点schema"""
     flow_id: str = Field(description="流ID，用于关联中间结果")
     node_id: str = Field(description="节点ID")
-    input_schema: Inputs = Field(description="结束节点输入数据结构")
+    node_name: Optional[str] = Field(default="Unknown", description="节点名称")
+    input_schema: Optional[Inputs] = Field(description="结束节点输入数据结构")
     # output_schema: Outputs = Field(description="结束节点输出数据结构")
 
 class EndNode(NodeBase):
     """结束节点schema"""
     flow_id: str = Field(description="流ID，用于关联中间结果")
     node_id: str = Field(description="节点ID")
-    prompt: str = Field(description="输出格式化")
-    input_schema: Inputs = Field(description="结束节点输入数据结构")
+    node_name: Optional[str] = Field(default="Unknown", description="节点名称")
+    prompt: Optional[str] = Field(description="输出格式化")
+    input_schema: Optional[Inputs] = Field(description="结束节点输入数据结构")
     # output_schema: Outputs = Field(description="结束节点输出数据结构")
 
 class LLMNode(NodeBase):
     """LLM节点schema"""
     flow_id: str = Field(description="流ID，用于关联中间结果")
     node_id: str = Field(description="节点ID")
-    input_schema: Inputs = Field(description="LLM节点输入数据结构")
-    output_schema: Outputs = Field(description="LLM节点输出数据结构")
+    node_name: Optional[str] = Field(default="Unknown", description="节点名称")
+    input_schema: Optional[Inputs] = Field(description="LLM节点输入数据结构")
+    output_schema: Optional[Outputs] = Field(description="LLM节点输出数据结构")
     prompt: str = Field(description="大模型提示词")
     model_schema: Model = Field(description="大模型配置信息")
     
@@ -120,8 +123,9 @@ class ToolNode(NodeBase):
     tenant_id: Union[int, str] = Field(description="租户ID")
     flow_id: str = Field(description="流ID，用于关联中间结果")
     node_id: str = Field(description="节点ID")
+    node_name: Optional[str] = Field(default="Unknown", description="节点名称")
     tool_ids: List[str] = Field(description="工具ID列表", examples=["1", "2"])
-    input_schema: Inputs = Field(description="工具节点输入数据结构")
+    input_schema: Optional[Inputs] = Field(description="工具节点输入数据结构")
     # output_schema: Outputs = Field(description="LLM节点输出数据结构")
     
 class KnowledgeConfig(BaseModel):
@@ -138,8 +142,9 @@ class KnowledgeNode(NodeBase):
     tenant_id: Union[int, str] = Field(description="租户ID")
     flow_id: str = Field(description="流ID，用于关联中间结果")
     node_id: str = Field(description="节点ID")
+    node_name: Optional[str] = Field(default="Unknown", description="节点名称")
     knowledge_ids: List[str] = Field(description="知识库ID列表", examples=["1", "2"])
-    input_schema: Inputs = Field(description="知识节点输入数据结构")
+    input_schema: Optional[Inputs] = Field(description="知识节点输入数据结构")
     knowledge_schema: Knowledge = Field(description="知识检索配置信息")
 
 class TokenAndCost(BaseModel):

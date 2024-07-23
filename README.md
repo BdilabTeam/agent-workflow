@@ -73,6 +73,7 @@ docker-compose up
 docker run -d --user root --name agent-workflow \
   -v $(pwd)/python/src/backend/langflow/:/home/user/app/langflow/ \
   -v $(pwd)/.prod_env:/home/user/app/.prod_env \
+  -v $(pwd)/python/src/backend/logs/:/home/user/app/logs/ \
   -p 7860:7860 \
   {{image_id}} \
   /bin/bash -c "cd /home/user/app/ && python -m langflow run --host 0.0.0.0 --env-file /home/user/app/.prod_env"

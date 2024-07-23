@@ -28,6 +28,7 @@ class Start(CustomComponent):
         # start_node_schema = {
         #     "flow_id": "1",
         #     "node_id": "StartID",
+        #     "node_name": "StartName",
         #     "input_schema": {
         #         "inputParameters": [
         #             {

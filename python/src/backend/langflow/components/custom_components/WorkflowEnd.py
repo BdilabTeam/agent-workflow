@@ -41,6 +41,7 @@ class End(CustomComponent):
         # end_node_schema = {
         #     "flow_id": "1",
         #     "node_id": "EndID",
+        #     "node_name": "EndName",
         #     "prompt": "Here is the {{variable}}",
         #     "input_schema": {
         #         "inputParameters": [
@@ -57,22 +58,9 @@ class End(CustomComponent):
         #                         }
         #                     }
         #                 }
-        #             },
-        #             {
-        #                 "name": "摆脱push的方案",
-        #                 "input": {
-        #                     "type": "string",
-        #                     "schema": None,
-        #                     "value": {
-        #                         "type": "ref",
-        #                         "content": {
-        #                             "source_id": "LLMID-2",
-        #                             "name": "plan"
-        #                         }
-        #                     }
-        #                 }
         #             }
         #         ]
         #     }
+        # }
         return process_end_node(prenode_inputs=prenode_inputs, end_node_schema=end_node_schema)
         
