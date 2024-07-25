@@ -5,21 +5,25 @@
 ### <b>Locally</b>
 安装agent-workflow环境：
 ```shell
+python>=3.10
+
 pip install -r requirements.txt
 ```
 
 # 🔥 启动
 
 ### <b>Locally</b>
+Windows系统启动项目后无法打开Langflow UI, 解决方案请参考以下链接：https://pure-treasures.notion.site/Windows-b5f7561e9d3649ba901edb34d462b24a?pvs=4
+
 通过以下命令启动agent-workflow项目：
 ```shell
 cd python/src/backend
 
+推荐：通过自定义环配置文件启动
+python -m langflow run --env-file ../../../.env
+
 默认配置启动
 python -m langflow run 
-
-通过自定义环配置文件启动
-python -m langflow run --env-file ../../../.env
 ```
 以下是启动agent-workflow的可选参数:
 Each option is detailed below:
