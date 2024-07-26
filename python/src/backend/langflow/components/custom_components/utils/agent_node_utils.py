@@ -123,7 +123,7 @@ def process_workflow_node(workflow_node: WorkflowNode) -> Tool:
         workflow_node = WorkflowNode(**workflow_node)
         try:
             # 工具集
-            agent_exec_id = workflow_node.agent_exec_id
+            # agent_exec_id = workflow_node.agent_exec_id
             workflow_schemas = workflow_node.workflow_schemas
             i = 0
 
@@ -154,8 +154,7 @@ def workflow_{i}({args}):
     request_body = {{ {', '.join(f"'{input_schema.name}': {input_schema.name}" for input_schema in input_schemas)} }}
     payload = {{
         'workflowId': '{id}',
-        'input': request_body,
-        'agentExecId': '{agent_exec_id}'
+        'input': request_body
     }}
     try:
         response = requests.post(url, headers=headers, json=payload)
