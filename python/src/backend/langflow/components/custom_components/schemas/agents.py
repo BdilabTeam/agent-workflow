@@ -74,7 +74,7 @@ class WorkflowSchema(BaseModel):
 
 
 class WorkflowNode(BaseModel):
-    agent_exec_id: str = Field(description="智能体执行id")
+    # agent_exec_id: str = Field(description="智能体执行id")
     workflow_schemas: List[WorkflowSchema] = Field(description="工作流节点的工作流列表")
 
 class Prompt(BaseModel):
