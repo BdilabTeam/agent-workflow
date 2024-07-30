@@ -191,7 +191,6 @@ def workflow_{i}({args}):
 
         except Exception as e:
             pass
-        print(f"*********{tools}")
         return tools
 
 def process_knowledge_node(knowledge_node: KnowledgeNode) -> Tool:
