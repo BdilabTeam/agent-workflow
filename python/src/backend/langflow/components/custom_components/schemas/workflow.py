@@ -247,15 +247,15 @@ class KnowledgeNodeDefaultOutputs(BaseModel):
     output_list: List[KnowledgeNodeDefaultOutput] = Field(description="输出列表", serialization_alias="outputList")
 
 
-# class WorkflowNode(BaseModel):
-#     """工作流节点schema"""
-#     tenant_id: Union[int, str] = Field(description="租户ID")
-#     flow_id: str = Field(description="流ID，用于关联中间结果")
-#     node_id: str = Field(description="节点ID")
-#     node_name: Optional[str] = Field(default="Unknown", description="节点名称")
-#     input_schema: Optional[Inputs] = Field(description="工作流节点输入数据结构")
-#     sub_flow_ids: List[str] = Field(description="子工作流ID列表")
-#
-#
-# class WorkflowResponse(BaseModel):
-#     """工作流节点响应Schema"""
+class WorkflowNode(BaseModel):
+    """工作流节点schema"""
+    tenant_id: Union[int, str] = Field(description="租户ID")
+    flow_id: str = Field(description="流ID，用于关联中间结果")
+    node_id: str = Field(description="节点ID")
+    node_name: Optional[str] = Field(default="Unknown", description="节点名称")
+    input_schema: Optional[Inputs] = Field(description="工作流节点输入数据结构")
+    sub_flow_ids: List[str] = Field(description="子工作流ID列表")
+
+
+class WorkflowResponse(BaseModel):
+    """工作流节点响应Schema"""
