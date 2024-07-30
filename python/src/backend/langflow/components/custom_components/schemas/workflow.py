@@ -75,6 +75,7 @@ class ModelList(BaseModel):
 class NodeBase(BaseModel):
     flow_id: str = Field(description="流ID，用于关联中间结果")
     node_id: str = Field(description="节点ID")
+    node_name: Optional[str] = Field(default="Unknown", description="节点名称")
     input_schema: Inputs = Field(description="结束节点输入数据结构")
     
     @field_validator("flow_id", mode="before")
@@ -147,6 +148,12 @@ class KnowledgeNode(NodeBase):
     input_schema: Optional[Inputs] = Field(description="知识节点输入数据结构")
     knowledge_schema: Knowledge = Field(description="知识检索配置信息")
 
+class MessageNode(NodeBase):
+    flow_id: str = Field(description="流ID，用于关联中间结果")
+    node_id: str = Field(description="节点ID")
+    input_schema: Inputs = Field(description="消息节点输入数据结构")
+    answer_content: str = Field(description="指定消息节点回答的内容")
+
 class TokenAndCost(BaseModel):
     input_tokens: str = Field(default="0 Tokens", description="输入tokens")
     input_cost: str = Field(default="$0.0", description="输入tokens计费金额")
@@ -186,6 +193,9 @@ class KnowledgeNodeResponse(NodeResponse):
 class EndNodeResponse(NodeResponse):
     """结束节点响应Schema"""
     all_nodes_data: List[NodeData] = Field(description="所有节点输出")
+
+class MessageNodeResponse(NodeResponse):
+    """消息节点响应Schema"""
 
 class RetrievalResult(BaseModel):
     tenant_id: Optional[Union[int, str]] = Field(description="租户ID")

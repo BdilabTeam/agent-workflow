@@ -26,6 +26,7 @@ class NodeType(Enum):
     KNOWLEDGE = "Knowledge"
     LLM = "LLM"
     END = "End"
+    MESSAGE = "Message"
     
 class RetrievalResultSourceType(Enum):
     DOC = "doc"
