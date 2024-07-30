@@ -312,6 +312,8 @@ custom_components:
     documentation: ""
   WorkflowKnowledge: 
     documentation: ""
+  WorkflowMessage:
+    documentation: ""
     
   SingleAgent:
     documentation: ""

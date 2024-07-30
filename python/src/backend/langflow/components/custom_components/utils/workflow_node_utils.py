@@ -1,4 +1,5 @@
 import os
+import re
 import time
 import json
 import httpx
@@ -45,6 +46,10 @@ from langflow.components.custom_components.schemas.workflow import (
 
 # End
 from langflow.components.custom_components.schemas.workflow import EndNode, EndNodeResponse, NodeData, TokenAndCost
+
+# Message
+from langflow.components.custom_components.schemas.workflow import MessageNode, MessageNodeResponse
+
 
 def process_start_node(start_node_schema: StartNode):
     start_time = time.time()
@@ -602,3 +607,81 @@ def process_end_node(
         node_data=end_node_data,
         all_nodes_data=all_nodes_data
     ).model_dump()
+    
+def process_message_node(
+    prenode_inputs: List[Dict],
+    message_node_schema: MessageNode
+):
+    start_time = time.time()
+    # 初始化节点状态
+    message_node_data = NodeData(
+        node_type=NodeType.MESSAGE.value,
+        node_status="RUNNING",
+    )
+    message_node_schema = MessageNode(**message_node_schema)
+    try:
+        node_id = message_node_schema.node_id
+        message_node_data.node_id = node_id
+        workflow_id = message_node_schema.flow_id
+        on_start(
+            workflow_id=workflow_id,
+            node_data=message_node_data
+        )
+
+        all_nodes_data = format_prenodes_data(prenode_inputs=prenode_inputs)
+        parsed_input_dict = format_input_schemas_to_dict(
+            input_schema=message_node_schema.input_schema,
+            prenode_results=all_nodes_data
+        )
+
+        if not parsed_input_dict:
+            parsed_input_json_str = ""
+        else:
+            parsed_input_json_str = json.dumps(parsed_input_dict, ensure_ascii=False)
+        message_node_data.input = parsed_input_json_str
+
+        # TODO
+        f_string = message_node_schema.answer_content
+        # 找到所有的占位符
+        placeholders = re.findall(r'{(.*?)}', f_string)
+
+        if len(placeholders) > 0:
+            for placeholder in placeholders:
+                f_string = f_string.replace("{"+placeholder+"}", str(eval(placeholder, {}, parsed_input_dict)))
+
+        message_output_dict = {"output_variable": parsed_input_dict}
+        message_output_dict.update({"response": f_string})
+
+        parsed_output_json_str = json.dumps(message_output_dict, ensure_ascii=False)
+
+        message_node_data.output = parsed_output_json_str
+
+
+        # 计算token消耗
+        input_tokens = compute_tokens_by_transformers(text=parsed_input_json_str)
+        output_tokens = input_tokens
+        total_tokens = input_tokens + output_tokens
+        token_and_cost = TokenAndCost(
+            input_tokens=format_tokens(input_tokens),
+            output_tokens=format_tokens(output_tokens),
+            total_tokens=format_tokens(total_tokens)
+        )
+        message_node_data.token_and_cost = token_and_cost
+        node_status = "SUCCESS"
+
+    except Exception as e:
+        node_status = "FAILED"
+        error_info = str(e)
+        message_node_data.error_info = error_info
+
+    message_node_data.node_status = node_status
+    end_time = time.time()
+    node_exe_cost = f"{round((end_time - start_time), 3)}s"
+    message_node_data.node_exe_cost = node_exe_cost
+
+    on_end(
+        workflow_id=workflow_id,
+        node_data=message_node_data
+    )
+    message_node_response = MessageNodeResponse(node_data=message_node_data)
+    return message_node_response.model_dump()
