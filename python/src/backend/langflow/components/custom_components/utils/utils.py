@@ -6,7 +6,11 @@ import tiktoken
 from chevron import render
 from enum import Enum
 from string import Formatter
-from typing import Union, List, Dict, Any
+from typing import Union, List, Dict, Any,Optional
+import docker
+from docker.errors import APIError, DockerException
+import tempfile
+import json
 
 from jinja2 import Template
 from transformers import PreTrainedTokenizerFast
@@ -27,6 +31,7 @@ class NodeType(Enum):
     LLM = "LLM"
     END = "End"
     MESSAGE = "Message"
+    CODE = "Code"
     
 class RetrievalResultSourceType(Enum):
     DOC = "doc"
@@ -449,3 +454,76 @@ def create_input_schema(fields, j: int):
     InputSchema = type(f"InputSchema_{j}", (BaseModel,), attributes)
 
     return InputSchema
+
+def run_code_in_docker(code: str, parameters: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    if parameters is None:
+        parameters = {}
+
+    # 将 parameters 转换为 JSON 字符串
+    params_json = json.dumps({"params": parameters})
+
+    wrapper_code = f"""
+from typing import Dict, TypedDict
+
+class Args(TypedDict):
+    params: Dict[str, any]
+
+class Output(TypedDict):
+    ...
+
+{code}
+args = Args(**{params_json})
+res = main(args=args)
+print(res)
+"""
+
+    # 打印，检查代码格式
+    # print("Generated code:\n", wrapper_code)
+
+    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.py') as temp_script:
+        temp_script.write(wrapper_code)
+        temp_script_path = temp_script.name
+
+    try:
+        # 初始化 Docker 客户端并检查连接
+        client = docker.from_env()
+        client.ping()
+
+        cmd = f"python /code/{os.path.basename(temp_script_path)}"
+        container = client.containers.run(
+            "python:3.10-slim",
+            cmd,
+            detach=True,
+            volumes={os.path.dirname(temp_script_path): {'bind': '/code', 'mode': 'rw'}}
+        )
+
+        container.wait()
+
+        raw_output = container.logs().decode('utf-8').strip()
+        try:
+            result = eval(raw_output)
+        except Exception as e:
+            result = {"error": str(e)}
+
+    except APIError as e:
+        # Docker 守护进程未响应或出现其他 API 错误
+        result = {"error": f"Docker API Error: {e}"}
+    except DockerException as e:
+        # Docker 客户端无法连接到 Docker 守护进程
+        result = {"error": f"Docker Client Error: {e}"}
+    except Exception as e:
+        result = {"error": str(e)}
+    finally:
+        # 结束容器
+        try:
+            container.stop()
+        except Exception as e:
+            print(f"Error stopping container: {e}")
+        try:
+            container.remove()
+        except Exception as e:
+            print(f"Error removing container: {e}")
+
+        os.remove(temp_script_path)
+
+    return result
