@@ -38,14 +38,14 @@ class Code(CustomComponent):
             "code": """
 def main(args: Args) -> Output:
     params = args['params']
-    ret: Output =  {
+    ret: Output = {
         "key0": params['a'] + params['b'],
         "key1": ["hello", "world"],
         "key2": {
-            "key21": params['a']
-        }
+            "key21": "hi"
+        },
     }
-return ret
+    return ret
         """,
             "input_schema": {
                 "inputParameters": [
