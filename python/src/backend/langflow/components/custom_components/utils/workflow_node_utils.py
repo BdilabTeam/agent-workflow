@@ -53,6 +53,9 @@ from langflow.components.custom_components.schemas.workflow import MessageNode, 
 # Code
 from langflow.components.custom_components.schemas.workflow import CodeNode, CodeNodeResponse, NodeData, TokenAndCost
 
+# TextProcessing
+from langflow.components.custom_components.schemas.workflow import TextProcessingNode, TextProcessingNodeResponse
+
 from ..schemas.workflow import CodeNode, CodeNodeResponse, NodeData, TokenAndCost
 from ..utils import (
     format_prenodes_data,
@@ -796,3 +799,127 @@ def process_message_node(
     )
     message_node_response = MessageNodeResponse(node_data=message_node_data)
     return message_node_response.model_dump()
+
+
+def process_textprocessing_node(
+    prenode_inputs: List[Dict],
+    textprocessing_node_schema: TextProcessingNode  # 参数与自定义组件中的保持一致
+):
+    start_time = time.time()
+
+    # 校验node schema
+    textprocessing_node_schema = TextProcessingNode(**textprocessing_node_schema)
+
+    # 初始化节点状态
+    textprocessing_node_data = NodeData(
+        node_type=NodeType.TEXT_PROCESSING.value,
+        node_status="RUNNING",
+    )
+    try:
+        textprocessing_node_data.node_id = textprocessing_node_schema.node_id
+        textprocessing_node_data.node_name = textprocessing_node_schema.node_name
+        workflow_id = textprocessing_node_schema.flow_id
+
+        # 数据库同步节点状态
+        on_start(
+            workflow_id=workflow_id,
+            node_data=textprocessing_node_data
+        )
+
+        # 格式化前置节点输入数据
+        all_nodes_data = format_prenodes_data(prenode_inputs=prenode_inputs)
+        # 解析输入schema
+        parsed_input_dict = format_input_schemas_to_dict(
+            input_schema=textprocessing_node_schema.input_schema,
+            prenode_results=all_nodes_data
+        )
+        if not parsed_input_dict:
+            parsed_input_json_str = ""
+        else:
+            parsed_input_json_str = json.dumps(parsed_input_dict, ensure_ascii=False)
+        textprocessing_node_data.input = parsed_input_json_str
+
+        # TODO 节点功能实现
+        #选择模式
+        mode_selection=textprocessing_node_schema.mode_selection
+
+        # 字符串拼接模式
+        if mode_selection == "string_concatenation":
+            concatenation_output = textprocessing_node_schema.string_concatenation
+            if not concatenation_output:
+                raise ValueError("String concatenation concatenation_output is required for concatenation.")
+            # 用于替换模板中的占位符
+            def replace_placeholder(match):
+                key = match.group(1)
+                return str(parsed_input_dict.get(key, f"{{{{{key}}}}}"))
+            # 使用正则表达式替换占位符
+            textprocessing_node_data.raw_output = re.sub(r"\{\{(\w+)\}\}", replace_placeholder, concatenation_output)
+
+        #字符串分割模式
+        elif mode_selection == "string_separation":
+            delimiters_mapping = {
+                "line_break": "\n",
+                "tab_break": "\t",
+                "period": ".",
+                "comma": ",",
+                "semicolon": ";",
+                "space": " "
+            }
+            # 将分隔符映射为实际字符
+            delimiters = list(filter(None, map(delimiters_mapping.get, textprocessing_node_schema.delimiter)))
+            #delimiters = textprocessing_node_schema.delimiter
+            if not delimiters:
+                raise ValueError("Delimiter is required for string separation.")
+            # 创建一个正则表达式模式来匹配所有的分隔符
+            delimiter_pattern = '|'.join(map(re.escape, delimiters))
+            separated_output = []
+
+            # 对每个键的值进行分隔
+            key, value = list(parsed_input_dict.items())[0]
+            parts = re.split(delimiter_pattern, value)
+            # 过滤掉空字符串，保留空格
+            filtered_parts = [part for part in parts if part != ""]
+            separated_output = filtered_parts
+            textprocessing_node_data.raw_output = separated_output
+
+        parsed_output_dict = {"output": textprocessing_node_data.raw_output}
+        parsed_output_json_str = json.dumps(parsed_output_dict, ensure_ascii=False)
+        textprocessing_node_data.output = parsed_output_json_str
+
+        # 计算token消耗
+        input_tokens = compute_tokens_by_transformers(text=parsed_input_json_str)
+        output_tokens = compute_tokens_by_transformers(text=parsed_output_json_str)
+        total_tokens = input_tokens + output_tokens
+        token_and_cost = TokenAndCost(
+            input_tokens=format_tokens(input_tokens),
+            output_tokens=format_tokens(output_tokens),
+            total_tokens=format_tokens(total_tokens)
+        )
+        textprocessing_node_data.token_and_cost = token_and_cost
+
+        node_status = "SUCCESS"
+    except Exception as e:
+        node_status = "FAILED"
+        error_info = str(e)
+        textprocessing_node_data.error_info = error_info
+
+    # 更新状态
+    textprocessing_node_data.node_status = node_status
+
+    # 计算节点运行时间
+    end_time = time.time()
+    node_exe_cost = f"{round((end_time - start_time), 3)}s"
+    textprocessing_node_data.node_exe_cost = node_exe_cost
+
+    # 数据库同步节点状态
+    on_end(
+        workflow_id=workflow_id,
+        node_data=textprocessing_node_data
+    )
+
+    textprocessing_node_response = TextProcessingNodeResponse(node_data=textprocessing_node_data)
+
+    next_response = {"prenode_inputs": prenode_inputs}
+    next_response.update(textprocessing_node_response.model_dump())
+
+    return next_response

@@ -20,5 +20,6 @@ from .workflow_node_utils import (
     aprocess_llm_node,
     aprocess_knowledge_node,
     process_end_node,
-    aprocess_code_node
+    aprocess_code_node,
+    process_textprocessing_node
 )

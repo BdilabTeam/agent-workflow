@@ -32,6 +32,7 @@ class NodeType(Enum):
     END = "End"
     MESSAGE = "Message"
     CODE = "Code"
+    TEXT_PROCESSING = "Textprocessing"
     
 class RetrievalResultSourceType(Enum):
     DOC = "doc"
