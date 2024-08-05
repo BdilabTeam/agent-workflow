@@ -314,6 +314,8 @@ custom_components:
     documentation: ""
   WorkflowMessage:
     documentation: ""
+  WorkflowCode:
+    documentation: ""
     
   SingleAgent:
     documentation: ""

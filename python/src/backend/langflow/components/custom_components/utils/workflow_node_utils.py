@@ -69,11 +69,14 @@ from ..utils import (
     RetrievalResultSourceType,
     run_code_in_docker
 )
-# 代码节点的具体实现
-async def process_code_node(
-        prenode_inputs: List[Dict],
-        code_node_schema: CodeNode
+
+
+async def aprocess_code_node(
+    prenode_inputs: List[Dict],
+    code_node_schema: CodeNode
 ):
+    """代码节点的具体实现"""
+    
     start_time = time.time()
 
     # 校验node schema
@@ -115,16 +118,11 @@ async def process_code_node(
         parameters = parsed_input_dict
 
         # 运行代码并获取输出
-        output_dict = run_code_in_docker(code, parameters)
-        output_json_str = json.dumps(output_dict, ensure_ascii=False)
-        # parsed_output_dict = format_output_schemas_to_dict(output_schema=code_node_schema.output_schema,
-        #                                                    raw_output=output_json_str)
-        # 这里也不能使用转换函数，会出问题，会把整个返回值赋给每一个key的value
-        parsed_output_dict = output_dict
+        raw_output_dict = run_code_in_docker(code, parameters)
+        
+        parsed_output_dict = raw_output_dict
         parsed_output_json_str = json.dumps(parsed_output_dict, ensure_ascii=False)
-        # code_node_data.output = parsed_output_json_str
-        # 因为返回的就是一个字典，那么直接将返回的结果json化后赋值给ouput就行了
-        code_node_data.output = output_json_str
+        code_node_data.output = parsed_output_json_str
 
         # 计算token消耗
         input_tokens = compute_tokens_by_transformers(text=parsed_input_json_str)
@@ -163,6 +161,7 @@ async def process_code_node(
     next_response.update(code_node_response.model_dump())
 
     return next_response
+
 def process_start_node(start_node_schema: StartNode):
     start_time = time.time()
 

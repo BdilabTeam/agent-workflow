@@ -16,8 +16,8 @@ repository = "https://github.com/logspace-ai/langflow"
 license = "MIT"
 readme = "README.md"
 keywords = ["nlp", "langchain", "openai", "gpt", "gui"]
-packages = [{ include = "langflow", from = "src/backend" }]
-include = ["src/backend/langflow/*", "src/backend/langflow/**/*"]
+packages = [{ include = "langflow", from = "python/src/backend" }]
+include = ["python/src/backend/langflow/*", "python/src/backend/langflow/**/*"]
 documentation = "https://docs.langflow.org"
 
 [tool.poetry.scripts]

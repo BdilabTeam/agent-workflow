@@ -5,7 +5,7 @@ from langflow import CustomComponent
 # from ..custom_components.utils.workflow_node_utils import process_code_node
 
 from langflow.components.custom_components.schemas.workflow import CodeNode
-from langflow.components.custom_components.utils.workflow_node_utils import process_code_node
+from langflow.components.custom_components.utils.workflow_node_utils import aprocess_code_node
 
 
 class Code(CustomComponent):
@@ -28,73 +28,75 @@ class Code(CustomComponent):
         }
 
     async def build(
-            self,
-            prenode_inputs: List[Dict] = [],
-            code_node_schema: CodeNode = None  # 节点参数schema
+        self,
+        prenode_inputs: List[Dict] = [],
+        code_node_schema: CodeNode = None  # 节点参数schema
     ) -> Union[dict, Dict]:
-        code_node_schema = {
-            "flow_id": "1",
-            "node_id": "CodeID",
-            "code": """
-def main(args: Args) -> Output:
-    params = args['params']
-    ret: Output = {
-        "key0": params['a'] + params['b'],
-        "key1": ["hello", "world"],
-        "key2": {
-            "key21": "hi"
-        },
-    }
-    return ret
-        """,
-            "input_schema": {
-                "inputParameters": [
-                    {
-                        "name": "a",
-                        "input": {
-                            "type": "string",
-                            "schema": None,
-                            "value": {
-                                "type": "literal",
-                                "content": "5"
-                            }
-                        }
-                    },
-                    {
-                        "name": "b",
-                        "input": {
-                            "type": "string",
-                            "schema": None,
-                            "value": {
-                                "type": "ref",
-                                "content": {
-                                    "source_id": "StartID",
-                                    "name": "query"
-                                }
-                            }
-                        }
-                    }
-                ]
-            },
-            "output_schema": {
-                "outputs": [
-                    {
-                        "name": "key0",
-                        "type": "string",
-                        "schema": None
-                    },
-                    {
-                        "name": "key1",
-                        "type": "list",
-                        "schema": None
-                    },
-                    {
-                        "name": "key2",
-                        "type": "dict",
-                        "schema": None
-                    }
-                ]
-            }
-        }
-        return await process_code_node(prenode_inputs=prenode_inputs,
-                                       code_node_schema=code_node_schema)  # utils.workflow_node_utils.py中实现节点
+#         code_node_schema = {
+#             "flow_id": "1",
+#             "node_id": "CodeID",
+#             "code": """
+# def main(args: Args) -> Output:
+#     params = args['params']
+#     ret: Output = {
+#         "key0": params['a'] + params['b'],
+#         "key1": ["hello", "world"],
+#         "key2": {
+#             "key21": "hi"
+#         },
+#     }
+#     return ret
+#         """,
+#             "input_schema": {
+#                 "inputParameters": [
+#                     {
+#                         "name": "a",
+#                         "input": {
+#                             "type": "string",
+#                             "schema": None,
+#                             "value": {
+#                                 "type": "literal",
+#                                 "content": "5"
+#                             }
+#                         }
+#                     },
+#                     {
+#                         "name": "b",
+#                         "input": {
+#                             "type": "string",
+#                             "schema": None,
+#                             "value": {
+#                                 "type": "ref",
+#                                 "content": {
+#                                     "source_id": "StartID",
+#                                     "name": "query"
+#                                 }
+#                             }
+#                         }
+#                     }
+#                 ]
+#             },
+#             "output_schema": {
+#                 "outputs": [
+#                     {
+#                         "name": "key0",
+#                         "type": "string",
+#                         "schema": None
+#                     },
+#                     {
+#                         "name": "key1",
+#                         "type": "list",
+#                         "schema": None
+#                     },
+#                     {
+#                         "name": "key2",
+#                         "type": "dict",
+#                         "schema": None
+#                     }
+#                 ]
+#             }
+#         }
+        return await aprocess_code_node(
+            prenode_inputs=prenode_inputs,
+            code_node_schema=code_node_schema
+        )  # utils.workflow_node_utils.py中实现节点

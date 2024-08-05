@@ -460,7 +460,7 @@ def run_code_in_docker(code: str, parameters: Optional[Dict[str, Any]] = None) -
         parameters = {}
 
     # 将 parameters 转换为 JSON 字符串
-    params_json = json.dumps({"params": parameters})
+    params_json_str = json.dumps({"params": parameters})
 
     wrapper_code = f"""
 from typing import Dict, TypedDict
@@ -472,7 +472,7 @@ class Output(TypedDict):
     ...
 
 {code}
-args = Args(**{params_json})
+args = Args(**{params_json_str})
 res = main(args=args)
 print(res)
 """
