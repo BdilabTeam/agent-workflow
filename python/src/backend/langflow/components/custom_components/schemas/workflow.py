@@ -76,7 +76,6 @@ class NodeBase(BaseModel):
     flow_id: str = Field(description="流ID，用于关联中间结果")
     node_id: str = Field(description="节点ID")
     node_name: Optional[str] = Field(default="Unknown", description="节点名称")
-    input_schema: Inputs = Field(description="结束节点输入数据结构")
     
     @field_validator("flow_id", mode="before")
     def validate_dt(cls, v):
@@ -94,26 +93,17 @@ class NodeBase(BaseModel):
 
 class StartNode(NodeBase):
     """开始节点schema"""
-    flow_id: str = Field(description="流ID，用于关联中间结果")
-    node_id: str = Field(description="节点ID")
-    node_name: Optional[str] = Field(default="Unknown", description="节点名称")
     input_schema: Optional[Inputs] = Field(description="结束节点输入数据结构")
     # output_schema: Outputs = Field(description="结束节点输出数据结构")
 
 class EndNode(NodeBase):
     """结束节点schema"""
-    flow_id: str = Field(description="流ID，用于关联中间结果")
-    node_id: str = Field(description="节点ID")
-    node_name: Optional[str] = Field(default="Unknown", description="节点名称")
     prompt: Optional[str] = Field(description="输出格式化")
     input_schema: Optional[Inputs] = Field(description="结束节点输入数据结构")
     # output_schema: Outputs = Field(description="结束节点输出数据结构")
 
 class LLMNode(NodeBase):
     """LLM节点schema"""
-    flow_id: str = Field(description="流ID，用于关联中间结果")
-    node_id: str = Field(description="节点ID")
-    node_name: Optional[str] = Field(default="Unknown", description="节点名称")
     input_schema: Optional[Inputs] = Field(description="LLM节点输入数据结构")
     output_schema: Optional[Outputs] = Field(description="LLM节点输出数据结构")
     prompt: str = Field(description="大模型提示词")
@@ -122,17 +112,12 @@ class LLMNode(NodeBase):
 class ToolNode(NodeBase):
     """工具节点schema"""
     tenant_id: Union[int, str] = Field(description="租户ID")
-    flow_id: str = Field(description="流ID，用于关联中间结果")
-    node_id: str = Field(description="节点ID")
-    node_name: Optional[str] = Field(default="Unknown", description="节点名称")
     tool_ids: List[str] = Field(description="工具ID列表", examples=["1", "2"])
     input_schema: Optional[Inputs] = Field(description="工具节点输入数据结构")
     # output_schema: Outputs = Field(description="LLM节点输出数据结构")
     
 class CodeNode(NodeBase):
     """代码节点 schema"""
-    flow_id: str = Field(description="流ID，用于关联中间结果")
-    node_id: str = Field(description="节点ID")
     code: str = Field(description="代码内容")
     input_schema: Optional[Inputs] = Field(description="代码节点输入数据结构")
     output_schema: Outputs = Field(description="代码节点输出数据结构")
@@ -149,18 +134,19 @@ class Knowledge(BaseModel):
 class KnowledgeNode(NodeBase):
     """知识节点schema"""
     tenant_id: Union[int, str] = Field(description="租户ID")
-    flow_id: str = Field(description="流ID，用于关联中间结果")
-    node_id: str = Field(description="节点ID")
-    node_name: Optional[str] = Field(default="Unknown", description="节点名称")
     knowledge_ids: List[str] = Field(description="知识库ID列表", examples=["1", "2"])
     input_schema: Optional[Inputs] = Field(description="知识节点输入数据结构")
     knowledge_schema: Knowledge = Field(description="知识检索配置信息")
 
 class MessageNode(NodeBase):
-    flow_id: str = Field(description="流ID，用于关联中间结果")
-    node_id: str = Field(description="节点ID")
     input_schema: Inputs = Field(description="消息节点输入数据结构")
     answer_content: str = Field(description="指定消息节点回答的内容")
+    
+class TextProcessingNode(NodeBase):
+    input_schema: Inputs = Field(description="消息节点输入数据结构")
+    mode_selection: Literal["string_concatenation", "string_separation"]
+    string_concatenation:  Optional[str] = Field(description="字符串拼接", default=None)
+    delimiter: Optional[List[Literal["line_break", "tab_break", "period", "comma", "semicolon", "space"]]] = Field(default=None, description="分隔符列表")
 
 class TokenAndCost(BaseModel):
     input_tokens: str = Field(default="0 Tokens", description="输入tokens")
@@ -204,8 +190,13 @@ class EndNodeResponse(NodeResponse):
 
 class MessageNodeResponse(NodeResponse):
     """消息节点响应Schema"""
+    
 class CodeNodeResponse(NodeResponse):
     """代码节点响应 Schema"""
+
+class TextProcessingNodeResponse(NodeResponse):
+    """消息节点响应Schema"""
+    
 class RetrievalResult(BaseModel):
     tenant_id: Optional[Union[int, str]] = Field(description="租户ID")
     knowledge_id: Optional[Union[int, str]] = Field(description="知识库ID")
