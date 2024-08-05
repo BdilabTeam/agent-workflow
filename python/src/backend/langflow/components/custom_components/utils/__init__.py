@@ -10,7 +10,8 @@ from .utils import (
     on_end,
     get_query_value,
     get_top_n_retrieval_results,
-    RetrievalResultSourceType
+    RetrievalResultSourceType,
+    run_code_in_docker
 )
 
 from .workflow_node_utils import (
@@ -18,5 +19,6 @@ from .workflow_node_utils import (
     aprocess_tool_node,
     aprocess_llm_node,
     aprocess_knowledge_node,
-    process_end_node
+    process_end_node,
+    aprocess_code_node
 )

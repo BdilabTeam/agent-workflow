@@ -129,6 +129,14 @@ class ToolNode(NodeBase):
     input_schema: Optional[Inputs] = Field(description="工具节点输入数据结构")
     # output_schema: Outputs = Field(description="LLM节点输出数据结构")
     
+class CodeNode(NodeBase):
+    """代码节点 schema"""
+    flow_id: str = Field(description="流ID，用于关联中间结果")
+    node_id: str = Field(description="节点ID")
+    code: str = Field(description="代码内容")
+    input_schema: Optional[Inputs] = Field(description="代码节点输入数据结构")
+    output_schema: Outputs = Field(description="代码节点输出数据结构")
+    
 class KnowledgeConfig(BaseModel):
     search_strategy: Literal["semantic", "hybrid", "fulltext"] = Field(default="semantic", description="搜索策略")
     maximum_number_of_recalls: int = Field(default=3, ge=1, le=9, description="最大召回数")
@@ -196,7 +204,8 @@ class EndNodeResponse(NodeResponse):
 
 class MessageNodeResponse(NodeResponse):
     """消息节点响应Schema"""
-
+class CodeNodeResponse(NodeResponse):
+    """代码节点响应 Schema"""
 class RetrievalResult(BaseModel):
     tenant_id: Optional[Union[int, str]] = Field(description="租户ID")
     knowledge_id: Optional[Union[int, str]] = Field(description="知识库ID")
