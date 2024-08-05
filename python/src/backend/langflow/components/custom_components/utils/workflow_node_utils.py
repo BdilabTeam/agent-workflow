@@ -20,7 +20,8 @@ from langflow.components.custom_components.utils import (
     safe_format_prompt,
     get_query_value,
     get_top_n_retrieval_results, 
-    RetrievalResultSourceType
+    RetrievalResultSourceType,
+    run_code_in_docker
 )
 # Tool
 from langflow.components.custom_components.schemas.workflow import ToolNode, ToolNodeResponse, NodeData, TokenAndCost
@@ -49,7 +50,117 @@ from langflow.components.custom_components.schemas.workflow import EndNode, EndN
 
 # Message
 from langflow.components.custom_components.schemas.workflow import MessageNode, MessageNodeResponse
+# Code
+from langflow.components.custom_components.schemas.workflow import CodeNode, CodeNodeResponse, NodeData, TokenAndCost
 
+from ..schemas.workflow import CodeNode, CodeNodeResponse, NodeData, TokenAndCost
+from ..utils import (
+    format_prenodes_data,
+    format_input_schemas_to_dict,
+    NodeType,
+    compute_tokens_by_transformers,
+    format_tokens,
+    on_start,
+    on_end,
+    format_output_schemas_to_dict,
+    safe_format_prompt,
+    get_query_value,
+    get_top_n_retrieval_results,
+    RetrievalResultSourceType,
+    run_code_in_docker
+)
+
+
+async def aprocess_code_node(
+    prenode_inputs: List[Dict],
+    code_node_schema: CodeNode
+):
+    """代码节点的具体实现"""
+    
+    start_time = time.time()
+
+    # 校验node schema
+    code_node_schema = CodeNode(**code_node_schema)
+
+    # 初始化节点状态
+    code_node_data = NodeData(
+        node_type=NodeType.CODE.value,
+        node_status="RUNNING",
+    )
+    workflow_id = code_node_schema.flow_id
+    try:
+        code_node_data.node_id = code_node_schema.node_id
+        # code_node_data.node_name = code_node_schema.node_name
+
+        # 数据库同步节点状态
+        on_start(
+            workflow_id=workflow_id,
+            node_data=code_node_data
+        )
+
+        # 格式化前置节点输入数据
+        all_nodes_data = format_prenodes_data(prenode_inputs=prenode_inputs)
+        # 解析输入schema
+        parsed_input_dict = format_input_schemas_to_dict(
+            input_schema=code_node_schema.input_schema,
+            prenode_results=all_nodes_data
+        )
+        if not parsed_input_dict:
+            parsed_input_json_str = ""
+        else:
+            parsed_input_json_str = json.dumps(parsed_input_dict, ensure_ascii=False)
+        code_node_data.input = parsed_input_json_str
+
+        if code_node_schema.code == "":
+            raise ValueError("代码不能为空")
+        # 解析代码和参数
+        code = code_node_schema.code
+        parameters = parsed_input_dict
+
+        # 运行代码并获取输出
+        raw_output_dict = run_code_in_docker(code, parameters)
+        
+        parsed_output_dict = raw_output_dict
+        parsed_output_json_str = json.dumps(parsed_output_dict, ensure_ascii=False)
+        code_node_data.output = parsed_output_json_str
+
+        # 计算token消耗
+        input_tokens = compute_tokens_by_transformers(text=parsed_input_json_str)
+        output_tokens = compute_tokens_by_transformers(text=parsed_output_json_str)
+        total_tokens = input_tokens + output_tokens
+        token_and_cost = TokenAndCost(
+            input_tokens=format_tokens(input_tokens),
+            output_tokens=format_tokens(output_tokens),
+            total_tokens=format_tokens(total_tokens)
+        )
+        code_node_data.token_and_cost = token_and_cost
+
+        node_status = "SUCCESS"
+    except Exception as e:
+        node_status = "FAILED"
+        error_info = str(e)
+        code_node_data.error_info = error_info
+
+    # 更新状态
+    code_node_data.node_status = node_status
+
+    # 计算节点运行时间
+    end_time = time.time()
+    node_exe_cost = f"{round((end_time - start_time), 3)}s"
+    code_node_data.node_exe_cost = node_exe_cost
+
+    # 数据库同步节点状态
+    on_end(
+        workflow_id=workflow_id,
+        node_data=code_node_data
+    )
+
+    code_node_response = CodeNodeResponse(node_data=code_node_data)
+
+    next_response = {"prenode_inputs": prenode_inputs}
+    next_response.update(code_node_response.model_dump())
+
+    return next_response
 
 def process_start_node(start_node_schema: StartNode):
     start_time = time.time()
