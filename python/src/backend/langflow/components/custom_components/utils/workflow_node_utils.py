@@ -426,7 +426,7 @@ async def aprocess_llm_node(
         
         # 生产环境测试            
         model = ChatOpenAI(
-            model=llm_node_schema.model_schema.model_name.lower(),
+            model=llm_node_schema.model_schema.model_name,
             temperature=llm_node_schema.model_schema.model_parameters.temperature,
             base_url=llm_node_schema.model_schema.model_parameters.openai_base_url,
             api_key=llm_node_schema.model_schema.model_parameters.openai_api_key,

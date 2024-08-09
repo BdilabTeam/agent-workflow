@@ -3,10 +3,13 @@
 # 📦 安装
 
 ### <b>Locally</b>
-安装agent-workflow环境：
+安装agent-workflow环境：python>=3.10
 ```shell
-python>=3.10
+# 方式一（推荐）：通过poetry安装
+pip install poetry
+poetry install
 
+# 方式二：
 pip install -r requirements.txt
 ```
 
