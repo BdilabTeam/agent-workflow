@@ -15,10 +15,23 @@ maintainers = [
 repository = "https://github.com/logspace-ai/langflow"
 license = "MIT"
 readme = "README.md"
-keywords = ["nlp", "langchain", "openai", "gpt", "gui"]
 packages = [{ include = "langflow", from = "python/src/backend" }]
 include = ["python/src/backend/langflow/*", "python/src/backend/langflow/**/*"]
 documentation = "https://docs.langflow.org"
+
+[[tool.poetry.source]]
+name = "tsinghua"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+priority = "default"
+
+[[tool.poetry.source]]
+name = "aliyun"
+url = "http://mirrors.aliyun.com/pypi/simple/"
+priority = "primary"
+
+[[tool.poetry.source]]
+name = "pypi"
+priority = "supplemental"
 
 [tool.poetry.scripts]
 langflow = "langflow.__main__:main"
@@ -32,11 +45,11 @@ google-search-results = "^2.4.1"
 google-api-python-client = "^2.118.0"
 typer = "^0.9.0"
 gunicorn = "^21.2.0"
+transformers = "^4.44.0"
 langchain = "~0.1.0"
 openai = "^1.12.0"
 pandas = "2.2.0"
 chromadb = "^0.4.0"
-huggingface-hub = { version = "^0.20.0", extras = ["inference"] }
 rich = "^13.7.0"
 llama-cpp-python = { version = "~0.2.0", optional = true }
 networkx = "^3.1"
@@ -106,6 +119,11 @@ langchain-openai = "^0.0.6"
 urllib3 = "<2"
 langchain-anthropic = "^0.1.4"
 langchain-pinecone = "^0.1.0"
+pymysql = "^1.1.1"
+grandalf = "^0.8"
+chevron = "^0.14.0"
+jinja2 = "^3.1.4"
+pypinyin = "^0.52.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest-asyncio = "^0.23.1"

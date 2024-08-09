@@ -104,7 +104,7 @@ LANGFLOW_SUPERUSER_PASSWORD=123456
 
 # TOKENIZERS_PARALLELISM=true
 
-LANGFLOW_LOG_ENV=container_json
+# LANGFLOW_LOG_ENV=container_json
 
 # 设置调用接口的地址
 TOOL_CALL_URL="http://192.168.31.182:48080/admin-api/plugins/tool/external/call/test"
