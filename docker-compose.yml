@@ -15,7 +15,7 @@ services:
       - ./python/src/backend/langflow/:/home/user/app/langflow/
       - ./.prod_env:/home/user/app/.prod_env
       - ./python/src/backend/logs/:/home/user/app/logs/
-    network_mode: "host"
+    # network_mode: "host"
     ports:
       - "7860:7860"
     command: ["/bin/bash", "-c", "cd /home/user/app/ && python -m langflow run --host 0.0.0.0 --env-file /home/user/app/.prod_env"]
