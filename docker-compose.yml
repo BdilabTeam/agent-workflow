@@ -2,6 +2,11 @@ version: '3'
 
 services:
   langflow:
+    user: root
+    privileged: true
+    # 方式一, 使用已有镜像启动
+    # image: langflow:latest
+    # 方式二, 使用dockerfile构建镜像
     container_name: langflow
     build:
       context: .
