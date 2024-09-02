@@ -1,7 +1,7 @@
 from typing import List, Dict, Union
 from langflow import CustomComponent
 from langflow.components.custom_components.schemas.workflow import WorkflowNode
-from langflow.components.custom_components.utils.workflow_node_utils import aprocess_workflow_node
+from langflow.components.custom_components.utils.workflow_node_utils import process_workflow_node
 
 
 class Workflow(CustomComponent):
@@ -52,4 +52,4 @@ class Workflow(CustomComponent):
         #         ]
         #     }
         # }
-        return await aprocess_workflow_node(prenode_inputs=prenode_inputs, workflow_node_schema=workflow_node_schema)
+        return await process_workflow_node(prenode_inputs=prenode_inputs, workflow_node_schema=workflow_node_schema)

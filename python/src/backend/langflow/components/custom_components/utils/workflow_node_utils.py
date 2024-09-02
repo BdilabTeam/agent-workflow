@@ -45,7 +45,7 @@ from langflow.components.custom_components.schemas.workflow import (
     KnowledgeNodeDefaultOutputs
 )
 # Workflow
-from langflow.components.custom_components.schemas.workflow import WorkflowNode, WorkflowResponse, NodeData, TokenAndCost
+from langflow.components.custom_components.schemas.workflow import WorkflowNode, WorkflowNodeResponse, NodeData, TokenAndCost
 from langflow.components.custom_components.utils.constants import WORKFLOW_CALL_URL
 # End
 from langflow.components.custom_components.schemas.workflow import EndNode, EndNodeResponse, NodeData, TokenAndCost
@@ -927,7 +927,7 @@ def process_textprocessing_node(
     return next_response
 
 
-async def aprocess_workflow_node(
+async def process_workflow_node(
         prenode_inputs: List[Dict],
         workflow_node_schema: WorkflowNode
 ):
@@ -1029,7 +1029,7 @@ async def aprocess_workflow_node(
         node_data=workflow_node_data
     )
 
-    workflow_node_response = WorkflowResponse(node_data=workflow_node_data)
+    workflow_node_response = WorkflowNodeResponse(node_data=workflow_node_data)
 
     next_response = {"prenode_inputs": prenode_inputs}
     next_response.update(workflow_node_response.model_dump())
