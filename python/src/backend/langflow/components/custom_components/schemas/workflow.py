@@ -148,6 +148,12 @@ class TextProcessingNode(NodeBase):
     string_concatenation:  Optional[str] = Field(description="字符串拼接", default=None)
     delimiter: Optional[List[Literal["line_break", "tab_break", "period", "comma", "semicolon", "space"]]] = Field(default=None, description="分隔符列表")
 
+class WorkflowNode(BaseModel):
+    """工作流节点schema"""
+    tenant_id: Union[int, str] = Field(description="租户ID")
+    input_schema: Optional[Inputs] = Field(description="工作流节点输入数据结构")
+    sub_flow_ids: List[str] = Field(description="子工作流ID列表")
+
 class TokenAndCost(BaseModel):
     input_tokens: str = Field(default="0 Tokens", description="输入tokens")
     input_cost: str = Field(default="$0.0", description="输入tokens计费金额")
@@ -196,7 +202,9 @@ class CodeNodeResponse(NodeResponse):
 
 class TextProcessingNodeResponse(NodeResponse):
     """消息节点响应Schema"""
-    
+
+class WorkflowNodeResponse(BaseModel):
+    """工作流节点响应Schema"""
 class RetrievalResult(BaseModel):
     tenant_id: Optional[Union[int, str]] = Field(description="租户ID")
     knowledge_id: Optional[Union[int, str]] = Field(description="知识库ID")
@@ -214,3 +222,7 @@ class KnowledgeNodeDefaultOutput(BaseModel):
 class KnowledgeNodeDefaultOutputs(BaseModel):
     """知识节点默认输出schema"""
     output_list: List[KnowledgeNodeDefaultOutput] = Field(description="输出列表", serialization_alias="outputList")
+
+
+
+
