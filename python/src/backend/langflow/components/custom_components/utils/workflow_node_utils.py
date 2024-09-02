@@ -44,7 +44,9 @@ from langflow.components.custom_components.schemas.workflow import (
     KnowledgeNodeDefaultOutput,
     KnowledgeNodeDefaultOutputs
 )
-
+# Workflow
+from langflow.components.custom_components.schemas.workflow import WorkflowNode, WorkflowResponse, NodeData, TokenAndCost
+from langflow.components.custom_components.utils.constants import WORKFLOW_CALL_URL
 # End
 from langflow.components.custom_components.schemas.workflow import EndNode, EndNodeResponse, NodeData, TokenAndCost
 
@@ -79,7 +81,7 @@ async def aprocess_code_node(
     code_node_schema: CodeNode
 ):
     """代码节点的具体实现"""
-    
+
     start_time = time.time()
 
     # 校验node schema
@@ -122,7 +124,7 @@ async def aprocess_code_node(
 
         # 运行代码并获取输出
         raw_output_dict = run_code_in_docker(code, parameters)
-        
+
         parsed_output_dict = raw_output_dict
         parsed_output_json_str = json.dumps(parsed_output_dict, ensure_ascii=False)
         code_node_data.output = parsed_output_json_str
@@ -721,7 +723,7 @@ def process_end_node(
         node_data=end_node_data,
         all_nodes_data=all_nodes_data
     ).model_dump()
-    
+
 def process_message_node(
     prenode_inputs: List[Dict],
     message_node_schema: MessageNode
@@ -921,5 +923,115 @@ def process_textprocessing_node(
 
     next_response = {"prenode_inputs": prenode_inputs}
     next_response.update(textprocessing_node_response.model_dump())
+
+    return next_response
+
+
+async def aprocess_workflow_node(
+        prenode_inputs: List[Dict],
+        workflow_node_schema: WorkflowNode
+):
+    start_time = time.time()
+
+    # 校验node schema
+    workflow_node_schema = WorkflowNode(**workflow_node_schema)
+
+    # 初始化节点状态
+    workflow_node_data = NodeData(
+        node_type=NodeType.COMPONENT.value,
+        node_status="RUNNING",
+    )
+    try:
+        workflow_node_data.node_id = workflow_node_schema.node_id
+        workflow_node_data.node_name = workflow_node_schema.node_name
+        workflow_id = workflow_node_schema.flow_id
+
+        # 数据库同步节点状态
+        on_start(
+            workflow_id=workflow_id,
+            node_data=workflow_node_data
+        )
+
+        # 格式化前置节点输入数据
+        all_nodes_data = format_prenodes_data(prenode_inputs=prenode_inputs)
+        # 解析输入schema
+        parsed_input_dict = format_input_schemas_to_dict(
+            input_schema=workflow_node_schema.input_schema,
+            prenode_results=all_nodes_data
+        )
+        if not parsed_input_dict:
+            parsed_input_json_str = ""
+        else:
+            parsed_input_json_str = json.dumps(parsed_input_dict, ensure_ascii=False)
+        workflow_node_data.input = parsed_input_json_str
+
+        sub_workflow_ids = workflow_node_data.sub_workflow_ids
+        tenant_id = workflow_node_schema.tenant_id
+
+        headers = {"tenant-id": tenant_id}
+        body = {
+            "requestBody": parsed_input_json_str
+        }
+        # TODO 节点功能实现
+        sub_workflow_results = []
+        for sub_workflow_id in sub_workflow_ids:
+            body.update({"sub_workflowId": sub_workflow_id})
+            if not (workflow_call_url := os.getenv("WORKFLOW_CALL_URL")):
+                workflow_call_url = WORKFLOW_CALL_URL  # 向后兼容
+
+            try:
+                async with httpx.AsyncClient() as client:
+                    workflow_call_response = await client.post(url=workflow_call_url, headers=headers, json=body, timeout=15)
+
+                    if workflow_call_response.is_success:
+                        sub_workflow_results.append({sub_workflow_id: workflow_call_response.json()})
+                    else:
+                        raise ValueError(f"子工作流调用响应状态异常, 状态码: {workflow_call_response.status_code}")
+            except httpx.TimeoutException:
+                raise ValueError("子工作流调用请求超时")
+            except httpx.HTTPStatusError as e:
+                raise ValueError(f"子工作流用请求状态异常, 状态码: {e.response.status_code}") from e
+            except:
+                raise
+
+        raw_output = sub_workflow_results[0].get(sub_workflow_ids[0], "")
+        parsed_output_json_str = json.dumps(raw_output, ensure_ascii=False)
+        workflow_node_data.output = parsed_output_json_str
+
+        # 计算token消耗
+        input_tokens = compute_tokens_by_transformers(text=parsed_input_json_str)
+        output_tokens = compute_tokens_by_transformers(text=parsed_output_json_str)
+        total_tokens = input_tokens + output_tokens
+        token_and_cost = TokenAndCost(
+            input_tokens=format_tokens(input_tokens),
+            output_tokens=format_tokens(output_tokens),
+            total_tokens=format_tokens(total_tokens)
+        )
+        workflow_node_data.token_and_cost = token_and_cost
+
+        node_status = "SUCCESS"
+    except Exception as e:
+        node_status = "FAILED"
+        error_info = str(e)
+        workflow_node_data.error_info = error_info
+
+    # 更新状态
+    workflow_node_data.node_status = node_status
+
+    # 计算节点运行时间
+    end_time = time.time()
+    node_exe_cost = f"{round((end_time - start_time), 3)}s"
+    workflow_node_data.node_exe_cost = node_exe_cost
+
+    # 数据库同步节点状态
+    on_end(
+        workflow_id=workflow_id,
+        node_data=workflow_node_data
+    )
+
+    workflow_node_response = WorkflowResponse(node_data=workflow_node_data)
+
+    next_response = {"prenode_inputs": prenode_inputs}
+    next_response.update(workflow_node_response.model_dump())
 
     return next_response
